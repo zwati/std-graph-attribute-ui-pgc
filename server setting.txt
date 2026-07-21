@@ -1,0 +1,30 @@
+Step 1: Open Server Ports in Windows Firewall
+Run PowerShell as Administrator and paste this command to allow mobile phones and other computers on your Wi-Fi network to connect to your laptop server:
+
+powershell
+netsh advfirewall firewall add rule name="PGC Server API (Port 5000)" dir=in action=allow protocol=TCP localport=5000
+netsh advfirewall firewall add rule name="PGC Frontend Web (Port 5173)" dir=in action=allow protocol=TCP localport=5173
+Step 2: Start the Backend & Frontend Services
+Open 2 separate Terminal windows:
+
+Terminal 1 — Start Backend Server
+powershell
+cd D:\Business\PGC\server
+npm run dev
+(You will see: 🚀 Server running on http://0.0.0.0:5000 (LAN: http://192.168.137.121:5000))
+
+Terminal 2 — Start Frontend App
+powershell
+cd D:\Business\PGC\PGC-SGCMS
+npx vite --host
+(The --host flag exposes Vite to your Wi-Fi network at http://192.168.137.121:5173)
+
+Step 3: Connect Mobile Phones & Other Laptops
+Connect any mobile phone or computer to the same Wi-Fi network as your laptop.
+Open Chrome/Safari on the phone/computer and visit:
+http://192.168.137.121:5173
+Configure Server Endpoint:
+On the login screen, click ⚙ Server Host at top-right.
+Set the URL to: http://192.168.137.121:5000/api and click Save Host.
+Install as Mobile / Desktop App:
+Tap "📲 Install App on Desktop/Mobile" banner on the login screen or browser menu to install it directly onto the phone/desktop home screen!
