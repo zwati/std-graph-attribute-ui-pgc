@@ -11,7 +11,7 @@ import NotFound from '../pages/Error/NotFound';
 
 // Admin pages
 import AdminDashboard   from '../pages/Admin/Dashboard';
-import AddStudent       from '../pages/Admin/AddStudent';
+import ClassManagement  from '../pages/Admin/ClassManagement';
 import EditStudent      from '../pages/Admin/EditStudent';
 import StudentDatabase  from '../pages/Admin/StudentDatabase';
 import Teachers         from '../pages/Admin/Teachers';
@@ -48,13 +48,15 @@ export default function AppRoutes() {
       }>
         <Route path="/admin"            element={<AdminDashboard />} />
         <Route path="/admin/students"    element={<StudentDatabase />} />
-        <Route path="/admin/add-student" element={<AddStudent />} />
+        <Route path="/admin/classes"     element={<ClassManagement />} />
+        <Route path="/admin/add-student" element={<Navigate to="/admin/classes" replace />} />
         <Route path="/admin/edit/:id"    element={<EditStudent />} />
         <Route path="/admin/teachers"    element={<Teachers />} />
         <Route path="/admin/parents"    element={<Parents />} />
         <Route path="/admin/analytics"  element={<Analytics />} />
         <Route path="/admin/settings"   element={<Settings />} />
       </Route>
+
 
       {/* ── Teacher portal ───────────────────────────────── */}
       <Route element={

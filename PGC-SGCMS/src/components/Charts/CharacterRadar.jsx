@@ -16,11 +16,13 @@ import { ATTRIBUTE_LABELS } from '../../utils/attributeColors';
 export default function CharacterRadar({ data, evaluation }) {
   const chartData = data || (evaluation ? [
     { attribute: ATTRIBUTE_LABELS.communication,  value: evaluation.communication  ?? 0 },
-    { attribute: ATTRIBUTE_LABELS.participation,  value: evaluation.participation  ?? 0 },
     { attribute: ATTRIBUTE_LABELS.discipline,     value: evaluation.discipline     ?? 0 },
-    { attribute: ATTRIBUTE_LABELS.teamwork,       value: evaluation.teamwork       ?? 0 },
+    { attribute: ATTRIBUTE_LABELS.leadership,     value: evaluation.leadership     ?? 0 },
+    { attribute: ATTRIBUTE_LABELS.participation,  value: evaluation.participation  ?? 0 },
     { attribute: ATTRIBUTE_LABELS.responsibility, value: evaluation.responsibility ?? 0 },
+    { attribute: ATTRIBUTE_LABELS.teamwork,       value: evaluation.teamwork       ?? 0 },
   ] : []);
+
 
   return (
     <ResponsiveContainer width="100%" height={320}>

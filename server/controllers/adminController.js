@@ -6,16 +6,64 @@ const Teacher = require('../models/Teacher');
 const User    = require('../models/User');
 const { ok, fail, serverError } = require('../utils/apiResponse');
 
+const Class   = require('../models/Class');
+
+// ── Classes & Categories ───────────────────────────────────────────────────
+
+// GET /api/admin/classes
+async function getClasses(req, res) {
+  try {
+    const classes = await Class.find().sort({ category: 1, className: 1, section: 1 }).lean();
+    
+    // Attach current student counts for each class
+    const classesWithCounts = await Promise.all(classes.map(async (c) => {
+      const studentCount = await Student.countDocuments({
+        class: c.className,
+        section: c.section,
+        category: c.category,
+      });
+      return { ...c, studentCount };
+    }));
+
+    return ok(res, classesWithCounts);
+  } catch (err) { return serverError(res, err); }
+}
+
+// POST /api/admin/classes — create a class section under a category
+async function addClass(req, res) {
+  try {
+    const { className, category, section } = req.body;
+    if (!className || !category || !section) {
+      return fail(res, 'className, category, and section are required');
+    }
+    const newClass = await Class.create({ className, category, section });
+    return ok(res, newClass, 201);
+  } catch (err) {
+    if (err.code === 11000) return fail(res, 'Class and section combination already exists in this category', 409);
+    return serverError(res, err);
+  }
+}
+
+// DELETE /api/admin/classes/:id
+async function deleteClass(req, res) {
+  try {
+    const cls = await Class.findByIdAndDelete(req.params.id);
+    if (!cls) return fail(res, 'Class not found', 404);
+    return ok(res, { message: 'Class deleted' });
+  } catch (err) { return serverError(res, err); }
+}
+
 // ── Students ───────────────────────────────────────────────────────────────
 
-// GET /api/admin/students?page=1&limit=20&class=FA23&section=A&search=ali
+// GET /api/admin/students?page=1&limit=20&class=FA23&section=A&category=Medical&search=ali
 async function getStudents(req, res) {
   try {
-    const { page = 1, limit = 20, class: cls, section, search } = req.query;
+    const { page = 1, limit = 50, class: cls, section, category, search } = req.query;
     const filter = {};
-    if (cls)     filter.class   = cls;
-    if (section) filter.section = section;
-    if (search)  filter.$or = [
+    if (cls)      filter.class    = cls;
+    if (section)  filter.section  = section;
+    if (category) filter.category = category;
+    if (search)   filter.$or = [
       { studentName: { $regex: search, $options: 'i' } },
       { rollNumber:  { $regex: search, $options: 'i' } },
     ];
@@ -33,10 +81,10 @@ async function getStudents(req, res) {
   } catch (err) { return serverError(res, err); }
 }
 
-// POST /api/admin/students  — add student + auto-create parent User credentials
+// POST /api/admin/students — add student + auto-create parent User credentials
 async function addStudent(req, res) {
   try {
-    const { customId, rollNumber, studentName, fatherName, class: cls, section, teacherId } = req.body;
+    const { customId, rollNumber, studentName, fatherName, class: cls, section, category, teacherId } = req.body;
 
     if (!customId || !rollNumber || !studentName || !fatherName) {
       return fail(res, 'customId, rollNumber, studentName and fatherName are required');
@@ -47,7 +95,10 @@ async function addStudent(req, res) {
     const passwordHash = await bcrypt.hash(rawPassword, 12);
 
     // Create student first
-    const student = await Student.create({ customId, rollNumber, studentName, fatherName, class: cls, section, teacherId });
+    const student = await Student.create({
+      customId, rollNumber, studentName, fatherName,
+      class: cls, section, category: category || 'Others', teacherId,
+    });
 
     // Create parent User linked to this student
     await User.create({
@@ -63,6 +114,7 @@ async function addStudent(req, res) {
     return serverError(res, err);
   }
 }
+
 
 // PATCH /api/admin/students/:id
 async function updateStudent(req, res) {
@@ -111,7 +163,13 @@ async function addTeacher(req, res) {
 // GET /api/admin/analytics  — school-wide growth summary
 async function getAnalytics(req, res) {
   try {
-    const [overview, topStudents, weakestAttr] = await Promise.all([
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const [overview, topStudents, weakestAttr, evaluationsToday, activeTeachers] = await Promise.all([
       Student.aggregate([
         { $group: { _id: null, avgGrowth: { $avg: '$growthIndex' }, total: { $sum: 1 } } },
       ]),
@@ -125,17 +183,30 @@ async function getAnalytics(req, res) {
           discipline:     { $avg: '$discipline' },
           teamwork:       { $avg: '$teamwork' },
           responsibility: { $avg: '$responsibility' },
+          leadership:     { $avg: '$leadership' },
         }},
       ]),
+      require('../models/Evaluation').countDocuments({
+        createdAt: { $gte: startOfToday, $lte: endOfToday }
+      }),
+      Teacher.countDocuments(),
     ]);
 
     return ok(res, {
       schoolAvgGrowth: overview[0]?.avgGrowth ?? 0,
       totalStudents:   overview[0]?.total ?? 0,
+      evaluationsToday,
+      activeTeachers,
       topStudents,
       attributeAverages: weakestAttr[0] ?? {},
     });
   } catch (err) { return serverError(res, err); }
 }
 
-module.exports = { getStudents, addStudent, updateStudent, deleteStudent, getTeachers, addTeacher, getAnalytics };
+
+module.exports = {
+  getClasses, addClass, deleteClass,
+  getStudents, addStudent, updateStudent, deleteStudent,
+  getTeachers, addTeacher, getAnalytics,
+};
+

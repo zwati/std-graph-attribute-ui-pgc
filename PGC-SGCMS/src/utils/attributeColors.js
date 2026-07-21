@@ -7,6 +7,7 @@ export const ATTRIBUTE_COLORS = {
   discipline:     '#16a34a',   // Green
   teamwork:       '#d97706',   // Amber
   responsibility: '#7c3aed',   // Violet
+  leadership:     '#2563eb',   // Blue
 };
 
 export const ATTRIBUTE_LABELS = {
@@ -15,7 +16,9 @@ export const ATTRIBUTE_LABELS = {
   discipline:     'Discipline',
   teamwork:       'Teamwork',
   responsibility: 'Responsibility',
+  leadership:     'Leadership',
 };
+
 
 // Growth index colour — dynamically picked based on score
 export function growthColor(score) {

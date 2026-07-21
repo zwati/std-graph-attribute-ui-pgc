@@ -37,10 +37,11 @@ function updateGrowth(student, newScore, alpha = 0.25) {
  * @returns {number}     - 0–100
  */
 function computeScore(attrs) {
-  const keys  = ['communication', 'participation', 'discipline', 'teamwork', 'responsibility'];
+  const keys  = ['communication', 'participation', 'discipline', 'teamwork', 'responsibility', 'leadership'];
   const total = keys.reduce((sum, k) => sum + (attrs[k] ?? 0), 0);
   const avg   = total / keys.length;      // avg on 1–5 scale
   return parseFloat(((avg / 5) * 100).toFixed(2));  // scale to 0–100
 }
+
 
 module.exports = { updateGrowth, computeScore };

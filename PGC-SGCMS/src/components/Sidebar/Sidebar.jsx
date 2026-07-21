@@ -5,53 +5,66 @@ import { useAuth } from '../../context/AuthContext';
 import logoImg from '../../assets/logo.png';
 
 const icons = {
-  dashboard:  '📊', students: '👨‍🎓', evaluate: '⭐', history: '📋',
-  reports:    '📄', add:      '➕',   teachers: '👨‍🏫', parents: '👪',
-  analytics:  '📈', settings: '⚙️',   profile:  '👤', progress: '📉',
-  download:   '⬇️', list:     '📝',
+  dashboard: '📊', students: '👨‍🎓', evaluate: '⭐', history: '📋',
+  reports: '📄', add: '➕', teachers: '👨‍🏫', parents: '👪',
+  analytics: '📈', settings: '⚙️', profile: '👤', progress: '📉',
+  download: '⬇️', list: '📝',
 };
 
 const navConfig = {
   admin: [
     { section: 'Overview', links: [{ to: '/admin', icon: icons.dashboard, label: 'Dashboard' }] },
-    { section: 'Students', links: [
-      { to: '/admin/students',    icon: icons.students, label: 'Student Database' },
-      { to: '/admin/add-student', icon: icons.add,      label: 'Add Student' },
-    ]},
-    { section: 'People', links: [
-      { to: '/admin/teachers', icon: icons.teachers, label: 'Teachers' },
-      { to: '/admin/parents',  icon: icons.parents,  label: 'Parents' },
-    ]},
-    { section: 'Insights', links: [
-      { to: '/admin/analytics', icon: icons.analytics, label: 'Analytics' },
-      { to: '/admin/settings',  icon: icons.settings,  label: 'Settings' },
-    ]},
+    {
+      section: 'Students & Classes', links: [
+        { to: '/admin/students', icon: icons.students, label: 'Student Database' },
+        { to: '/admin/classes', icon: icons.add, label: 'Class Management' },
+      ]
+    },
+
+    {
+      section: 'People', links: [
+        { to: '/admin/teachers', icon: icons.teachers, label: 'Teachers' },
+        { to: '/admin/parents', icon: icons.parents, label: 'Parents' },
+      ]
+    },
+    {
+      section: 'Insights', links: [
+        { to: '/admin/analytics', icon: icons.analytics, label: 'Analytics' },
+        { to: '/admin/settings', icon: icons.settings, label: 'Settings' },
+      ]
+    },
   ],
   teacher: [
     { section: 'Overview', links: [{ to: '/teacher', icon: icons.dashboard, label: 'Dashboard' }] },
-    { section: 'Students', links: [
-      { to: '/teacher/students', icon: icons.list,     label: 'My Students' },
-      { to: '/teacher/evaluate', icon: icons.evaluate, label: 'Evaluate' },
-      { to: '/teacher/history',  icon: icons.history,  label: 'History' },
-    ]},
-    { section: 'Reports', links: [
-      { to: '/teacher/reports', icon: icons.reports, label: 'Reports' },
-    ]},
+    {
+      section: 'Students', links: [
+        { to: '/teacher/students', icon: icons.list, label: 'My Students' },
+        { to: '/teacher/evaluate', icon: icons.evaluate, label: 'Evaluate' },
+        { to: '/teacher/history', icon: icons.history, label: 'History' },
+      ]
+    },
+    {
+      section: 'Reports', links: [
+        { to: '/teacher/reports', icon: icons.reports, label: 'Reports' },
+      ]
+    },
   ],
   parent: [
-    { section: 'My Child', links: [
-      { to: '/parent',          icon: icons.dashboard, label: 'Dashboard' },
-      { to: '/parent/profile',  icon: icons.profile,   label: 'Profile' },
-      { to: '/parent/progress', icon: icons.progress,  label: 'Progress' },
-      { to: '/parent/reports',  icon: icons.reports,   label: 'Remarks' },
-      { to: '/parent/download', icon: icons.download,  label: 'Download PDF' },
-    ]},
+    {
+      section: 'My Child', links: [
+        { to: '/parent', icon: icons.dashboard, label: 'Dashboard' },
+        { to: '/parent/profile', icon: icons.profile, label: 'Profile' },
+        { to: '/parent/progress', icon: icons.progress, label: 'Progress' },
+        { to: '/parent/reports', icon: icons.reports, label: 'Remarks' },
+        { to: '/parent/download', icon: icons.download, label: 'Download PDF' },
+      ]
+    },
   ],
 };
 
 const roleLabel = { admin: 'Admin Portal', teacher: 'Teacher Portal', parent: 'Parent Portal' };
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen = false, onClose }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const role = user?.role ?? 'admin';
@@ -59,19 +72,50 @@ export default function Sidebar() {
 
   function handleLogout() {
     logout();
+    onClose?.();
     navigate('/login');
   }
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <div style={{ background: '#fff', borderRadius: 8, padding: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={logoImg} alt="PGC Logo" style={{ width: 34, height: 34, objectFit: 'contain' }} />
+    <aside className={`sidebar${mobileOpen ? ' mobile-open' : ''}`}>
+      <div className="sidebar-logo" style={{ padding: '1rem 0.85rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.65rem', flex: 1, minWidth: 0 }}>
+          <div style={{
+            background: '#ffffff',
+            borderRadius: 6,
+            padding: '2px 6px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+            flexShrink: 0,
+          }}>
+            <img
+              src={logoImg}
+              alt="PGC Logo"
+              style={{ width: 'auto', height: 40, maxHeight: 40, objectFit: 'contain', display: 'block' }}
+            />
+          </div>
+          <div style={{ overflow: 'hidden' }}>
+            <span style={{ color: '#fff', fontSize: '1.05rem', fontWeight: 800, letterSpacing: '.02em', display: 'block', lineHeight: 1.2 }}>
+              PGC SGCMS
+            </span>
+            <small style={{ fontSize: '.72rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500, whiteSpace: 'nowrap' }}>
+              {roleLabel[role]}
+            </small>
+          </div>
         </div>
-        <div>
-          <span>SGCMS</span>
-          <small>{roleLabel[role]}</small>
-        </div>
+
+
+
+        {/* Close Button for Mobile Drawer */}
+        <button
+          className="sidebar-close-btn"
+          onClick={onClose}
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
       </div>
 
       <nav className="sidebar-nav">
@@ -84,6 +128,7 @@ export default function Sidebar() {
                 to={to}
                 end={to === '/admin' || to === '/teacher' || to === '/parent'}
                 className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                onClick={() => onClose?.()}
               >
                 <span>{icon}</span>
                 <span>{label}</span>
@@ -106,3 +151,4 @@ export default function Sidebar() {
     </aside>
   );
 }
+

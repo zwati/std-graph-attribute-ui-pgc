@@ -1,17 +1,30 @@
 // src/pages/Teacher/Reports.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import ChartCard from '../../components/Cards/ChartCard';
 import MonthlyBarChart from '../../components/Charts/MonthlyBarChart';
-import TrendLineChart from '../../components/Charts/TrendLineChart';
+import TeacherClassSelector from '../../components/TeacherClassSelector';
 
 export default function TeacherReports() {
   const { authAxios } = useAuth();
+  const [selectedClass, setSelectedClass] = useState(null);
   const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    authAxios.get('/teacher/students').then(r => setStudents(r.data.data)).catch(() => {});
+  const fetchStudents = useCallback((clsObj) => {
+    if (!clsObj) {
+      setStudents([]);
+      return;
+    }
+    authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
+      .then(r => setStudents(r.data.data))
+      .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (selectedClass) {
+      fetchStudents(selectedClass);
+    }
+  }, [selectedClass, fetchStudents]);
 
   const barData = students.map(s => ({
     month: s.studentName.split(' ')[0],
@@ -24,6 +37,8 @@ export default function TeacherReports() {
 
   return (
     <div className="animate-fade">
+      <TeacherClassSelector onClassSelect={setSelectedClass} />
+
       <div className="stat-grid" style={{ marginBottom: '1.5rem' }}>
         <div className="stat-card">
           <div className="stat-icon navy"><span style={{ fontSize:'1.4rem' }}>📊</span></div>
@@ -42,9 +57,10 @@ export default function TeacherReports() {
         </div>
       </div>
 
-      <ChartCard title="Growth Index per Student" subtitle="Current scores">
+      <ChartCard title={`Growth Index per Student (${selectedClass ? `${selectedClass.className} ${selectedClass.section}` : 'Selected Class'})`} subtitle="Current scores">
         <MonthlyBarChart data={barData} />
       </ChartCard>
     </div>
   );
 }
+

@@ -4,15 +4,20 @@ const router  = express.Router();
 const auth     = require('../middleware/auth');
 const { allow } = require('../middleware/roleAuth');
 const {
+  getClasses, addClass, deleteClass,
   getStudents, addStudent, updateStudent, deleteStudent,
   getTeachers, addTeacher, getAnalytics,
 } = require('../controllers/adminController');
 
 router.use(auth, allow('admin'));
 
-router.get('/students',      getStudents);
-router.post('/students',     addStudent);
-router.patch('/students/:id', updateStudent);
+router.get('/classes',       getClasses);
+router.post('/classes',      addClass);
+router.delete('/classes/:id', deleteClass);
+
+router.get('/students',       getStudents);
+router.post('/students',      addStudent);
+router.patch('/students/:id',  updateStudent);
 router.delete('/students/:id', deleteStudent);
 
 router.get('/teachers',  getTeachers);
@@ -21,3 +26,4 @@ router.post('/teachers', addTeacher);
 router.get('/analytics', getAnalytics);
 
 module.exports = router;
+

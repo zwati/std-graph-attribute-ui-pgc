@@ -77,6 +77,13 @@ export default function Login() {
     setP('adminpgc');
   }
 
+  function fillTeacherDemo() {
+    setTab(1); // Switch to teacher tab
+    setU('teacher@pgc.com');
+    setP('teacherpgc');
+  }
+
+
   const current = tabs[tab];
 
   return (
@@ -161,7 +168,7 @@ export default function Login() {
           <div className="form-group">
             <label className="label" htmlFor="username">{current.userLabel}</label>
             <input id="username" className="input" type="text" required
-              placeholder={current.role === 'parent' ? 'e.g. CS-2024-001' : current.role === 'admin' ? 'admin@pgc.com' : 'Enter username'}
+              placeholder={current.role === 'parent' ? 'e.g. CS-2024-001' : current.role === 'admin' ? 'admin@pgc.com' : 'teacher@pgc.com'}
               value={username} onChange={e => setU(e.target.value)} autoFocus />
           </div>
           <div className="form-group">
@@ -176,12 +183,17 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Quick Admin Demo Fill */}
-        <div style={{ textAlign: 'center', marginTop: '.75rem' }}>
-          <button type="button" onClick={fillAdminDemo} style={{ background: 'none', border: 'none', color: 'var(--pgc-navy)', fontSize: '.78rem', textDecoration: 'underline', cursor: 'pointer' }}>
-            Click here to autofill Admin credentials (admin@pgc.com)
+        {/* Quick Demo Fill links */}
+        <div style={{ textAlign: 'center', marginTop: '.75rem', fontSize: '.78rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+          <button type="button" onClick={fillTeacherDemo} style={{ background: 'none', border: 'none', color: 'var(--pgc-navy)', textDecoration: 'underline', cursor: 'pointer' }}>
+            Autofill Teacher (teacher@pgc.com)
+          </button>
+          <span>·</span>
+          <button type="button" onClick={fillAdminDemo} style={{ background: 'none', border: 'none', color: 'var(--pgc-navy)', textDecoration: 'underline', cursor: 'pointer' }}>
+            Autofill Admin (admin@pgc.com)
           </button>
         </div>
+
 
         <div style={{ textAlign: 'center', marginTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none',

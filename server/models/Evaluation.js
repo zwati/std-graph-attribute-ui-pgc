@@ -6,12 +6,13 @@ const evaluationSchema = new mongoose.Schema({
   studentId:   { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true, index: true },
   evaluatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User',    required: true },
 
-  // 5 core character attributes — each rated 1–5 stars
   communication:  { type: Number, required: true, min: 1, max: 5 },
   participation:  { type: Number, required: true, min: 1, max: 5 },
   discipline:     { type: Number, required: true, min: 1, max: 5 },
   teamwork:       { type: Number, required: true, min: 1, max: 5 },
   responsibility: { type: Number, required: true, min: 1, max: 5 },
+  leadership:     { type: Number, required: true, min: 1, max: 5 },
+
 
   remarks: { type: String, maxlength: 1000, trim: true },
 

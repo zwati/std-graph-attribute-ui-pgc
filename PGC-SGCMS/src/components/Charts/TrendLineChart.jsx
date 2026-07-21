@@ -44,8 +44,11 @@ export default function TrendLineChart({
           ticks={yTicks}
           axisLine={false}
           tickLine={false}
-          tick={{ fill: '#6b7280', fontSize: 13 }}
+          width={40}
+          tick={{ fill: '#4b5563', fontSize: 12, fontWeight: 600 }}
         />
+
+
 
         <Tooltip
           contentStyle={{

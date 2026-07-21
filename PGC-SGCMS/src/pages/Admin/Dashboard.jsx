@@ -19,14 +19,22 @@ export default function AdminDashboard() {
   const stats = [
     { label: 'Total Students', val: analytics?.totalStudents ?? '—', icon: '👨‍🎓', color: 'navy' },
     { label: 'Avg Growth Index', val: analytics?.schoolAvgGrowth ? `${analytics.schoolAvgGrowth.toFixed(1)}%` : '—', icon: '📈', color: 'green' },
-    { label: 'Evaluations Today', val: '—', icon: '⭐', color: 'amber' },
-    { label: 'Active Teachers', val: '—', icon: '👨‍🏫', color: 'red' },
+    { label: 'Evaluations Today', val: analytics?.evaluationsToday ?? 0, icon: '⭐', color: 'amber' },
+    { label: 'Active Teachers', val: analytics?.activeTeachers ?? 0, icon: '👨‍🏫', color: 'red' },
   ];
 
   const top = analytics?.topStudents ?? [];
   const attrs = analytics?.attributeAverages ?? {};
-  const attrList = ['communication','participation','discipline','teamwork','responsibility'];
-  const attrLabels = { communication:'Communication', participation:'Participation', discipline:'Discipline', teamwork:'Teamwork', responsibility:'Responsibility' };
+  const attrList = ['communication','discipline','leadership','participation','responsibility','teamwork'];
+  const attrLabels = {
+    communication:  'Comm',
+    discipline:     'Disc',
+    leadership:     'Lead',
+    participation:  'Part',
+    responsibility: 'Resp',
+    teamwork:       'Team',
+  };
+
 
   return (
     <div className="animate-fade">

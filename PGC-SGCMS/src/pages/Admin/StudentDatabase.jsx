@@ -44,7 +44,8 @@ export default function StudentDatabase() {
           value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} />
         <input className="input" style={{ maxWidth: 160 }} placeholder="Class (e.g. FA23)"
           value={filterClass} onChange={e => { setFilterClass(e.target.value); setPage(1); }} />
-        <button className="btn btn-primary btn-sm" onClick={() => navigate('/admin/add-student')}>➕ Add Student</button>
+        <button className="btn btn-primary btn-sm" onClick={() => navigate('/admin/classes')}>➕ Manage Classes & Add Students</button>
+
       </div>
 
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>

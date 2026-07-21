@@ -1,10 +1,15 @@
-# Terminal 1 — start MongoDB
+# OPTION 1: Double click 'Start_PGC_SGCMS.bat' to launch all 3 services automatically!
+
+# OPTION 2: Manual startup in 3 separate terminals:
+
+# Terminal 1 — MongoDB
 mongod --dbpath C:\data\db
 
-# Terminal 2 — backend
+# Terminal 2 — Backend Server
 cd D:\Business\PGC\server
 npm run dev
 
-# Terminal 3 — frontend
+# Terminal 3 — Frontend Web App (LAN / Mobile accessible)
 cd D:\Business\PGC\PGC-SGCMS
-npm run dev
+npx vite --host
+
