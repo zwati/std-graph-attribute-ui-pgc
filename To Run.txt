@@ -1,0 +1,10 @@
+# Terminal 1 — start MongoDB
+mongod --dbpath C:\data\db
+
+# Terminal 2 — backend
+cd D:\Business\PGC\server
+npm run dev
+
+# Terminal 3 — frontend
+cd D:\Business\PGC\PGC-SGCMS
+npm run dev

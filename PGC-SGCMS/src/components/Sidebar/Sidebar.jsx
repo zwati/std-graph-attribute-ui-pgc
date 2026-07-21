@@ -1,0 +1,108 @@
+// src/components/Sidebar/Sidebar.jsx
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+
+import logoImg from '../../assets/logo.png';
+
+const icons = {
+  dashboard:  '📊', students: '👨‍🎓', evaluate: '⭐', history: '📋',
+  reports:    '📄', add:      '➕',   teachers: '👨‍🏫', parents: '👪',
+  analytics:  '📈', settings: '⚙️',   profile:  '👤', progress: '📉',
+  download:   '⬇️', list:     '📝',
+};
+
+const navConfig = {
+  admin: [
+    { section: 'Overview', links: [{ to: '/admin', icon: icons.dashboard, label: 'Dashboard' }] },
+    { section: 'Students', links: [
+      { to: '/admin/students',    icon: icons.students, label: 'Student Database' },
+      { to: '/admin/add-student', icon: icons.add,      label: 'Add Student' },
+    ]},
+    { section: 'People', links: [
+      { to: '/admin/teachers', icon: icons.teachers, label: 'Teachers' },
+      { to: '/admin/parents',  icon: icons.parents,  label: 'Parents' },
+    ]},
+    { section: 'Insights', links: [
+      { to: '/admin/analytics', icon: icons.analytics, label: 'Analytics' },
+      { to: '/admin/settings',  icon: icons.settings,  label: 'Settings' },
+    ]},
+  ],
+  teacher: [
+    { section: 'Overview', links: [{ to: '/teacher', icon: icons.dashboard, label: 'Dashboard' }] },
+    { section: 'Students', links: [
+      { to: '/teacher/students', icon: icons.list,     label: 'My Students' },
+      { to: '/teacher/evaluate', icon: icons.evaluate, label: 'Evaluate' },
+      { to: '/teacher/history',  icon: icons.history,  label: 'History' },
+    ]},
+    { section: 'Reports', links: [
+      { to: '/teacher/reports', icon: icons.reports, label: 'Reports' },
+    ]},
+  ],
+  parent: [
+    { section: 'My Child', links: [
+      { to: '/parent',          icon: icons.dashboard, label: 'Dashboard' },
+      { to: '/parent/profile',  icon: icons.profile,   label: 'Profile' },
+      { to: '/parent/progress', icon: icons.progress,  label: 'Progress' },
+      { to: '/parent/reports',  icon: icons.reports,   label: 'Remarks' },
+      { to: '/parent/download', icon: icons.download,  label: 'Download PDF' },
+    ]},
+  ],
+};
+
+const roleLabel = { admin: 'Admin Portal', teacher: 'Teacher Portal', parent: 'Parent Portal' };
+
+export default function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const role = user?.role ?? 'admin';
+  const links = navConfig[role] ?? [];
+
+  function handleLogout() {
+    logout();
+    navigate('/login');
+  }
+
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <div style={{ background: '#fff', borderRadius: 8, padding: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={logoImg} alt="PGC Logo" style={{ width: 34, height: 34, objectFit: 'contain' }} />
+        </div>
+        <div>
+          <span>SGCMS</span>
+          <small>{roleLabel[role]}</small>
+        </div>
+      </div>
+
+      <nav className="sidebar-nav">
+        {links.map(({ section, links: sLinks }) => (
+          <div key={section}>
+            <div className="nav-section">{section}</div>
+            {sLinks.map(({ to, icon, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={to === '/admin' || to === '/teacher' || to === '/parent'}
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                <span>{icon}</span>
+                <span>{label}</span>
+              </NavLink>
+            ))}
+          </div>
+        ))}
+      </nav>
+
+      <div style={{ padding: '0 1rem' }}>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '1rem' }}>
+          <div style={{ color: 'rgba(255,255,255,.5)', fontSize: '.75rem', marginBottom: '.5rem', paddingLeft: '.25rem' }}>
+            Logged in as <strong style={{ color: '#fff' }}>{user?.username}</strong>
+          </div>
+          <button className="nav-link" onClick={handleLogout} style={{ width: '100%', color: 'rgba(255,100,100,.8)' }}>
+            <span>🚪</span><span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
