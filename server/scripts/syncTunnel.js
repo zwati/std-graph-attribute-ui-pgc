@@ -49,6 +49,11 @@ function checkText(data) {
 
     // Publish to instant zero-cache sync endpoint
     publishLiveUrl(liveUrl);
+
+    // Auto-open default browser exactly when tunnel is ready
+    setTimeout(() => {
+      require('child_process').exec('start "" "https://pgcswl-sgcms.vercel.app"');
+    }, 1500);
   }
 }
 

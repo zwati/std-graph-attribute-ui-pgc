@@ -37,12 +37,9 @@ timeout /t 4 /nobreak >nul
 echo.
 echo ======================================================================
 echo   SUCCESS: All 4 PGC SGCMS services are active in background!
-echo   Opening Chrome Browser automatically...
+echo   Browser will open automatically as soon as Tunnel connects...
 echo ======================================================================
 echo.
-
-:: Automatically open default browser with the permanent static Vercel URL
-start "" "https://pgcswl-sgcms.vercel.app"
 
 :EXIT_PROMPT
 echo ----------------------------------------------------------------------
@@ -58,7 +55,7 @@ echo   SWIFT EXIT INITIATED: Shutting down all taskbar server windows...
 echo ======================================================================
 
 :: Forcefully terminate all window titles and underlying processes
-echo Closing MongoDB, Backend, Frontend, and Ngrok taskbar windows...
+echo Closing MongoDB, Backend, Frontend, and Cloudflare taskbar windows...
 taskkill /F /FI "WINDOWTITLE eq PGC-Backend*" /T >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq PGC-Frontend*" /T >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq PGC-Ngrok*" /T >nul 2>&1

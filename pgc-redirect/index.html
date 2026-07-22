@@ -55,7 +55,7 @@
 
     async function redirect() {
       try {
-        const res = await fetch(SYNC_URL + '&t=' + Date.now());
+        const res = await fetch(SYNC_URL, { cache: 'no-store' });
         const text = await res.text();
         const lines = text.trim().split('\n').filter(Boolean);
         if (lines.length > 0) {
