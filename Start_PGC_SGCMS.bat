@@ -41,8 +41,8 @@ echo   Opening Chrome Browser automatically...
 echo ======================================================================
 echo.
 
-:: Automatically open default browser with the permanent static Ngrok URL
-start "" "https://ribbon-probiotic-turf.ngrok-free.dev"
+:: Automatically open default browser with the permanent static Vercel URL
+start "" "https://pgcswl-sgcms.vercel.app"
 
 :EXIT_PROMPT
 echo ----------------------------------------------------------------------
