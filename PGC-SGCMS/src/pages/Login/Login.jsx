@@ -22,11 +22,8 @@ export default function Login() {
   const [loading, setL] = useState(false);
   const [error, setErr] = useState('');
 
-  // Server Host Config state
-  const [showServerConfig, setShowServerConfig] = useState(false);
   const [showInstallGuide, setShowInstallGuide] = useState(false);
-  const { login, apiUrl, updateServerUrl } = useAuth();
-  const [customServerUrl, setCustomServerUrl] = useState(apiUrl);
+  const { login } = useAuth();
 
   // PWA Install Prompt event
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -56,12 +53,6 @@ export default function Login() {
     }
   }
 
-  function handleSaveServerUrl(e) {
-    e.preventDefault();
-    updateServerUrl(customServerUrl);
-    setShowServerConfig(false);
-  }
-
   function handleInstallClick() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -71,63 +62,19 @@ export default function Login() {
     }
   }
 
-  function fillAdminDemo() {
-    setTab(2); // Switch to admin tab
-    setU('admin@pgc.com');
-    setP('adminpgc');
-  }
-
-  function fillTeacherDemo() {
-    setTab(1); // Switch to teacher tab
-    setU('teacher@pgc.com');
-    setP('teacherpgc');
-  }
-
-
   const current = tabs[tab];
 
   return (
     <div className="login-page">
       <div className="login-card animate-fade">
         {/* PGC Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
-            <img src={logoImg} alt="PGC Logo" style={{ width: 44, height: 44, objectFit: 'contain' }} />
-            <div>
-              <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--gray-900)' }}>SGCMS Login</div>
-              <div style={{ fontSize: '.75rem', color: 'var(--gray-400)' }}>Student Growth & Character System</div>
-            </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem', marginBottom: '1.5rem' }}>
+          <img src={logoImg} alt="PGC Logo" style={{ width: 44, height: 44, objectFit: 'contain' }} />
+          <div>
+            <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--gray-900)' }}>SGCMS Login</div>
+            <div style={{ fontSize: '.75rem', color: 'var(--gray-400)' }}>Student Growth & Character System</div>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowServerConfig(s => !s)}
-            style={{ background: 'none', border: '1px solid var(--gray-200)', borderRadius: 6, padding: '.3rem .6rem', fontSize: '.75rem', cursor: 'pointer' }}
-            title="Configure Server IP & Port"
-          >
-            ⚙ Server Host
-          </button>
         </div>
-
-        {/* Server IP Config panel */}
-        {showServerConfig && (
-          <form onSubmit={handleSaveServerUrl} style={{ background: 'var(--gray-50)', padding: '.75rem 1rem', borderRadius: 8, marginBottom: '1.25rem', border: '1px solid var(--gray-200)' }}>
-            <div style={{ fontSize: '.8rem', fontWeight: 600, color: 'var(--pgc-navy)', marginBottom: '.3rem' }}>
-              Central Server Endpoint URL
-            </div>
-            <input
-              type="text"
-              className="input"
-              style={{ fontSize: '.82rem', padding: '.4rem .6rem', marginBottom: '.5rem' }}
-              value={customServerUrl}
-              onChange={e => setCustomServerUrl(e.target.value)}
-              placeholder="http://192.168.1.100:5000/api"
-            />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '.5rem' }}>
-              <button type="button" className="btn btn-outline btn-sm" onClick={() => setShowServerConfig(false)}>Cancel</button>
-              <button type="submit" className="btn btn-primary btn-sm">Save Host</button>
-            </div>
-          </form>
-        )}
 
         {/* PWA Always-Visible Install Banner */}
         <div style={{ background: 'rgba(13, 27, 75, 0.05)', border: '1px solid rgba(13, 27, 75, 0.2)', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -174,33 +121,47 @@ export default function Login() {
           </button>
         </form>
 
-
-        {/* Quick Demo Fill links */}
-        <div style={{ textAlign: 'center', marginTop: '.75rem', fontSize: '.78rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-          <button type="button" onClick={fillTeacherDemo} style={{ background: 'none', border: 'none', color: 'var(--pgc-navy)', textDecoration: 'underline', cursor: 'pointer' }}>
-            Autofill Teacher (teacher@pgc.com)
+        <div style={{ textAlign: 'center', marginTop: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.6rem' }}>
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '.4rem',
+              background: 'rgba(13, 27, 75, 0.05)',
+              border: '1px solid rgba(13, 27, 75, 0.15)',
+              borderRadius: '20px',
+              padding: '.45rem 1.25rem',
+              color: 'var(--pgc-navy)',
+              fontSize: '.82rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(13, 27, 75, 0.1)'}
+            onMouseOut={e => e.currentTarget.style.background = 'rgba(13, 27, 75, 0.05)'}
+          >
+            <span>←</span> Back to Home
           </button>
-          <span>·</span>
-          <button type="button" onClick={fillAdminDemo} style={{ background: 'none', border: 'none', color: 'var(--pgc-navy)', textDecoration: 'underline', cursor: 'pointer' }}>
-            Autofill Admin (admin@pgc.com)
-          </button>
-        </div>
 
-
-        <div style={{ textAlign: 'center', marginTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button onClick={() => navigate('/')} style={{
-            background: 'none', border: 'none',
-            color: 'var(--gray-400)', fontSize: '.82rem', cursor: 'pointer'
-          }}>
-            ← Back to home
-          </button>
-          <span style={{ fontSize: '.72rem', color: 'var(--gray-400)' }}>
-            Server: {apiUrl.replace('/api', '')}
-          </span>
+          <a
+            href="mailto:zwatisolutions@gmail.com?subject=PGC%20SGCMS%20Inquiry"
+            style={{
+              fontSize: '.75rem',
+              color: 'var(--gray-500)',
+              textDecoration: 'none',
+              marginTop: '.2rem',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseOver={e => e.currentTarget.style.color = 'var(--pgc-navy)'}
+            onMouseOut={e => e.currentTarget.style.color = 'var(--gray-500)'}
+          >
+            Developed by <strong style={{ color: 'var(--pgc-navy)', textDecoration: 'underline' }}>ZWATI Solutions</strong>
+          </a>
         </div>
       </div>
     </div>
   );
 }
-
 

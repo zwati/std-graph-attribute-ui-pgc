@@ -66,6 +66,7 @@ export function AuthProvider({ children }) {
   const authAxios = useMemo(() => {
     const instance = axios.create({ baseURL: apiUrl });
     instance.interceptors.request.use(cfg => {
+      cfg.headers['ngrok-skip-browser-warning'] = 'true';
       const t = localStorage.getItem('pgc_token');
       if (t) cfg.headers.Authorization = `Bearer ${t}`;
       return cfg;

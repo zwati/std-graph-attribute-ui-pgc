@@ -6,76 +6,74 @@ echo             PGC SGCMS SYSTEM LAUNCHER & SERVER MANAGER
 echo ======================================================================
 echo.
 
-:: 1. Launch MongoDB Database in a new window
-echo [1/3] Starting MongoDB Database on Port 27017...
-start "PGC-MongoDB" cmd /k "title PGC-MongoDB && mongod --dbpath C:\data\db"
+:: 1. Launch MongoDB Database in MINIMIZED window
+echo [1/4] Starting MongoDB Database on Port 27017 (Minimized)...
+start /min "PGC-MongoDB" cmd /c "title PGC-MongoDB && mongod --dbpath C:\data\db"
 
 :: Wait 2 seconds for MongoDB to initialize
 timeout /t 2 /nobreak >nul
 
-:: 2. Launch Backend Server in a new window
-echo [2/3] Starting Express Backend Server on Port 5000...
-start "PGC-Backend" cmd /k "title PGC-Backend && cd /d "%~dp0server" && npm run dev"
+:: 2. Launch Backend Server in MINIMIZED window
+echo [2/4] Starting Express Backend Server on Port 5000 (Minimized)...
+start /min "PGC-Backend" cmd /c "title PGC-Backend && cd /d "%~dp0server" && npm run dev"
 
 :: Wait 2 seconds for Backend to initialize
 timeout /t 2 /nobreak >nul
 
-:: 3. Launch Frontend App in a new window (Host mode for LAN/Mobile access)
-echo [3/4] Starting Frontend Web App on Port 5173 (Host Mode)...
-start "PGC-Frontend" cmd /k "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npx vite --host"
+:: 3. Launch Frontend App in MINIMIZED window (Production Bundle Preview for Maximum Speed)
+echo [3/4] Starting Frontend Web App on Port 5173 (Minimized)...
+start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npm run build && npx vite preview --host --port 5173"
 
 :: Wait 2 seconds for Frontend to initialize
 timeout /t 2 /nobreak >nul
 
-:: 4. Launch Cloudflare Global Tunnel (Online Access for 4G/5G Mobile Devices)
-echo [4/4] Starting Cloudflare Global Tunnel...
-start "PGC-Cloudflare" cmd /k "title PGC-Cloudflare && npx cloudflared tunnel --url http://localhost:5173"
+:: 4. Launch Cloudflare Global Tunnel & Auto-Sync Permanent Redirect Pointer
+echo [4/4] Starting Cloudflare Global Tunnel & Auto-Sync Pointer (Minimized)...
+start /min "PGC-Cloudflare" cmd /c "title PGC-Cloudflare && node server/scripts/syncTunnel.js"
+
+:: Wait 3 seconds for services to connect
+timeout /t 3 /nobreak >nul
 
 echo.
 echo ======================================================================
-echo   SUCCESS: All 4 PGC SGCMS services are running!
-echo   - MongoDB DB: http://127.0.0.1:27017
-echo   - Backend:    http://localhost:5000 (LAN: http://192.168.100.42:5000)
-echo   - Frontend:   http://localhost:5173 (LAN: http://192.168.100.42:5173)
-echo   - Cloudflare: Global Tunnel running in PGC-Cloudflare window
+echo   SUCCESS: All 4 PGC SGCMS services are active in background!
+echo   Opening Chrome Browser automatically...
 echo ======================================================================
 echo.
 
+:: Automatically open default browser with the permanent static Ngrok URL
+start "" "https://ribbon-probiotic-turf.ngrok-free.dev"
 
 :EXIT_PROMPT
 echo ----------------------------------------------------------------------
 echo   SWIFT EXIT CONTROLLER:
-echo   To precisely shutdown all 3 servers and exit, press Y and ENTER.
+echo   To close ALL servers & taskbar windows cleanly when finished,
+echo   simply press ENTER.
 echo ----------------------------------------------------------------------
-set /p userinput="Type 'Y' or press ENTER to close all servers and exit [Y/N]: "
-
-if /i "%userinput%"=="N" (
-    echo.
-    echo Servers remain active in background.
-    pause
-    exit /b
-)
+set /p userinput="Press ENTER to close all servers and exit: "
 
 echo.
 echo ======================================================================
-echo   SWIFT EXIT INITIATED: Terminating MongoDB, Backend & Frontend...
+echo   SWIFT EXIT INITIATED: Shutting down all taskbar server windows...
 echo ======================================================================
 
-:: Gracefully terminate NodeJS (Backend/Frontend), Cloudflare Tunnel, and MongoDB processes
-echo Closing NodeJS, Vite, and Cloudflare Tunnel processes...
+:: Forcefully terminate all window titles and underlying processes
+echo Closing MongoDB, Backend, Frontend, and Ngrok taskbar windows...
 taskkill /F /FI "WINDOWTITLE eq PGC-Backend*" /T >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq PGC-Frontend*" /T >nul 2>&1
+taskkill /F /FI "WINDOWTITLE eq PGC-Ngrok*" /T >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq PGC-Cloudflare*" /T >nul 2>&1
-taskkill /F /IM node.exe >nul 2>&1
-
-
-echo Closing mongod.exe process (MongoDB Database)...
 taskkill /F /FI "WINDOWTITLE eq PGC-MongoDB*" /T >nul 2>&1
+
+:: Kill process executables cleanly
+taskkill /F /IM node.exe >nul 2>&1
+taskkill /F /IM ngrok.exe >nul 2>&1
+taskkill /F /IM cloudflared.exe >nul 2>&1
 taskkill /F /IM mongod.exe >nul 2>&1
 
 timeout /t 1 /nobreak >nul
 echo.
-echo [OK] All PGC SGCMS servers and MongoDB database precisely closed.
+echo [OK] All PGC SGCMS taskbar windows and background servers closed.
 echo Goodbye!
 timeout /t 2 /nobreak >nul
 exit /b

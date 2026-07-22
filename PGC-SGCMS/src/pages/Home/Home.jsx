@@ -118,7 +118,14 @@ export default function Home() {
       <footer style={{ borderTop: '1px solid rgba(255,255,255,.08)', padding: '1.5rem 2.5rem',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <span style={{ color: 'rgba(255,255,255,.35)', fontSize: '.8rem' }}>© 2026 PGC Colleges — SGCMS v1.0</span>
-        <span style={{ color: 'rgba(255,255,255,.25)', fontSize: '.8rem' }}>Student Growth & Character Management System</span>
+        <a
+          href="mailto:zwatisolutions@gmail.com?subject=PGC%20SGCMS%20Inquiry"
+          style={{ color: 'rgba(255,255,255,.6)', fontSize: '.82rem', textDecoration: 'none' }}
+          onMouseOver={e => e.currentTarget.style.color = '#fff'}
+          onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.6)'}
+        >
+          Developed by <strong style={{ color: '#fff', textDecoration: 'underline' }}>ZWATI Solutions</strong>
+        </a>
       </footer>
     </div>
   );

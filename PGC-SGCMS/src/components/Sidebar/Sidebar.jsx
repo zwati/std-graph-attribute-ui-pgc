@@ -138,15 +138,29 @@ export default function Sidebar({ mobileOpen = false, onClose }) {
         ))}
       </nav>
 
-      <div style={{ padding: '0 1rem' }}>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '1rem' }}>
-          <div style={{ color: 'rgba(255,255,255,.5)', fontSize: '.75rem', marginBottom: '.5rem', paddingLeft: '.25rem' }}>
-            Logged in as <strong style={{ color: '#fff' }}>{user?.username}</strong>
-          </div>
-          <button className="nav-link" onClick={handleLogout} style={{ width: '100%', color: 'rgba(255,100,100,.8)' }}>
-            <span>🚪</span><span>Logout</span>
-          </button>
+      <div className="sidebar-footer">
+        <div style={{ color: 'rgba(255,255,255,.55)', fontSize: '.75rem', marginBottom: '.4rem', paddingLeft: '.25rem' }}>
+          Logged in as <strong style={{ color: '#fff' }}>{user?.username}</strong>
         </div>
+        <button
+          className="nav-link"
+          onClick={handleLogout}
+          style={{
+            width: '100%',
+            color: '#ff6b6b',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '6px',
+            padding: '.55rem .75rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '.5rem',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseOver={e => e.currentTarget.style.background = 'rgba(200, 16, 46, 0.2)'}
+          onMouseOut={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+        >
+          <span>🚪</span><span>Logout</span>
+        </button>
       </div>
     </aside>
   );
