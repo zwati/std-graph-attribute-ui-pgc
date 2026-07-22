@@ -1,17 +1,18 @@
 // components/Charts/MonthlyBarChart.jsx
-// Bar chart — PGC Navy (#0D1B4B) bars, 0–100 Y-axis, monthly X-axis
-// Reference design: deep navy bars, white bg, horizontal gridlines only, no axis lines
-
+// Bar chart — PGC Navy (#0D1B4B) bars, 1–5 Y-axis scale, monthly/attribute X-axis
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
 } from 'recharts';
 
 /**
- * @param {Object[]} data  - [{ month: 'Feb', score: 84 }, ...]
+ * @param {Object[]} data  - [{ month: 'Comm', score: 4.2 }, ...]
  * @param {string}   color - override bar color (default PGC Navy)
+ * @param {number[]} domain - [0, 5] rating scale
  */
-export default function MonthlyBarChart({ data = [], color = '#0D1B4B' }) {
+export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain = [0, 5] }) {
+  const ticks = domain[1] === 5 ? [0, 1, 2, 3, 4, 5] : undefined;
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart
@@ -19,14 +20,14 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B' }) {
         margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
         barCategoryGap="30%"
       >
-        {/* Horizontal gridlines only — matches reference */}
+        {/* Horizontal gridlines only */}
         <CartesianGrid
           strokeDasharray=""
           stroke="#f3f4f6"
           vertical={false}
         />
 
-        {/* X-axis: month labels, no line, no tick marks */}
+        {/* X-axis labels */}
         <XAxis
           dataKey="month"
           axisLine={false}
@@ -34,18 +35,18 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B' }) {
           tick={{ fill: '#6b7280', fontSize: 13 }}
         />
 
-        {/* Y-axis: 0–100, no line */}
+        {/* Y-axis: 1–5 scale */}
         <YAxis
-          domain={[0, 100]}
+          domain={domain}
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#6b7280', fontSize: 13 }}
-          ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+          ticks={ticks}
         />
 
         <Tooltip
           cursor={{ fill: '#f9fafb' }}
-          formatter={(val) => [`${val}`, 'Growth Score']}
+          formatter={(val) => [`${val} / 5`, 'Rating Score']}
           contentStyle={{
             borderRadius: 8,
             border: '1px solid #e5e7eb',
@@ -54,7 +55,7 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B' }) {
           }}
         />
 
-        {/* Navy bars — flat top corners (radius [0,0,0,0]) matching reference */}
+        {/* Navy bars */}
         <Bar dataKey="score" fill={color} radius={[0, 0, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>

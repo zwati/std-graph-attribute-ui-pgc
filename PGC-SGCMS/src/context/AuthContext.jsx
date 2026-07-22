@@ -5,18 +5,24 @@ import axios from 'axios';
 const AuthContext = createContext(null);
 
 function getDefaultApiUrl() {
-  if (typeof window !== 'undefined' && window.location?.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    const saved = localStorage.getItem('pgc_api_url');
-    if (saved && !saved.includes('localhost') && !saved.includes('127.0.0.1')) {
-      return saved;
-    }
-    return `${window.location.protocol}//${window.location.hostname}:5000/api`;
-  }
   const saved = localStorage.getItem('pgc_api_url');
   if (saved) return saved;
+  if (typeof window !== 'undefined' && window.location?.hostname) {
+    const protocol = window.location.protocol || 'http:';
+    const host = window.location.hostname;
+    const port = window.location.port;
+
+    // If accessed via Cloudflare Tunnel, domain, or non-5000 port, use relative /api proxy
+    if (host.includes('trycloudflare') || host.includes('cloudflare') || (port !== '5000' && port !== '5173')) {
+      return '/api';
+    }
+    return `${protocol}//${host}:5000/api`;
+  }
   if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
-  return 'http://localhost:5000/api';
+  return '/api';
 }
+
+
 
 
 export function AuthProvider({ children }) {

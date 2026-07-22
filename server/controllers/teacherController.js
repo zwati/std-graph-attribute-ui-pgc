@@ -17,6 +17,7 @@ async function getTeacherClasses(req, res) {
         class: c.className,
         section: c.section,
       });
+
       return { ...c, studentCount };
     }));
 
@@ -40,14 +41,17 @@ async function getTeacherClasses(req, res) {
   } catch (err) { return serverError(res, err); }
 }
 
-// GET /api/teacher/students?class=1st Year&section=B2&search=ali
+// GET /api/teacher/students?class=1st Year&section=ICS Phy&search=ali
 async function getMyStudents(req, res) {
   try {
-    const { class: cls, section, search } = req.query;
+    const { class: cls, section, category, search } = req.query;
 
     const filter = {};
     if (cls)     filter.class   = cls;
     if (section) filter.section = section;
+    else if (category) filter.category = category;
+
+
 
     if (search) filter.$or = [
       { studentName: { $regex: search, $options: 'i' } },

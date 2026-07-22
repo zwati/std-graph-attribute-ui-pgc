@@ -6,22 +6,22 @@ import { useAuth } from '../../context/AuthContext';
 import logoImg from '../../assets/logo.png';
 
 const tabs = [
-  { role: 'parent',  label: '👪 Parent',  userLabel: 'Roll Number', passLabel: 'Password' },
-  { role: 'teacher', label: '👨‍🏫 Teacher', userLabel: 'Username',   passLabel: 'Password' },
-  { role: 'admin',   label: '🛠 Admin',   userLabel: 'Username / Email', passLabel: 'Password' },
+  { role: 'parent', label: '👪 Parent', userLabel: 'Roll Number', passLabel: 'Password' },
+  { role: 'teacher', label: '👨‍🏫 Teacher', userLabel: 'Username', passLabel: 'Password' },
+  { role: 'admin', label: '🛠 Admin', userLabel: 'Username / Email', passLabel: 'Password' },
 ];
 
 const redirectMap = { parent: '/parent', teacher: '/teacher', admin: '/admin' };
 
 export default function Login() {
-  const [params]     = useSearchParams();
-  const initRole     = params.get('role') ?? 'parent';
-  const [tab, setTab]     = useState(tabs.findIndex(t => t.role === initRole) || 0);
-  const [username, setU]  = useState('');
-  const [password, setP]  = useState('');
-  const [loading, setL]   = useState(false);
-  const [error, setErr]   = useState('');
-  
+  const [params] = useSearchParams();
+  const initRole = params.get('role') ?? 'parent';
+  const [tab, setTab] = useState(tabs.findIndex(t => t.role === initRole) || 0);
+  const [username, setU] = useState('');
+  const [password, setP] = useState('');
+  const [loading, setL] = useState(false);
+  const [error, setErr] = useState('');
+
   // Server Host Config state
   const [showServerConfig, setShowServerConfig] = useState(false);
   const [showInstallGuide, setShowInstallGuide] = useState(false);
@@ -154,34 +154,26 @@ export default function Login() {
           </div>
         )}
 
-        {/* Portal tabs */}
-        <div className="login-tabs">
-          {tabs.map((t, i) => (
-            <button key={t.role} className={`login-tab${tab === i ? ' active' : ''}`} onClick={() => { setTab(i); setErr(''); }}>
-              {t.label}
-            </button>
-          ))}
-        </div>
-
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="label" htmlFor="username">{current.userLabel}</label>
+            <label className="label" htmlFor="username">ID</label>
             <input id="username" className="input" type="text" required
-              placeholder={current.role === 'parent' ? 'e.g. CS-2024-001' : current.role === 'admin' ? 'admin@pgc.com' : 'teacher@pgc.com'}
+              placeholder="Enter Id / Roll Number / Email"
               value={username} onChange={e => setU(e.target.value)} autoFocus />
           </div>
           <div className="form-group">
-            <label className="label" htmlFor="password">{current.passLabel}</label>
+            <label className="label" htmlFor="password">Password</label>
             <input id="password" className="input" type="password" required
               placeholder="Enter password" value={password} onChange={e => setP(e.target.value)} />
           </div>
           {error && <div className="error-msg" style={{ marginBottom: '.75rem' }}>⚠ {error}</div>}
           <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '.75rem' }}
             disabled={loading}>
-            {loading ? 'Signing in…' : `Sign in as ${current.label.split(' ').slice(1).join(' ')}`}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
+
 
         {/* Quick Demo Fill links */}
         <div style={{ textAlign: 'center', marginTop: '.75rem', fontSize: '.78rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
@@ -196,8 +188,10 @@ export default function Login() {
 
 
         <div style={{ textAlign: 'center', marginTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none',
-            color: 'var(--gray-400)', fontSize: '.82rem', cursor: 'pointer' }}>
+          <button onClick={() => navigate('/')} style={{
+            background: 'none', border: 'none',
+            color: 'var(--gray-400)', fontSize: '.82rem', cursor: 'pointer'
+          }}>
             ← Back to home
           </button>
           <span style={{ fontSize: '.72rem', color: 'var(--gray-400)' }}>

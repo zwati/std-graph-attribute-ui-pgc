@@ -8,8 +8,17 @@ const studentSchema = new mongoose.Schema({
   fatherName:  { type: String, required: true, trim: true },
   class:       { type: String, trim: true },
   section:     { type: String, trim: true },
-  category:    { type: String, enum: ['Medical', 'Pre-Engineering', 'ICS', 'Others'], default: 'Others', trim: true },
+  boardRollNumber: { type: String, trim: true },
+
+  gender:          { type: String, enum: ['Male', 'Female'], default: 'Male', trim: true },
+  result9th:       { type: String, trim: true },
+  category:    { type: String, enum: ['Medical', 'Pre-Eng', 'ICS', 'Others'], default: 'Others', trim: true },
+
   teacherId:   { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', index: true },
+  parentPassword: { type: String, trim: true },
+
+
+
 
 
   // Denormalized growth fields — updated on every evaluation submit (O(1) reads)

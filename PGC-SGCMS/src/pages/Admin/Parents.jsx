@@ -1,39 +1,272 @@
 // src/pages/Admin/Parents.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import QRCodeModal from '../../components/QRCodeModal';
 
 export default function Parents() {
   const { authAxios } = useAuth();
-  const [students, setStudents] = useState([]);
+  const [credentials, setCredentials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [visiblePasswords, setVisiblePasswords] = useState({});
+  const [copiedRoll, setCopiedRoll] = useState(null);
+  const [showQR, setShowQR] = useState(false);
+
 
   useEffect(() => {
-    authAxios.get('/admin/students?limit=100').then(r => setStudents(r.data.data.students)).catch(() => {});
+    fetchCredentials();
   }, []);
+
+  function fetchCredentials() {
+    setLoading(true);
+    authAxios.get('/admin/passwords')
+      .then(r => setCredentials(r.data.data || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }
+
+  function toggleShowPassword(rollNumber) {
+    setVisiblePasswords(prev => ({ ...prev, [rollNumber]: !prev[rollNumber] }));
+  }
+
+  function copyCredentials(student) {
+    const text = `Parent Login Credentials\nStudent: ${student.studentName}\nRoll No (Username): ${student.parentUsername}\nPassword: ${student.parentPassword}`;
+    navigator.clipboard.writeText(text);
+    setCopiedRoll(student.rollNumber);
+    setTimeout(() => setCopiedRoll(null), 2000);
+  }
+
+  const filtered = credentials.filter(c =>
+    c.studentName?.toLowerCase().includes(search.toLowerCase()) ||
+    c.rollNumber?.toLowerCase().includes(search.toLowerCase()) ||
+    c.class?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  function handleExportPDF() {
+
+    if (!filtered.length) return alert('No credentials available to export.');
+
+    const printWindow = window.open('', '_blank');
+    const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    const rowsHtml = filtered.map((s, idx) => `
+      <tr>
+        <td style="text-align:center;">${idx + 1}</td>
+        <td style="font-weight:bold; color:#0d1b4b;">${s.rollNumber || s.parentUsername || '—'}</td>
+        <td>${s.boardRollNumber || '—'}</td>
+        <td style="font-weight:600;">${s.studentName || '—'}</td>
+        <td>${s.fatherName || '—'}</td>
+        <td>${s.class || ''} (${s.section || s.category || ''})</td>
+        <td><span style="background:#fef3c7; border:1px solid #f59e0b; padding:2px 8px; border-radius:4px; font-family:monospace; font-weight:bold; color:#92400e;">${s.parentPassword || '—'}</span></td>
+        <td style="text-align:center; font-weight:bold; color:#d97706;">${s.result9th || '—'}</td>
+      </tr>
+    `).join('');
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>PGC Parent Credentials Report - ${dateStr}</title>
+        <style>
+          @page { size: A4 portrait; margin: 12mm; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; margin: 0; padding: 15px; }
+          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #800000; padding-bottom: 10px; margin-bottom: 15px; }
+          .title-block h1 { margin: 0; color: #800000; font-size: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+          .title-block p { margin: 3px 0 0; color: #64748b; font-size: 12px; }
+          .meta { text-align: right; font-size: 12px; color: #475569; }
+          table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+          th { background-color: #0d1b4b; color: #ffffff; padding: 7px 9px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+          td { padding: 6px 9px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+          tr:nth-child(even) { background-color: #f8fafc; }
+          .footer { margin-top: 25px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="title-block">
+            <h1>PUNJAB GROUP OF COLLEGES</h1>
+            <p>Parent Portal Credentials & Student Directory</p>
+          </div>
+          <div class="meta">
+            <div><strong>Date:</strong> ${dateStr}</div>
+            <div><strong>Total Students:</strong> ${filtered.length}</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:25px; text-align:center;">#</th>
+              <th>ID (Roll No.)</th>
+              <th>Board Roll No.</th>
+              <th>Student Name</th>
+              <th>Father's Name</th>
+              <th>Class & Section</th>
+              <th>Parent Password</th>
+              <th style="text-align:center;">9th Class Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+
+        <div class="footer">
+          Confidential Document · Generated by PGC SGCMS Admin Portal · Official Parent Credentials List
+        </div>
+
+        <script>
+          window.onload = function() {
+            setTimeout(function() {
+              window.print();
+            }, 300);
+          };
+        </script>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  }
+
+  function handleExportCSV() {
+    if (!filtered.length) return alert('No credentials available to export.');
+
+    const headers = ['Sr No', 'ID (Roll No)', 'Board Roll No', 'Student Name', 'Father Name', 'Gender', 'Class', 'Section', 'Category', 'Parent Password', '9th Class Result'];
+    const csvRows = [headers.join(',')];
+
+    filtered.forEach((s, idx) => {
+      const row = [
+        idx + 1,
+        `"${s.rollNumber || s.parentUsername || ''}"`,
+        `"${s.boardRollNumber || ''}"`,
+        `"${s.studentName || ''}"`,
+        `"${s.fatherName || ''}"`,
+        `"${s.gender || ''}"`,
+        `"${s.class || ''}"`,
+        `"${s.section || ''}"`,
+        `"${s.category || ''}"`,
+        `"${s.parentPassword || ''}"`,
+        `"${s.result9th || ''}"`
+      ];
+      csvRows.push(row.join(','));
+    });
+
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `PGC_Parent_Credentials_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
   return (
     <div className="animate-fade">
-      <div className="card" style={{ padding: 0, overflow:'hidden' }}>
-        <div style={{ padding:'1rem 1.5rem', borderBottom:'1px solid var(--gray-100)' }}>
-          <h3 style={{ margin:0 }}>Parent Credentials</h3>
-          <p style={{ margin:'.25rem 0 0', fontSize:'.85rem', color:'var(--gray-400)' }}>
-            Each parent logs in using their child's roll number as username.
+      <div className="card" style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <h3 style={{ margin: 0 }}>🔑 Parent Credentials Management (`std-pgc-pswd.json`)</h3>
+          <p style={{ margin: '.25rem 0 0', fontSize: '.85rem', color: 'var(--gray-500)' }}>
+            Parent usernames match their child's Roll Number. Passwords are saved in <code>std-pgc-pswd.json</code> in the workspace root.
           </p>
         </div>
+
+        <div style={{ display: 'flex', gap: '.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <input
+            type="text"
+            className="input"
+            placeholder="Search student or roll number..."
+            style={{ width: 220 }}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <button className="btn btn-primary btn-sm" onClick={() => setShowQR(true)} title="Generate portal access QR code for parents">
+            📱 Share Portal QR Code
+          </button>
+          <button className="btn btn-outline btn-sm" onClick={handleExportPDF} title="Export printable PDF report for parents">
+            📄 Download PDF
+          </button>
+          <button className="btn btn-outline btn-sm" onClick={handleExportCSV} title="Export CSV spreadsheet">
+            📊 Export CSV
+          </button>
+          <button className="btn btn-outline btn-sm" onClick={fetchCredentials} title="Refresh credentials">
+            🔄
+          </button>
+        </div>
+      </div>
+
+      <QRCodeModal isOpen={showQR} onClose={() => setShowQR(false)} />
+
+
+
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div className="table-wrap">
           <table>
-            <thead><tr><th>Student</th><th>Roll No. (Username)</th><th>Class</th><th>Status</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Father Name</th>
+                <th>Class</th>
+                <th>Parent Username</th>
+                <th>Parent Password</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
             <tbody>
-              {students.length === 0
-                ? <tr><td colSpan={4} style={{ textAlign:'center', padding:'2rem', color:'var(--gray-400)' }}>No students enrolled</td></tr>
-                : students.map(s => (
-                  <tr key={s._id}>
-                    <td style={{ fontWeight:600 }}>{s.studentName}</td>
-                    <td><span className="badge badge-navy">{s.rollNumber}</span></td>
-                    <td>{s.class} {s.section}</td>
-                    <td><span className="badge badge-green">Active</span></td>
-                  </tr>
-                ))
-              }
+              {loading ? (
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>Loading parent credentials…</td></tr>
+              ) : filtered.length === 0 ? (
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No matching parent records found in std-pgc-pswd.json</td></tr>
+              ) : (
+                filtered.map(s => {
+                  const isVisible = visiblePasswords[s.rollNumber];
+                  const isCopied = copiedRoll === s.rollNumber;
+
+                  return (
+                    <tr key={s.rollNumber}>
+                      <td style={{ fontWeight: 700 }}>{s.studentName}</td>
+                      <td>{s.fatherName || '—'}</td>
+                      <td>
+                        <div style={{ fontWeight: 600 }}>{s.class}</div>
+                        <div style={{ fontSize: '.78rem', color: 'var(--gray-500)', marginTop: '.1rem' }}>
+                          {s.section || s.category}
+                        </div>
+                      </td>
+
+                      <td>
+                        <code style={{ background: 'var(--gray-100)', padding: '.2rem .5rem', borderRadius: 4, fontWeight: 700, color: 'var(--pgc-navy)' }}>
+                          {s.parentUsername}
+                        </code>
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+                          <code style={{ background: isVisible ? '#fef3c7' : 'var(--gray-100)', padding: '.2rem .5rem', borderRadius: 4, fontWeight: 700, minWidth: 90, textAlign: 'center' }}>
+                            {isVisible ? s.parentPassword : '••••••••'}
+                          </code>
+                          <button
+                            type="button"
+                            className="btn btn-outline btn-sm"
+                            style={{ padding: '.2rem .5rem', fontSize: '.75rem' }}
+                            onClick={() => toggleShowPassword(s.rollNumber)}
+                            title={isVisible ? 'Hide Password' : 'Show Password'}
+                          >
+                            {isVisible ? '🙈 Hide' : '👁️ Show'}
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm"
+                          onClick={() => copyCredentials(s)}
+                        >
+                          {isCopied ? '✅ Copied!' : '📋 Copy Login Info'}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

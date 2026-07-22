@@ -41,18 +41,33 @@ export default function ParentDashboard() {
           justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem',
           borderLeft: '4px solid var(--pgc-red)' }}>
           <div>
-            <h2 style={{ margin: 0 }}>{profile.studentName}</h2>
-            <p style={{ margin: '.2rem 0 0', fontSize: '.875rem' }}>
+            <h2 style={{ margin: 0 }}>
+              {profile.studentName}
+              <span className={`badge ${profile.gender === 'Female' ? 'badge-red' : 'badge-green'}`} style={{ marginLeft: '.75rem', fontSize: '.8rem' }}>
+                {profile.gender === 'Female' ? 'Female' : 'Male'}
+              </span>
+
+            </h2>
+            <p style={{ margin: '.3rem 0 0', fontSize: '.875rem', color: 'var(--gray-600)' }}>
               Father: <strong>{profile.fatherName}</strong> &nbsp;·&nbsp;
-              Class: <strong>{profile.class} {profile.section}</strong> &nbsp;·&nbsp;
-              Roll No.: <strong>{profile.rollNumber}</strong>
+              Class: <strong>{profile.class} {profile.section || ''}</strong> &nbsp;·&nbsp;
+              Roll No.: <strong style={{ color: 'var(--pgc-navy)' }}>{profile.rollNumber}</strong> &nbsp;·&nbsp;
+              Board Roll No.: <strong>{profile.boardRollNumber || '—'}</strong>
             </p>
           </div>
-          <span className="badge badge-navy" style={{ fontSize: '.9rem', padding: '.35rem 1rem' }}>
-            {growthLabel(growth?.growthIndex ?? 0)}
-          </span>
+          <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+            {profile.result9th && (
+              <span className="badge badge-amber" style={{ fontSize: '.88rem', padding: '.35rem .8rem', fontWeight: 700 }}>
+                9th Class Result: {profile.result9th}
+              </span>
+            )}
+            <span className="badge badge-navy" style={{ fontSize: '.88rem', padding: '.35rem .8rem' }}>
+              {growthLabel(growth?.growthIndex ?? 0)}
+            </span>
+          </div>
         </div>
       )}
+
 
       {loading ? (
         <p style={{ textAlign: 'center', color: 'var(--gray-400)', padding: '3rem' }}>Loading dashboard…</p>

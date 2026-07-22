@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 const classSchema = new mongoose.Schema({
   className: { type: String, required: true, trim: true },
-  category:  { type: String, enum: ['Medical', 'Pre-Engineering', 'ICS', 'Others'], required: true },
+  category:  { type: String, enum: ['Medical', 'Pre-Eng', 'ICS', 'Others'], required: true },
+
   section:   { type: String, required: true, trim: true },
 }, { timestamps: true });
 

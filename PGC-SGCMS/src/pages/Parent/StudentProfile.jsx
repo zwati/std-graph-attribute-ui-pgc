@@ -33,17 +33,25 @@ export default function StudentProfile() {
             <span style={{ fontSize: '2rem', color: '#fff' }}>🎓</span>
           </div>
           <div style={{ flex: 1 }}>
-            <h2 style={{ margin: '0 0 .25rem' }}>{profile.studentName}</h2>
+            <h2 style={{ margin: '0 0 .25rem' }}>
+              {profile.studentName}
+              <span className={`badge ${profile.gender === 'Female' ? 'badge-red' : 'badge-green'}`} style={{ marginLeft: '.6rem', fontSize: '.8rem' }}>
+                {profile.gender === 'Female' ? 'Female' : 'Male'}
+              </span>
+
+            </h2>
             <p style={{ margin: 0, fontSize: '.9rem' }}>
               <span style={{ color: 'var(--gray-400)' }}>Father: </span>
               <strong>{profile.fatherName}</strong>
             </p>
-            <div style={{ display: 'flex', gap: '.75rem', marginTop: '.6rem', flexWrap: 'wrap' }}>
-              <span className="badge badge-navy">Roll: {profile.rollNumber}</span>
-              <span className="badge badge-gray">ID: {profile.customId}</span>
-              <span className="badge badge-gray">{profile.class} — {profile.section}</span>
+            <div style={{ display: 'flex', gap: '.6rem', marginTop: '.6rem', flexWrap: 'wrap' }}>
+              <span className="badge badge-navy">Roll No. (Login): {profile.rollNumber}</span>
+              <span className="badge badge-gray">Board Roll: {profile.boardRollNumber || '—'}</span>
+              <span className="badge badge-amber" style={{ fontWeight: 700 }}>9th Class Result: {profile.result9th || '—'}</span>
+              <span className="badge badge-gray">{profile.class} {profile.section || ''} ({profile.category})</span>
             </div>
           </div>
+
         </div>
       </div>
 

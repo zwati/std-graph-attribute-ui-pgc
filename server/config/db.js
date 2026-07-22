@@ -1,9 +1,9 @@
 // server/config/db.js
 const mongoose = require('mongoose');
-const bcrypt   = require('bcryptjs');
-const User     = require('../models/User');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User');
 
-const Teacher  = require('../models/Teacher');
+const Teacher = require('../models/Teacher');
 
 const seedDefaultUsers = async () => {
   try {
@@ -60,10 +60,9 @@ const seedDefaultUsers = async () => {
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGO_URI, { maxPoolSize: 100 });
+    console.log(`✅ MongoDB connected: ${conn.connection.host} (Pool Size: 100)`);
     await seedDefaultUsers();
-
   } catch (err) {
     console.error('❌ MongoDB connection failed:', err.message);
     process.exit(1);

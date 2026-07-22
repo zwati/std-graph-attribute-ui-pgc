@@ -2,7 +2,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-const CATEGORIES = ['Medical', 'Pre-Engineering', 'ICS', 'Others'];
+const CATEGORIES = ['Medical', 'Pre-Eng', 'ICS', 'Others'];
+
 
 export default function ClassManagement() {
   const { authAxios } = useAuth();
@@ -21,11 +22,18 @@ export default function ClassManagement() {
 
   // Student Form State (using same template as before)
   const [studentForm, setStudentForm] = useState({
-    customId: '', rollNumber: '', studentName: '', fatherName: '',
+    customId: '', rollNumber: '', boardRollNumber: '', studentName: '', fatherName: '', gender: 'Male', result9th: '', parentPassword: '',
   });
+
   const [studentLoading, setStudentLoading] = useState(false);
   const [studentResult, setStudentResult] = useState(null);
   const [studentError, setStudentError] = useState('');
+  const [visiblePasswords, setVisiblePasswords] = useState({});
+
+  function toggleShowPassword(id) {
+    setVisiblePasswords(prev => ({ ...prev, [id]: !prev[id] }));
+  }
+
 
   // Class Roster State
   const [rosterStudents, setRosterStudents] = useState([]);
@@ -41,7 +49,7 @@ export default function ClassManagement() {
         setSelectedClassId(data.data[0]._id);
         setSelectedClassObj(data.data[0]);
       }
-    } catch {} finally { setLoading(false); }
+    } catch { } finally { setLoading(false); }
   }, [selectedClassId]);
 
   useEffect(() => { fetchClasses(); }, [fetchClasses]);
@@ -63,7 +71,7 @@ export default function ClassManagement() {
         `/admin/students?class=${encodeURIComponent(selectedClassObj.className)}&section=${encodeURIComponent(selectedClassObj.section)}&category=${encodeURIComponent(selectedClassObj.category)}&limit=500`
       );
       setRosterStudents(data.data.students);
-    } catch {} finally { setRosterLoading(false); }
+    } catch { } finally { setRosterLoading(false); }
   }, [selectedClassObj]);
 
   useEffect(() => {
@@ -118,13 +126,15 @@ export default function ClassManagement() {
     try {
       const payload = {
         ...studentForm,
+        customId: studentForm.rollNumber,
         class: selectedClassObj.className,
         section: selectedClassObj.section,
         category: selectedClassObj.category,
       };
       const { data } = await authAxios.post('/admin/students', payload);
       setStudentResult(data.data);
-      setStudentForm({ customId: '', rollNumber: '', studentName: '', fatherName: '' });
+      setStudentForm({ rollNumber: '', boardRollNumber: '', studentName: '', fatherName: '', gender: 'Male', result9th: '', parentPassword: '' });
+
       fetchClasses();
       if (activeTab === 'manageRoster') fetchRoster();
     } catch (err) {
@@ -175,7 +185,7 @@ export default function ClassManagement() {
           <div className="card">
             <h3 style={{ marginBottom: '1rem' }}>Create New Class</h3>
             <p style={{ fontSize: '.85rem', color: 'var(--gray-500)', marginBottom: '1.25rem' }}>
-              Select a category (Medical, Pre-Engineering, ICS, Others) and define the class name & section.
+              Select a category (Medical, Pre-Eng, ICS, Others) and define the class name & section.
             </p>
 
             <form onSubmit={handleCreateClass}>
@@ -192,80 +202,64 @@ export default function ClassManagement() {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="label">Class Name</label>
-                <input
-                  className="input"
-                  required
-                  placeholder="e.g. FA23, 1st Year, 2nd Year"
-                  value={newClass.className}
-                  onChange={e => setNewClass(c => ({ ...c, className: e.target.value }))}
-                />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="form-group">
+                  <label className="label">Class Name</label>
+                  <input
+                    className="input"
+                    required
+                    placeholder="e.g. 1st Year"
+                    value={newClass.className}
+                    onChange={e => setNewClass(c => ({ ...c, className: e.target.value }))}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="label">Section</label>
+                  <input
+                    className="input"
+                    required
+                    placeholder="e.g. A"
+                    value={newClass.section}
+                    onChange={e => setNewClass(c => ({ ...c, section: e.target.value }))}
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label className="label">Section</label>
-                <input
-                  className="input"
-                  required
-                  placeholder="e.g. A, B, C, Med-1"
-                  value={newClass.section}
-                  onChange={e => setNewClass(c => ({ ...c, section: e.target.value }))}
-                />
-              </div>
-
-              {classError && <div className="error-msg" style={{ marginBottom: '.75rem' }}>⚠ {classError}</div>}
+              {classError && <div className="error-msg" style={{ marginBottom: '1rem' }}>⚠ {classError}</div>}
 
               <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={classLoading}>
-                {classLoading ? 'Creating Class…' : '✅ Create Class & Start Adding Students'}
+                {classLoading ? 'Creating…' : '➕ Create Class Section'}
               </button>
             </form>
           </div>
 
-          {/* Existing Classes List grouped by Category */}
+          {/* Existing Classes List Grouped by Category */}
           <div className="card">
-            <h3 style={{ marginBottom: '1rem' }}>All Created Classes</h3>
-            {loading ? (
-              <p style={{ color: 'var(--gray-400)' }}>Loading classes…</p>
-            ) : classes.length === 0 ? (
-              <p style={{ color: 'var(--gray-400)' }}>No classes created yet. Use the form on the left to create your first class!</p>
+            <h3 style={{ marginBottom: '1rem' }}>Existing Class Sections</h3>
+            {loading ? <p>Loading classes…</p> : classes.length === 0 ? (
+              <p style={{ color: 'var(--gray-400)' }}>No class sections created yet.</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {CATEGORIES.map(cat => {
                   const catClasses = classes.filter(c => c.category === cat);
                   if (catClasses.length === 0) return null;
-
                   return (
-                    <div key={cat} style={{ background: 'var(--gray-50)', borderRadius: 8, padding: '.85rem 1rem', border: '1px solid var(--gray-200)' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--pgc-navy)', fontSize: '.9rem', marginBottom: '.5rem', display: 'flex', justifyContent: 'space-between' }}>
-                        <span>📂 Category: {cat}</span>
-                        <span className="badge badge-navy">{catClasses.length} section(s)</span>
+                    <div key={cat} style={{ background: 'var(--gray-50)', padding: '1rem', borderRadius: 8 }}>
+                      <div style={{ fontWeight: 700, color: 'var(--pgc-navy)', fontSize: '.85rem', textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: '.5rem' }}>
+                        {cat}
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem' }}>
                         {catClasses.map(c => (
                           <div
                             key={c._id}
                             style={{
-                              background: '#fff',
-                              border: selectedClassId === c._id ? '2px solid var(--pgc-red)' : '1px solid var(--gray-300)',
-                              borderRadius: 6,
-                              padding: '.4rem .75rem',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '.5rem',
+                              background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 6,
+                              padding: '.4rem .75rem', display: 'flex', alignItems: 'center', gap: '.6rem', fontSize: '.85rem'
                             }}
                           >
-                            <span style={{ fontWeight: 600, fontSize: '.85rem' }}>{c.className} ({c.section})</span>
-                            <span className="badge badge-gray" style={{ fontSize: '.7rem' }}>{c.studentCount || 0} students</span>
+                            <span><strong>{c.className}</strong> — Sec {c.section} ({c.studentCount || 0})</span>
                             <button
-                              onClick={() => { setSelectedClassId(c._id); setActiveTab('addStudent'); }}
-                              className="btn btn-outline btn-sm"
-                              style={{ padding: '.15rem .4rem', fontSize: '.7rem' }}
-                              title="Add students to this class"
-                            >
-                              ➕ Add
-                            </button>
-                            <button
+                              type="button"
                               onClick={() => handleDeleteClass(c._id)}
                               style={{ background: 'none', border: 'none', color: 'var(--red-600)', cursor: 'pointer', fontSize: '.8rem' }}
                               title="Delete class"
@@ -318,21 +312,23 @@ export default function ClassManagement() {
               )}
             </div>
 
-            {/* Student Entry Form (Identical template as requested) */}
+            {/* Student Entry Form */}
             <form onSubmit={handleAddStudent}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
-                  { name: 'customId',    label: 'Custom ID',     placeholder: 'e.g. PGC-2026-001' },
-                  { name: 'rollNumber',  label: 'Roll Number',   placeholder: 'e.g. CS-2024-001' },
-                  { name: 'studentName', label: 'Student Name',  placeholder: 'Full name', col: 2 },
-                  { name: 'fatherName',  label: 'Father\'s Name', placeholder: 'Full name', col: 2 },
+                  { name: 'rollNumber', label: 'ID', placeholder: 'e.g. 2302', required: true, col: 2 },
+
+                  { name: 'boardRollNumber', label: 'Board Roll Number', placeholder: 'e.g. 300598', required: false, col: 2 },
+                  { name: 'studentName', label: 'Student Name', placeholder: 'Full name', col: 2, required: true },
+                  { name: 'fatherName', label: 'Father\'s Name', placeholder: 'Full name', col: 2, required: true },
+                  { name: 'parentPassword', label: 'Parent Portal Password', placeholder: 'Optional (Leave blank to auto-generate)', col: 2, required: false },
                 ].map(f => (
                   <div key={f.name} className="form-group" style={{ gridColumn: f.col ? `span ${f.col}` : undefined, margin: 0 }}>
                     <label className="label">{f.label}</label>
                     <input
                       className="input"
                       name={f.name}
-                      required
+                      required={f.required}
                       value={studentForm[f.name]}
                       onChange={e => setStudentForm(sf => ({ ...sf, [e.target.name]: e.target.value }))}
                       placeholder={f.placeholder}
@@ -349,7 +345,7 @@ export default function ClassManagement() {
                 style={{ marginTop: '1.25rem', width: '100%', justifyContent: 'center' }}
                 disabled={studentLoading || !selectedClassObj}
               >
-                {studentLoading ? 'Saving Student…' : '➕ Save Student & Generate Credentials'}
+                {studentLoading ? 'Saving Student…' : '➕ Save Student & Save Credentials to std-pgc-pswd.json'}
               </button>
             </form>
           </div>
@@ -357,17 +353,20 @@ export default function ClassManagement() {
           {/* Generated Credentials Result */}
           {studentResult && (
             <div className="card animate-fade" style={{ marginTop: '1.25rem', border: '2px solid var(--green-600)' }}>
-              <h4 style={{ color: 'var(--green-600)', marginBottom: '.75rem' }}>✅ Student Added Successfully</h4>
-              <p style={{ marginBottom: '.5rem', fontSize: '.88rem' }}>Parent Credentials for <strong>{studentResult.student.studentName}</strong>:</p>
+              <h4 style={{ color: 'var(--green-600)', marginBottom: '.5rem' }}>✅ Student Added & Saved to std-pgc-pswd.json</h4>
+              <p style={{ marginBottom: '.75rem', fontSize: '.85rem', color: 'var(--gray-600)' }}>
+                Parent Login Credentials for <strong>{studentResult.student.studentName}</strong> have been created and saved to <code>std-pgc-pswd.json</code>:
+              </p>
               <div style={{ background: 'var(--gray-50)', borderRadius: 8, padding: '1rem', fontFamily: 'monospace', fontSize: '.95rem' }}>
                 <div><strong>Username (Roll No.):</strong> {studentResult.parentUsername}</div>
                 <div style={{ marginTop: '.4rem' }}>
                   <strong>Password:</strong>
-                  <span style={{ background: 'var(--pgc-red)', color: '#fff', padding: '.15rem .6rem', borderRadius: 6, marginLeft: '.5rem', letterSpacing: '.05em' }}>
+                  <span style={{ background: 'var(--pgc-navy)', color: '#fff', padding: '.15rem .6rem', borderRadius: 6, marginLeft: '.5rem', letterSpacing: '.05em', fontWeight: 700 }}>
                     {studentResult.parentPassword}
                   </span>
                 </div>
               </div>
+
               <div style={{ marginTop: '1rem', display: 'flex', gap: '.5rem' }}>
                 <button className="btn btn-primary btn-sm" onClick={() => { setActiveTab('manageRoster'); fetchRoster(); }}>
                   View Class Roster →
@@ -420,39 +419,55 @@ export default function ClassManagement() {
                 <thead>
                   <tr>
                     <th>Roll No.</th>
-                    <th>Custom ID</th>
                     <th>Student Name</th>
                     <th>Father's Name</th>
-                    <th>Category</th>
+                    <th>Parent Password</th>
                     <th>Growth Index</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rosterLoading ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>Loading roster…</td></tr>
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>Loading roster…</td></tr>
                   ) : rosterStudents.length === 0 ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No students enrolled in this class yet. Click "Add More Students" to enroll.</td></tr>
-                  ) : rosterStudents.map(s => (
-                    <tr key={s._id}>
-                      <td><span className="badge badge-navy">{s.rollNumber}</span></td>
-                      <td><span className="badge badge-gray">{s.customId}</span></td>
-                      <td style={{ fontWeight: 600 }}>{s.studentName}</td>
-                      <td>{s.fatherName}</td>
-                      <td><span className="badge badge-gray">{s.category || 'Others'}</span></td>
-                      <td>
-                        <span style={{ fontWeight: 700, color: s.growthIndex >= 81 ? 'var(--pgc-navy)' : s.growthIndex >= 61 ? 'var(--green-600)' : s.growthIndex > 0 ? 'var(--amber-500)' : 'var(--gray-400)' }}>
-                          {s.growthIndex > 0 ? s.growthIndex.toFixed(1) : 'Not rated'}
-                        </span>
-                      </td>
-                      <td>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleRemoveStudent(s._id)}>
-                          🗑 Remove Student
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No students enrolled in this class yet. Click "Add More Students" to enroll.</td></tr>
+                  ) : rosterStudents.map(s => {
+                    const isVisible = visiblePasswords[s._id];
+                    return (
+                      <tr key={s._id}>
+                        <td><span className="badge badge-navy">{s.rollNumber}</span></td>
+                        <td style={{ fontWeight: 600 }}>{s.studentName}</td>
+                        <td>{s.fatherName}</td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+                            <code style={{ background: 'var(--gray-100)', padding: '.15rem .5rem', borderRadius: 4, fontWeight: 700 }}>
+                              {isVisible ? (s.parentPassword || 'N/A') : '••••••••'}
+                            </code>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm"
+                              style={{ padding: '.15rem .4rem', fontSize: '.72rem' }}
+                              onClick={() => toggleShowPassword(s._id)}
+                            >
+                              {isVisible ? '🙈' : '👁️'}
+                            </button>
+                          </div>
+                        </td>
+                        <td>
+                          <span style={{ fontWeight: 700, color: s.growthIndex >= 81 ? 'var(--pgc-navy)' : s.growthIndex >= 61 ? 'var(--green-600)' : s.growthIndex > 0 ? 'var(--amber-500)' : 'var(--gray-400)' }}>
+                            {s.growthIndex > 0 ? s.growthIndex.toFixed(1) : 'Not rated'}
+                          </span>
+                        </td>
+                        <td>
+                          <button className="btn btn-danger btn-sm" onClick={() => handleRemoveStudent(s._id)}>
+                            🗑 Remove Student
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
+
               </table>
             </div>
           </div>

@@ -18,7 +18,7 @@ export default function Analytics() {
   const attrBarData = data
     ? Object.entries(attrLabels).map(([k, label]) => ({
         month: label.slice(0, 5),
-        score: parseFloat(((data.attributeAverages?.[k] ?? 0) / 5 * 100).toFixed(1)),
+        score: parseFloat((data.attributeAverages?.[k] ?? 0).toFixed(1)),
       }))
     : [];
 
@@ -28,10 +28,11 @@ export default function Analytics() {
         <ChartCard title="School Average Growth Index" subtitle="All students combined">
           <GrowthGauge score={data?.schoolAvgGrowth ?? 0} size={240} />
         </ChartCard>
-        <ChartCard title="Attribute Averages (School-wide)" subtitle="Scaled 0–100">
+        <ChartCard title="Attribute Averages (School-wide)" subtitle="Avg 1–5 rating scale">
           <MonthlyBarChart data={attrBarData} />
         </ChartCard>
       </div>
+
       <ChartCard title="Top Performers">
         <div className="table-wrap">
           <table>

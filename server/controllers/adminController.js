@@ -58,14 +58,16 @@ async function deleteClass(req, res) {
 // GET /api/admin/students?page=1&limit=20&class=FA23&section=A&category=Medical&search=ali
 async function getStudents(req, res) {
   try {
-    const { page = 1, limit = 50, class: cls, section, category, search } = req.query;
+    const { page = 1, limit = 50, class: cls, section, category, gender, search } = req.query;
     const filter = {};
     if (cls)      filter.class    = cls;
     if (section)  filter.section  = section;
     if (category) filter.category = category;
+    if (gender)   filter.gender   = gender;
     if (search)   filter.$or = [
-      { studentName: { $regex: search, $options: 'i' } },
-      { rollNumber:  { $regex: search, $options: 'i' } },
+      { studentName:     { $regex: search, $options: 'i' } },
+      { rollNumber:      { $regex: search, $options: 'i' } },
+      { boardRollNumber: { $regex: search, $options: 'i' } },
     ];
 
     const [students, total] = await Promise.all([
@@ -81,24 +83,42 @@ async function getStudents(req, res) {
   } catch (err) { return serverError(res, err); }
 }
 
-// POST /api/admin/students — add student + auto-create parent User credentials
+const { syncPasswordFile } = require('../utils/studentPasswordFile');
+
+// GET /api/admin/passwords — fetch std-pgc-pswd credentials list
+async function getParentPasswords(req, res) {
+  try {
+    const list = await syncPasswordFile();
+    return ok(res, list);
+  } catch (err) { return serverError(res, err); }
+}
+
+// POST /api/admin/students — add student + auto-create parent User credentials + save to std-pgc-pswd.json
 async function addStudent(req, res) {
   try {
-    const { customId, rollNumber, studentName, fatherName, class: cls, section, category, teacherId } = req.body;
+    const { customId, rollNumber, boardRollNumber, studentName, fatherName, class: cls, section, category, gender, teacherId, parentPassword, result9th } = req.body;
+    const finalCustomId = customId || rollNumber;
 
-    if (!customId || !rollNumber || !studentName || !fatherName) {
-      return fail(res, 'customId, rollNumber, studentName and fatherName are required');
+    if (!rollNumber || !studentName || !fatherName || !cls || !section) {
+      return fail(res, 'rollNumber, studentName, fatherName, class and section are required');
     }
 
-    // Auto-generate parent password
-    const rawPassword  = crypto.randomBytes(4).toString('hex').toUpperCase();   // e.g. "A3F9B2C1"
+    // Auto-generate parent password if not provided
+    const rawPassword  = parentPassword && parentPassword.trim() !== ''
+      ? parentPassword.trim()
+      : crypto.randomBytes(4).toString('hex').toUpperCase();
+
     const passwordHash = await bcrypt.hash(rawPassword, 12);
 
-    // Create student first
+    // Create student first with parentPassword stored
     const student = await Student.create({
-      customId, rollNumber, studentName, fatherName,
+      customId: finalCustomId, rollNumber, boardRollNumber, studentName, fatherName,
+      gender: gender || 'Male', result9th,
       class: cls, section, category: category || 'Others', teacherId,
+      parentPassword: rawPassword,
     });
+
+
 
     // Create parent User linked to this student
     await User.create({
@@ -108,6 +128,9 @@ async function addStudent(req, res) {
       linkedId:     student._id,
     });
 
+    // Sync std-pgc-pswd.json file in root
+    await syncPasswordFile();
+
     return ok(res, { student, parentUsername: rollNumber.toLowerCase(), parentPassword: rawPassword }, 201);
   } catch (err) {
     if (err.code === 11000) return fail(res, 'Roll number or customId already exists', 409);
@@ -115,12 +138,21 @@ async function addStudent(req, res) {
   }
 }
 
-
 // PATCH /api/admin/students/:id
 async function updateStudent(req, res) {
   try {
     const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!student) return fail(res, 'Student not found', 404);
+
+    // If parentPassword was updated, update hashed password in User model
+    if (req.body.parentPassword) {
+      const passwordHash = await bcrypt.hash(req.body.parentPassword, 12);
+      await User.updateOne({ linkedId: student._id }, { $set: { passwordHash } });
+    }
+
+    // Sync std-pgc-pswd.json file in root
+    await syncPasswordFile();
+
     return ok(res, student);
   } catch (err) { return serverError(res, err); }
 }
@@ -132,9 +164,14 @@ async function deleteStudent(req, res) {
     if (!student) return fail(res, 'Student not found', 404);
     // Also remove linked parent User
     await User.deleteOne({ linkedId: student._id });
+
+    // Sync std-pgc-pswd.json file in root
+    await syncPasswordFile();
+
     return ok(res, { message: 'Student deleted' });
   } catch (err) { return serverError(res, err); }
 }
+
 
 // ── Teachers ───────────────────────────────────────────────────────────────
 
@@ -169,11 +206,13 @@ async function getAnalytics(req, res) {
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
-    const [overview, topStudents, weakestAttr, evaluationsToday, activeTeachers] = await Promise.all([
+    const [overview, topStudents, weakestAttr, evaluationsToday, activeTeachers, totalStudents] = await Promise.all([
       Student.aggregate([
-        { $group: { _id: null, avgGrowth: { $avg: '$growthIndex' }, total: { $sum: 1 } } },
+        { $match: { evaluationCount: { $gt: 0 } } },
+        { $group: { _id: null, avgGrowth: { $avg: '$growthIndex' } } },
       ]),
-      Student.find().sort({ growthIndex: -1 }).limit(10).select('studentName rollNumber growthIndex class section').lean(),
+      Student.find({ evaluationCount: { $gt: 0 } }).sort({ growthIndex: -1 }).limit(10).select('studentName rollNumber growthIndex class section').lean(),
+
       // Average per attribute across all evaluations
       require('../models/Evaluation').aggregate([
         { $group: {
@@ -190,23 +229,26 @@ async function getAnalytics(req, res) {
         createdAt: { $gte: startOfToday, $lte: endOfToday }
       }),
       Teacher.countDocuments(),
+      Student.countDocuments(),
     ]);
 
     return ok(res, {
       schoolAvgGrowth: overview[0]?.avgGrowth ?? 0,
-      totalStudents:   overview[0]?.total ?? 0,
+      totalStudents,
       evaluationsToday,
       activeTeachers,
       topStudents,
       attributeAverages: weakestAttr[0] ?? {},
     });
+
   } catch (err) { return serverError(res, err); }
 }
 
 
 module.exports = {
   getClasses, addClass, deleteClass,
-  getStudents, addStudent, updateStudent, deleteStudent,
+  getStudents, addStudent, updateStudent, deleteStudent, getParentPasswords,
   getTeachers, addTeacher, getAnalytics,
 };
+
 

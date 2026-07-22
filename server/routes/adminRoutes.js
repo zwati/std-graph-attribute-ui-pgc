@@ -5,7 +5,7 @@ const auth     = require('../middleware/auth');
 const { allow } = require('../middleware/roleAuth');
 const {
   getClasses, addClass, deleteClass,
-  getStudents, addStudent, updateStudent, deleteStudent,
+  getStudents, addStudent, updateStudent, deleteStudent, getParentPasswords,
   getTeachers, addTeacher, getAnalytics,
 } = require('../controllers/adminController');
 
@@ -19,6 +19,9 @@ router.get('/students',       getStudents);
 router.post('/students',      addStudent);
 router.patch('/students/:id',  updateStudent);
 router.delete('/students/:id', deleteStudent);
+
+router.get('/passwords',     getParentPasswords);
+
 
 router.get('/teachers',  getTeachers);
 router.post('/teachers', addTeacher);

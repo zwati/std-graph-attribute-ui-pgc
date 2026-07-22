@@ -21,17 +21,26 @@ start "PGC-Backend" cmd /k "title PGC-Backend && cd /d "%~dp0server" && npm run 
 timeout /t 2 /nobreak >nul
 
 :: 3. Launch Frontend App in a new window (Host mode for LAN/Mobile access)
-echo [3/3] Starting Frontend Web App on Port 5173 (Host Mode)...
+echo [3/4] Starting Frontend Web App on Port 5173 (Host Mode)...
 start "PGC-Frontend" cmd /k "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npx vite --host"
+
+:: Wait 2 seconds for Frontend to initialize
+timeout /t 2 /nobreak >nul
+
+:: 4. Launch Cloudflare Global Tunnel (Online Access for 4G/5G Mobile Devices)
+echo [4/4] Starting Cloudflare Global Tunnel...
+start "PGC-Cloudflare" cmd /k "title PGC-Cloudflare && npx cloudflared tunnel --url http://localhost:5173"
 
 echo.
 echo ======================================================================
-echo   SUCCESS: All 3 PGC SGCMS services are running!
+echo   SUCCESS: All 4 PGC SGCMS services are running!
 echo   - MongoDB DB: http://127.0.0.1:27017
-echo   - Backend:    http://localhost:5000 (LAN: http://192.168.137.121:5000)
-echo   - Frontend:   http://localhost:5173 (LAN: http://192.168.137.121:5173)
+echo   - Backend:    http://localhost:5000 (LAN: http://192.168.100.42:5000)
+echo   - Frontend:   http://localhost:5173 (LAN: http://192.168.100.42:5173)
+echo   - Cloudflare: Global Tunnel running in PGC-Cloudflare window
 echo ======================================================================
 echo.
+
 
 :EXIT_PROMPT
 echo ----------------------------------------------------------------------
@@ -52,11 +61,13 @@ echo ======================================================================
 echo   SWIFT EXIT INITIATED: Terminating MongoDB, Backend & Frontend...
 echo ======================================================================
 
-:: Gracefully terminate NodeJS (Backend/Frontend) and MongoDB processes
-echo Closing node.exe processes (Backend & Vite Frontend)...
+:: Gracefully terminate NodeJS (Backend/Frontend), Cloudflare Tunnel, and MongoDB processes
+echo Closing NodeJS, Vite, and Cloudflare Tunnel processes...
 taskkill /F /FI "WINDOWTITLE eq PGC-Backend*" /T >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq PGC-Frontend*" /T >nul 2>&1
+taskkill /F /FI "WINDOWTITLE eq PGC-Cloudflare*" /T >nul 2>&1
 taskkill /F /IM node.exe >nul 2>&1
+
 
 echo Closing mongod.exe process (MongoDB Database)...
 taskkill /F /FI "WINDOWTITLE eq PGC-MongoDB*" /T >nul 2>&1
