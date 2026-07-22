@@ -1,8 +1,8 @@
 @echo off
-title PGC SGCMS Launcher & Server Manager
+title PGC SGCMS Launcher and Server Manager
 color 0A
 echo ======================================================================
-echo             PGC SGCMS SYSTEM LAUNCHER & SERVER MANAGER
+echo             PGC SGCMS SYSTEM LAUNCHER AND SERVER MANAGER
 echo ======================================================================
 echo.
 
@@ -27,12 +27,12 @@ start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" &
 :: Wait 2 seconds for Frontend to initialize
 timeout /t 2 /nobreak >nul
 
-:: 4. Launch Cloudflare Global Tunnel & Auto-Sync Permanent Redirect Pointer
-echo [4/4] Starting Cloudflare Global Tunnel & Auto-Sync Pointer (Minimized)...
+:: 4. Launch Cloudflare Global Tunnel and Auto-Sync Permanent Redirect Pointer
+echo [4/4] Starting Cloudflare Global Tunnel and Auto-Sync Pointer (Minimized)...
 start /min "PGC-Cloudflare" cmd /c "title PGC-Cloudflare && node server/scripts/syncTunnel.js"
 
-:: Wait 3 seconds for services to connect
-timeout /t 3 /nobreak >nul
+:: Wait 4 seconds for services to connect
+timeout /t 4 /nobreak >nul
 
 echo.
 echo ======================================================================
@@ -47,7 +47,7 @@ start "" "https://pgcswl-sgcms.vercel.app"
 :EXIT_PROMPT
 echo ----------------------------------------------------------------------
 echo   SWIFT EXIT CONTROLLER:
-echo   To close ALL servers & taskbar windows cleanly when finished,
+echo   To close ALL servers and taskbar windows cleanly when finished,
 echo   simply press ENTER.
 echo ----------------------------------------------------------------------
 set /p userinput="Press ENTER to close all servers and exit: "
