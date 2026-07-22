@@ -39,7 +39,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     h1 { font-size: 1.25rem; font-weight: 800; margin-bottom: .4rem; }
     p { font-size: .85rem; color: rgba(255,255,255,0.7); }
-    .footer { font-size: .72rem; color: rgba(255,255,255,0.4); margin-top: 1.5rem; }
+    .status { font-size: .75rem; color: rgba(255,255,255,0.4); margin-top: 1.5rem; }
   </style>
 </head>
 <body>
@@ -47,22 +47,25 @@
     <h1>PUNJAB GROUP OF COLLEGES</h1>
     <p>Connecting to Campus Server Portal...</p>
     <div class="spinner"></div>
-    <div className="footer" id="status-text">Redirecting to live server...</div>
+    <div class="status" id="status-text">Redirecting to live server...</div>
   </div>
 
   <script>
-    // Live Cloudflare Tunnel URL Storage Pointer
-    const TARGET_CONFIG_URL = 'https://raw.githubusercontent.com/zwati/std-graph-attribute-ui-pgc/main/live_tunnel.json';
+    const SYNC_URL = 'https://ntfy.sh/pgc_sahiwal_tunnel_2026/json?poll=1';
 
     async function redirect() {
       try {
-        const res = await fetch(TARGET_CONFIG_URL + '?t=' + Date.now());
-        const data = await res.json();
-        if (data && data.url) {
-          window.location.replace(data.url);
-        } else {
-          fallbackRedirect();
+        const res = await fetch(SYNC_URL + '&t=' + Date.now());
+        const text = await res.text();
+        const lines = text.trim().split('\n').filter(Boolean);
+        if (lines.length > 0) {
+          const lastEvent = JSON.parse(lines[lines.length - 1]);
+          if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
+            window.location.replace(lastEvent.message);
+            return;
+          }
         }
+        fallbackRedirect();
       } catch (err) {
         fallbackRedirect();
       }
@@ -70,7 +73,7 @@
 
     function fallbackRedirect() {
       document.getElementById('status-text').innerText = 'Campus server initializing. Retrying...';
-      setTimeout(redirect, 3000);
+      setTimeout(redirect, 2000);
     }
 
     redirect();
