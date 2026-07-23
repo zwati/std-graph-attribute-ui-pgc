@@ -7,6 +7,7 @@ import GrowthBar from '../../components/ProgressBar/GrowthBar';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
 import { apiCache } from '../../utils/apiCache';
+import SearchableStudentSelector from '../../components/SearchableStudentSelector';
 
 const ATTRS = ['communication','participation','discipline','teamwork','responsibility','leadership'];
 const ATTR_LABELS = {
@@ -154,15 +155,12 @@ export default function StudentEvaluation() {
 
       {/* Student selector */}
       <div className="card" style={{ marginBottom: '1.25rem' }}>
-        <label className="label">Select Student from {selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Class'}</label>
-        <select className="input" value={selectedId} onChange={e => { setSelectedId(e.target.value); setEvalResult(null); }}>
-          <option value="">— choose a student —</option>
-          {students.map(s => (
-            <option key={s._id} value={s._id}>
-              {s.studentName} ({s.rollNumber}) {s.evaluationCount > 0 ? '🔄 (Has Previous Evaluations)' : ''}
-            </option>
-          ))}
-        </select>
+        <SearchableStudentSelector
+          students={students}
+          selectedId={selectedId}
+          onSelect={id => { setSelectedId(id); setEvalResult(null); }}
+          label={`Select Student from ${selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Class'}`}
+        />
         {student && (
           <div style={{ marginTop: '1rem', padding: '.75rem 1rem', background: 'var(--gray-50)', borderRadius: 8,
             display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '.5rem', alignItems: 'center' }}>

@@ -10,6 +10,7 @@ import { formatMonth } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
 import { apiCache } from '../../utils/apiCache';
+import SearchableStudentSelector from '../../components/SearchableStudentSelector';
 
 const ATTR_LABELS = {
   communication:'Communication',
@@ -100,14 +101,12 @@ export default function History() {
     <div className="animate-fade">
       <TeacherClassSelector onClassSelect={setSelectedClass} />
 
-      <div style={{ marginBottom: '1.25rem' }}>
-        <label className="label">Select Student from {selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Class'}</label>
-        <select className="input" style={{ maxWidth: 360 }} value={selectedId}
-          onChange={e => setSelectedId(e.target.value)}>
-          <option value="">— choose a student —</option>
-          {students.map(s => <option key={s._id} value={s._id}>{s.studentName} ({s.rollNumber})</option>)}
-        </select>
-      </div>
+      <SearchableStudentSelector
+        students={students}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+        label={`Select Student from ${selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Class'}`}
+      />
 
       {evaluations.length > 0 && (
         <div style={{ marginBottom: '1.25rem' }}>
