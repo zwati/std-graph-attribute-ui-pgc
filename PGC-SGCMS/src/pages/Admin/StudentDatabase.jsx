@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate } from '../../utils/formatDate';
 import QRCodeModal from '../../components/QRCodeModal';
+import ConfirmModal from '../../components/ConfirmModal';
 
 export default function StudentDatabase() {
   const { authAxios } = useAuth();
@@ -15,6 +16,16 @@ export default function StudentDatabase() {
   const [loading, setLoading] = useState(true);
   const [filterGender, setFilterGender] = useState('');
   const [showQR, setShowQR] = useState(false);
+
+  // Confirm Modal State
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: 'Delete',
+    onConfirm: null,
+    loading: false,
+  });
 
 
   const fetchStudents = useCallback(async () => {
@@ -32,10 +43,26 @@ export default function StudentDatabase() {
 
   useEffect(() => { fetchStudents(); }, [fetchStudents]);
 
-  async function handleDelete(id) {
-    if (!window.confirm('Delete this student and their parent credentials?')) return;
-    await authAxios.delete(`/admin/students/${id}`);
-    fetchStudents();
+  function requestDeleteStudent(student) {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Delete Student Record',
+      message: `Are you sure you want to delete ${student.studentName} (${student.rollNumber})? This will also remove associated parent login credentials.`,
+      confirmText: 'Yes, Delete Student',
+      onConfirm: () => performDeleteStudent(student._id),
+      loading: false,
+    });
+  }
+
+  async function performDeleteStudent(id) {
+    setConfirmModal(prev => ({ ...prev, loading: true }));
+    try {
+      await authAxios.delete(`/admin/students/${id}`);
+      fetchStudents();
+    } catch {
+    } finally {
+      setConfirmModal(prev => ({ ...prev, isOpen: false, loading: false }));
+    }
   }
 
   const pages = Math.ceil(total / 15);
@@ -219,7 +246,7 @@ export default function StudentDatabase() {
                     </span>
                   </td>
                   <td style={{ display: 'flex', gap: '.4rem' }}>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(s._id)}>Delete</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => requestDeleteStudent(s)}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -234,6 +261,12 @@ export default function StudentDatabase() {
           </div>
         )}
       </div>
+
+      {/* Modern In-App Confirmation Modal */}
+      <ConfirmModal
+        {...confirmModal}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }

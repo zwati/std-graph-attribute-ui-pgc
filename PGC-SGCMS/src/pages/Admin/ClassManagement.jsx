@@ -1,6 +1,6 @@
-// src/pages/Admin/ClassManagement.jsx
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import ConfirmModal from '../../components/ConfirmModal';
 
 const CATEGORIES = ['Medical', 'Pre-Eng', 'ICS', 'Others'];
 
@@ -10,6 +10,16 @@ export default function ClassManagement() {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('classes'); // 'classes' | 'addStudent' | 'manageRoster'
+
+  // Confirm Modal State
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: 'Delete',
+    onConfirm: null,
+    loading: false,
+  });
 
   // Class Creation Form State
   const [newClass, setNewClass] = useState({ className: '', category: 'Medical', section: 'A' });
@@ -97,9 +107,20 @@ export default function ClassManagement() {
     } finally { setClassLoading(false); }
   }
 
-  // Delete a Class
-  async function handleDeleteClass(classId) {
-    if (!window.confirm('Are you sure you want to delete this class section?')) return;
+  // Request Modern In-App Confirm for Class Deletion
+  function requestDeleteClass(cls) {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Delete Class Section',
+      message: `Are you sure you want to delete ${cls.className} - Sec ${cls.section}? This action cannot be undone.`,
+      confirmText: 'Yes, Delete Class',
+      onConfirm: () => performDeleteClass(cls._id),
+      loading: false,
+    });
+  }
+
+  async function performDeleteClass(classId) {
+    setConfirmModal(prev => ({ ...prev, loading: true }));
     try {
       await authAxios.delete(`/admin/classes/${classId}`);
       setClasses(prev => prev.filter(c => c._id !== classId));
@@ -108,7 +129,9 @@ export default function ClassManagement() {
         setSelectedClassObj(null);
       }
     } catch (err) {
-      alert(err?.response?.data?.error ?? 'Failed to delete class.');
+      setClassError(err?.response?.data?.error ?? 'Failed to delete class.');
+    } finally {
+      setConfirmModal(prev => ({ ...prev, isOpen: false, loading: false }));
     }
   }
 
@@ -142,15 +165,27 @@ export default function ClassManagement() {
     } finally { setStudentLoading(false); }
   }
 
-  // 3. Handle Removing Student from Class Roster
-  async function handleRemoveStudent(studentId) {
-    if (!window.confirm('Are you sure you want to remove this student from the class?')) return;
+  // Request Modern In-App Confirm for Roster Student Removal
+  function requestRemoveStudent(student) {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Remove Student from Roster',
+      message: `Are you sure you want to remove ${student.studentName} (${student.rollNumber}) from this class section?`,
+      confirmText: 'Yes, Remove Student',
+      onConfirm: () => performRemoveStudent(student._id),
+      loading: false,
+    });
+  }
+
+  async function performRemoveStudent(studentId) {
+    setConfirmModal(prev => ({ ...prev, loading: true }));
     try {
       await authAxios.delete(`/admin/students/${studentId}`);
       setRosterStudents(prev => prev.filter(s => s._id !== studentId));
       fetchClasses();
-    } catch (err) {
-      alert(err?.response?.data?.error ?? 'Failed to remove student.');
+    } catch {
+    } finally {
+      setConfirmModal(prev => ({ ...prev, isOpen: false, loading: false }));
     }
   }
 
@@ -260,7 +295,7 @@ export default function ClassManagement() {
                             <span><strong>{c.className}</strong> — Sec {c.section} ({c.studentCount || 0})</span>
                             <button
                               type="button"
-                              onClick={() => handleDeleteClass(c._id)}
+                              onClick={() => requestDeleteClass(c)}
                               style={{ background: 'none', border: 'none', color: 'var(--red-600)', cursor: 'pointer', fontSize: '.8rem' }}
                               title="Delete class"
                             >
@@ -459,7 +494,7 @@ export default function ClassManagement() {
                           </span>
                         </td>
                         <td>
-                          <button className="btn btn-danger btn-sm" onClick={() => handleRemoveStudent(s._id)}>
+                          <button className="btn btn-danger btn-sm" onClick={() => requestRemoveStudent(s)}>
                             🗑 Remove Student
                           </button>
                         </td>
@@ -473,6 +508,12 @@ export default function ClassManagement() {
           </div>
         </div>
       )}
+
+      {/* Modern In-App Confirmation Modal */}
+      <ConfirmModal
+        {...confirmModal}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
