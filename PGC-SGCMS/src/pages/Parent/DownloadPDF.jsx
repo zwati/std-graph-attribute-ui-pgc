@@ -90,10 +90,10 @@ export default function DownloadPDF() {
       </div>
 
       {/* ── Report body (print target) ── */}
-      <div id="pdf-report" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '2.5rem', maxWidth: 780, margin: '0 auto' }}>
+      <div id="pdf-report" className="pdf-container" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '2.5rem', maxWidth: 780, margin: '0 auto' }}>
 
         {/* Header */}
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center',
+        <div className="pdf-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'center',
           borderBottom:'3px solid var(--pgc-navy)', paddingBottom:'1.25rem', marginBottom:'1.5rem' }}>
           <div style={{ display:'flex', alignItems:'center', gap:'1rem' }}>
             <img src={logoImg} alt="PGC Logo" style={{ width:52, height:52, objectFit:'contain' }} />
@@ -109,7 +109,7 @@ export default function DownloadPDF() {
         </div>
 
         {/* Student info */}
-        <div style={{ background:'var(--gray-50)', borderRadius:10, padding:'1rem 1.25rem', marginBottom:'1.5rem',
+        <div className="pdf-student-grid" style={{ background:'var(--gray-50)', borderRadius:10, padding:'1rem 1.25rem', marginBottom:'1.5rem',
           display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.4rem .5rem' }}>
           {[
             ['Student Name', profile?.studentName],
@@ -125,7 +125,7 @@ export default function DownloadPDF() {
         </div>
 
         {/* Growth Index badge */}
-        <div style={{ display:'flex', alignItems:'center', gap:'1.25rem', marginBottom:'1.5rem',
+        <div className="pdf-growth-row" style={{ display:'flex', alignItems:'center', gap:'1.25rem', marginBottom:'1.5rem',
           padding:'1rem 1.25rem', borderRadius:10, border:`2px solid ${growthColor(score)}`, background:`${growthColor(score)}0D` }}>
           <div style={{ textAlign:'center' }}>
             <div style={{ fontSize:'2.8rem', fontWeight:900, color:growthColor(score), lineHeight:1 }}>

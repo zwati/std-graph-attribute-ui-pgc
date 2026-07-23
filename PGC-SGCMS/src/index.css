@@ -661,3 +661,31 @@ select.input, .input {
     padding: 1.25rem !important;
   }
 }
+
+/* ── Parent PDF Report Mobile View Overrides ──────────────── */
+@media screen and (max-width: 768px) {
+  .pdf-container {
+    padding: 1.25rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+  }
+  .pdf-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  .pdf-header div {
+    text-align: left !important;
+  }
+  .pdf-student-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .pdf-growth-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+}
