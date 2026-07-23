@@ -26,11 +26,11 @@ export default function Home() {
 
       {/* Top Navbar */}
       <nav style={{
-        display: 'flex',
-        justify: 'space-between',
+        display: 'grid',
+        gridTemplateColumns: 'auto 1fr auto',
         alignItems: 'center',
-        padding: '1rem 2rem',
-        background: 'rgba(13, 27, 75, 0.85)',
+        padding: '0.85rem 2.5rem',
+        background: 'rgba(13, 27, 75, 0.88)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
@@ -38,7 +38,9 @@ export default function Home() {
         top: 0,
         zIndex: 100,
         boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+        gap: '1rem'
       }}>
+        {/* Left Branding */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '.85rem' }}>
           <div style={{
             background: '#ffffff',
@@ -69,25 +71,34 @@ export default function Home() {
               </span>
             </div>
             <div style={{ color: 'rgba(255,255,255,.55)', fontSize: '.72rem', fontWeight: 500 }}>
-              Sahiwal Campus • Student Growth & Character System
+              Sahiwal Campus • Student Growth System
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+        {/* Center Nav Links */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem' }}>
           <button
             onClick={() => document.getElementById('portals')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
               background: 'none',
               border: 'none',
-              color: 'rgba(255,255,255,.75)',
-              fontSize: '.85rem',
+              color: 'rgba(255,255,255,.8)',
+              fontSize: '.9rem',
               fontWeight: 600,
               cursor: 'pointer',
-              transition: 'color 0.2s',
+              transition: 'all 0.2s',
+              padding: '.4rem .8rem',
+              borderRadius: '6px'
             }}
-            onMouseOver={e => e.currentTarget.style.color = '#fff'}
-            onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.75)'}
+            onMouseOver={e => {
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.color = 'rgba(255,255,255,.8)';
+              e.currentTarget.style.background = 'none';
+            }}
           >
             Portals
           </button>
@@ -97,26 +108,37 @@ export default function Home() {
             style={{
               background: 'none',
               border: 'none',
-              color: 'rgba(255,255,255,.75)',
-              fontSize: '.85rem',
+              color: 'rgba(255,255,255,.8)',
+              fontSize: '.9rem',
               fontWeight: 600,
               cursor: 'pointer',
-              transition: 'color 0.2s',
+              transition: 'all 0.2s',
+              padding: '.4rem .8rem',
+              borderRadius: '6px'
             }}
-            onMouseOver={e => e.currentTarget.style.color = '#fff'}
-            onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.75)'}
+            onMouseOver={e => {
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.color = 'rgba(255,255,255,.8)';
+              e.currentTarget.style.background = 'none';
+            }}
           >
             Features
           </button>
+        </div>
 
+        {/* Right Action Button */}
+        <div style={{ justifySelf: 'end' }}>
           <button
             className="btn"
             onClick={() => navigate('/login')}
             style={{
               background: 'linear-gradient(135deg, var(--pgc-red) 0%, #a00d26 100%)',
               color: '#fff',
-              padding: '.55rem 1.35rem',
-              fontSize: '.85rem',
+              padding: '.6rem 1.6rem',
+              fontSize: '.88rem',
               fontWeight: 700,
               borderRadius: '8px',
               boxShadow: '0 4px 14px rgba(200, 16, 46, 0.4)',
@@ -131,7 +153,7 @@ export default function Home() {
               e.currentTarget.style.boxShadow = '0 4px 14px rgba(200, 16, 46, 0.4)';
             }}
           >
-            Sign In →
+            Sign In
           </button>
         </div>
       </nav>
@@ -242,13 +264,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,.08)', padding: '1.5rem 2rem',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        <span style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem' }}>© 2026 Punjab Group of Colleges — SGCMS v1.0</span>
-        <div style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem', userSelect: 'none' }}>
-          Developed by <span style={{ color: 'rgba(255,255,255,.7)', fontWeight: 600 }}>ZWATI Solutions</span>
-        </div>
+      {/* Professional Short Footer */}
+      <footer style={{
+        borderTop: '1px solid rgba(255,255,255,.08)',
+        padding: '1.5rem 2.5rem',
+        display: 'flex',
+        justify: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '1rem'
+      }}>
+        <span style={{ color: 'rgba(255,255,255,.5)', fontSize: '.82rem' }}>
+          © 2026 Punjab Group of Colleges. All rights reserved.
+        </span>
+        <a
+          href="mailto:zwatisolutions@gmail.com?subject=PGC%20SGCMS%20Inquiry"
+          style={{ color: 'rgba(255,255,255,.65)', fontSize: '.82rem', textDecoration: 'none', transition: 'color 0.2s' }}
+          onMouseOver={e => e.currentTarget.style.color = '#fff'}
+          onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.65)'}
+        >
+          Developed by <strong style={{ color: '#fff', textDecoration: 'underline' }}>ZWATI Solutions</strong>
+        </a>
       </footer>
     </div>
   );
