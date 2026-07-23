@@ -9,6 +9,7 @@ import { apiCache } from '../../utils/apiCache';
 const ATTR_LABELS = {
   communication: 'Communication', participation: 'Participation',
   discipline: 'Discipline', teamwork: 'Teamwork', responsibility: 'Responsibility',
+  leadership: 'Leadership',
 };
 
 export default function ParentReports() {
@@ -58,7 +59,7 @@ export default function ParentReports() {
               </div>
 
               {/* Attribute stars */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.5rem 2rem', marginBottom: '1rem' }}>
+              <div className="parent-attr-grid" style={{ marginBottom: '1rem' }}>
                 {Object.entries(ATTR_LABELS).map(([k, label]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '.82rem', color: 'var(--gray-600)' }}>{label}</span>

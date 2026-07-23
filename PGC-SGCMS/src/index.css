@@ -632,3 +632,32 @@ select.input, .input {
   }
 }
 
+/* ── Parent Portal Responsive Grid Helpers ────────────────── */
+.parent-attr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2rem;
+}
+
+@media (max-width: 768px) {
+  .parent-attr-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem 0 !important;
+  }
+}
+
+.parent-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 576px) {
+  .parent-summary-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  #pdf-report {
+    padding: 1.25rem !important;
+  }
+}

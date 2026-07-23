@@ -9,6 +9,7 @@ import logoImg from '../../assets/logo.png';
 const ATTR_LABELS = {
   communication: 'Communication', participation: 'Class Participation',
   discipline: 'Discipline', teamwork: 'Teamwork', responsibility: 'Responsibility',
+  leadership: 'Leadership',
 };
 
 // Rule-based insight generator — no external AI needed
@@ -179,7 +180,7 @@ export default function DownloadPDF() {
             <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'.875rem' }}>
               <thead>
                 <tr style={{ background:'var(--gray-100)' }}>
-                  {['Month','Comm','Part','Disc','Team','Resp','Growth Score'].map(h => (
+                  {['Month','Comm','Part','Disc','Team','Resp','Lead','Growth Score'].map(h => (
                     <th key={h} style={{ padding:'.5rem .75rem', textAlign:'left', fontWeight:600, color:'var(--gray-700)' }}>{h}</th>
                   ))}
                 </tr>
@@ -188,7 +189,7 @@ export default function DownloadPDF() {
                 {growth.monthly.map((m, i) => (
                   <tr key={m.month} style={{ borderBottom:'1px solid var(--gray-100)', background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
                     <td style={{ padding:'.5rem .75rem', fontWeight:600 }}>{formatMonth(m.month)}</td>
-                    {['communication','participation','discipline','teamwork','responsibility'].map(k => (
+                    {['communication','participation','discipline','teamwork','responsibility','leadership'].map(k => (
                       <td key={k} style={{ padding:'.5rem .75rem' }}>{m[k]?.toFixed(1) ?? '—'}</td>
                     ))}
                     <td style={{ padding:'.5rem .75rem', fontWeight:700, color:growthColor(m.score ?? 0) }}>{m.score ?? '—'}</td>

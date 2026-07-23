@@ -71,7 +71,7 @@ export default function StudentProfile() {
       {/* Growth summary */}
       <div className="card">
         <h3 style={{ marginBottom: '1rem' }}>Growth Summary</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+        <div className="parent-summary-grid" style={{ marginBottom: '1.5rem' }}>
           {[
             { label: 'Growth Index',   val: score.toFixed(1),              sub: growthLabel(score) },
             { label: 'EMA Trend',      val: growth?.growthTrendEMA?.toFixed(1) ?? '—', sub: 'Recent momentum' },

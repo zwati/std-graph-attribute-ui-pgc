@@ -15,6 +15,7 @@ const ATTR_LABELS = {
   discipline:    'Discipline',
   teamwork:      'Teamwork',
   responsibility:'Responsibility',
+  leadership:    'Leadership',
 };
 
 export default function ParentDashboard() {
@@ -52,7 +53,7 @@ export default function ParentDashboard() {
           justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem',
           borderLeft: '4px solid var(--pgc-red)' }}>
           <div>
-            <h2 style={{ margin: 0 }}>
+            <h2 style={{ margin: 0, fontSize: 'clamp(1.1rem, 5vw, 1.45rem)' }}>
               {profile.studentName}
               <span className={`badge ${profile.gender === 'Female' ? 'badge-red' : 'badge-green'}`} style={{ marginLeft: '.75rem', fontSize: '.8rem' }}>
                 {profile.gender === 'Female' ? 'Female' : 'Male'}
@@ -118,7 +119,7 @@ export default function ParentDashboard() {
           {/* Attribute progress bars */}
           {latestEval && (
             <ChartCard title="Attribute Scores" subtitle="Latest evaluation (1–5 scale)">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
+              <div className="parent-attr-grid">
                 {Object.keys(ATTR_LABELS).map(k => (
                   <GrowthBar key={k} label={ATTR_LABELS[k]} value={latestEval[k] ?? 0} max={5} />
                 ))}

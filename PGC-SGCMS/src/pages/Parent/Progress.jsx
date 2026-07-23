@@ -7,6 +7,7 @@ import AttributeBarChart from '../../components/Charts/AttributeBarChart';
 import CharacterRadar from '../../components/Charts/CharacterRadar';
 
 import { apiCache } from '../../utils/apiCache';
+import CustomSelect from '../../components/CustomSelect';
 
 const MONTH_NAMES = [
   'All Months (Overall History)',
@@ -54,18 +55,14 @@ export default function Progress() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem', flexWrap: 'wrap' }}>
           <label className="label" style={{ margin: 0, fontWeight: 600, fontSize: '.85rem' }}>📅 Month Navigation:</label>
-          <select
-            className="input"
-            style={{ minWidth: 200 }}
+          <CustomSelect
+            style={{ minWidth: 220 }}
             value={selectedMonth}
-            onChange={e => setSelectedMonth(e.target.value)}
-          >
-            {MONTH_NAMES.map(m => (
-              <option key={m} value={m}>{m}</option>
-            ))}
-          </select>
+            onChange={setSelectedMonth}
+            options={MONTH_NAMES.map(m => ({ value: m, label: m }))}
+          />
         </div>
       </div>
 
