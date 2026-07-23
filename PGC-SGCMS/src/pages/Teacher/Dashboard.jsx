@@ -106,23 +106,23 @@ export default function TeacherDashboard() {
                       {/* Progress / Loss Status Badge */}
                       <td>
                         {s.growthTrend === 'progress' ? (
-                          <span className="badge badge-green" style={{ fontWeight: 700 }}>
-                            📈 +{s.growthDiff} (Improved)
+                          <span style={{ fontWeight: 700, color: 'var(--green-600)' }}>
+                            +{s.growthDiff} (Improved)
                           </span>
                         ) : s.growthTrend === 'loss' ? (
-                          <span className="badge badge-red" style={{ fontWeight: 700 }}>
-                            📉 {s.growthDiff} (Loss)
+                          <span style={{ fontWeight: 700, color: 'var(--pgc-red)' }}>
+                            {s.growthDiff} (Loss)
                           </span>
                         ) : s.growthTrend === 'equal' ? (
-                          <span className="badge badge-gray">
-                            ⚖ 0.0 (Unchanged)
+                          <span style={{ color: 'var(--gray-500)', fontWeight: 600 }}>
+                            0.0 (Unchanged)
                           </span>
                         ) : s.growthTrend === 'initial' ? (
-                          <span className="badge badge-gray">
-                            ⭐ Initial Rating
+                          <span style={{ color: 'var(--gray-500)', fontWeight: 600 }}>
+                            Initial Rating
                           </span>
                         ) : (
-                          <span style={{ fontSize: '.85rem', color: 'var(--gray-400)' }}>— Not evaluated</span>
+                          <span style={{ fontSize: '.85rem', color: 'var(--gray-400)' }}>Not evaluated</span>
                         )}
                       </td>
                       <td style={{ fontSize: '.85rem', color: 'var(--gray-500)' }}>{formatDate(s.lastEvaluatedAt)}</td>

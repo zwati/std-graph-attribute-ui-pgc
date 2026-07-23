@@ -626,16 +626,9 @@ select.input, .input {
 /* ── Class Selector Dropdown Mobile Sheet ─────────────────── */
 @media (max-width: 576px) {
   .class-selector-dropdown {
-    position: fixed !important;
-    top: auto !important;
-    bottom: 20px !important;
-    left: 12px !important;
-    right: 12px !important;
-    width: auto !important;
-    max-width: none !important;
-    z-index: 10000 !important;
-    box-shadow: 0 -8px 30px rgba(13,27,75,0.25), 0 4px 12px rgba(0,0,0,0.15) !important;
-    border-radius: 14px !important;
+    right: auto !important;
+    left: 0 !important;
+    width: 290px !important;
   }
 }
 
