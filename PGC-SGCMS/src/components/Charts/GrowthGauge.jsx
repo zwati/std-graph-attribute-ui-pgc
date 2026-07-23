@@ -50,15 +50,15 @@ export default function GrowthGauge({ score = 0, size = 220 }) {
         }}
       >
         <div>
-          <span style={{ fontSize: 42, fontWeight: 800, color: '#111827', lineHeight: 1 }}>
+          <span style={{ fontSize: 'clamp(28px, 6vw, 42px)', fontWeight: 800, color: '#111827', lineHeight: 1 }}>
             {Math.round(score)}
           </span>
-          <span style={{ fontSize: 18, color: '#9ca3af', fontWeight: 500 }}> /100</span>
+          <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#9ca3af', fontWeight: 500 }}> /100</span>
         </div>
         <div
           style={{
-            marginTop: 6,
-            fontSize: 14,
+            marginTop: 4,
+            fontSize: 'clamp(11px, 2.5vw, 14px)',
             fontWeight: 700,
             color,
             letterSpacing: '0.02em',
