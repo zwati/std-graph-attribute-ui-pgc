@@ -29,20 +29,35 @@ function generateInsight(growthIndex, attrs, evaluations) {
         : 'Keep up the great work and continue building on these strengths.');
 }
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function DownloadPDF() {
   const { authAxios } = useAuth();
-  const [profile,     setProfile]     = useState(null);
-  const [growth,      setGrowth]      = useState(null);
-  const [evaluations, setEvaluations] = useState([]);
-  const [loading,     setLoading]     = useState(true);
+  const [profile,     setProfile]     = useState(() => apiCache.get('parent_profile') || null);
+  const [growth,      setGrowth]      = useState(() => apiCache.get('parent_growth') || null);
+  const [evaluations, setEvaluations] = useState(() => apiCache.get('parent_evaluations') || []);
+  const [loading,     setLoading]     = useState(() => !apiCache.get('parent_profile'));
   const [generating,  setGenerating]  = useState(false);
 
   useEffect(() => {
+    const pCache = apiCache.get('parent_profile');
+    const gCache = apiCache.get('parent_growth');
+    const eCache = apiCache.get('parent_evaluations');
+    if (pCache && gCache && eCache) {
+      setProfile(pCache);
+      setGrowth(gCache);
+      setEvaluations(eCache);
+      setLoading(false);
+    }
+
     Promise.all([
       authAxios.get('/parent/profile'),
       authAxios.get('/parent/growth'),
       authAxios.get('/parent/evaluations'),
     ]).then(([p, g, e]) => {
+      apiCache.set('parent_profile', p.data.data);
+      apiCache.set('parent_growth', g.data.data);
+      apiCache.set('parent_evaluations', e.data.data);
       setProfile(p.data.data);
       setGrowth(g.data.data);
       setEvaluations(e.data.data);

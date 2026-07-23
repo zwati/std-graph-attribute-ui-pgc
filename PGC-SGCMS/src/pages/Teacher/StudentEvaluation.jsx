@@ -6,6 +6,8 @@ import StarRating from '../../components/Rating/StarRating';
 import GrowthBar from '../../components/ProgressBar/GrowthBar';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
+import { apiCache } from '../../utils/apiCache';
+
 const ATTRS = ['communication','participation','discipline','teamwork','responsibility','leadership'];
 const ATTR_LABELS = {
   communication:'Communication',
@@ -34,9 +36,18 @@ export default function StudentEvaluation() {
       setStudents([]);
       return;
     }
+    const cacheKey = `teacher_students_${clsObj.className}_${clsObj.section}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setStudents(cached);
+      if (cached.length > 0 && !selectedId) {
+        setSelectedId(cached[0]._id);
+      }
+    }
     authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
       .then(r => {
         const list = r.data.data;
+        apiCache.set(cacheKey, list);
         setStudents(list);
         if (list.length > 0 && !selectedId) {
           setSelectedId(list[0]._id);

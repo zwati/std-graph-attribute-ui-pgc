@@ -6,6 +6,8 @@ import MonthlyProgressChart from '../../components/Charts/MonthlyProgressChart';
 import AttributeBarChart from '../../components/Charts/AttributeBarChart';
 import CharacterRadar from '../../components/Charts/CharacterRadar';
 
+import { apiCache } from '../../utils/apiCache';
+
 const MONTH_NAMES = [
   'All Months (Overall History)',
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -14,11 +16,16 @@ const MONTH_NAMES = [
 
 export default function Progress() {
   const { authAxios } = useAuth();
-  const [growth, setGrowth] = useState(null);
+  const [growth, setGrowth] = useState(() => apiCache.get('parent_growth') || null);
   const [selectedMonth, setSelectedMonth] = useState('All Months (Overall History)');
 
   useEffect(() => {
-    authAxios.get('/parent/growth').then(r => setGrowth(r.data.data)).catch(() => {});
+    const cached = apiCache.get('parent_growth');
+    if (cached) setGrowth(cached);
+    authAxios.get('/parent/growth').then(r => {
+      apiCache.set('parent_growth', r.data.data);
+      setGrowth(r.data.data);
+    }).catch(() => {});
   }, []);
 
   const progressHistory = growth?.progressHistory ?? [];

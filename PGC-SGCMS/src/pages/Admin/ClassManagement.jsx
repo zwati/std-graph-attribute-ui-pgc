@@ -5,10 +5,12 @@ import ConfirmModal from '../../components/ConfirmModal';
 const CATEGORIES = ['Medical', 'Pre-Eng', 'ICS', 'Others'];
 
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function ClassManagement() {
   const { authAxios } = useAuth();
-  const [classes, setClasses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [classes, setClasses] = useState(() => apiCache.get('admin_classes') || []);
+  const [loading, setLoading] = useState(() => !apiCache.get('admin_classes'));
   const [activeTab, setActiveTab] = useState('classes'); // 'classes' | 'addStudent' | 'manageRoster'
 
   // Confirm Modal State
@@ -51,9 +53,14 @@ export default function ClassManagement() {
 
   // Fetch all classes
   const fetchClasses = useCallback(async () => {
-    setLoading(true);
+    const cached = apiCache.get('admin_classes');
+    if (cached) {
+      setClasses(cached);
+      setLoading(false);
+    }
     try {
       const { data } = await authAxios.get('/admin/classes');
+      apiCache.set('admin_classes', data.data);
       setClasses(data.data);
       if (data.data.length > 0 && !selectedClassId) {
         setSelectedClassId(data.data[0]._id);

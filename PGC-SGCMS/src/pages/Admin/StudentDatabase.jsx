@@ -5,15 +5,17 @@ import { formatDate } from '../../utils/formatDate';
 import QRCodeModal from '../../components/QRCodeModal';
 import ConfirmModal from '../../components/ConfirmModal';
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function StudentDatabase() {
   const { authAxios } = useAuth();
   const navigate = useNavigate();
-  const [students, setStudents] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [students, setStudents] = useState(() => apiCache.get('admin_students_default')?.students || []);
+  const [total, setTotal] = useState(() => apiCache.get('admin_students_default')?.total || 0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [filterClass, setFilterClass] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !apiCache.get('admin_students_default'));
   const [filterGender, setFilterGender] = useState('');
   const [showQR, setShowQR] = useState(false);
 
@@ -29,13 +31,24 @@ export default function StudentDatabase() {
 
 
   const fetchStudents = useCallback(async () => {
-    setLoading(true);
+    const key = `admin_students_${page}_${search}_${filterClass}_${filterGender}`;
+    const cached = apiCache.get(key);
+    if (cached) {
+      setStudents(cached.students);
+      setTotal(cached.total);
+      setLoading(false);
+    }
+
     try {
       const params = new URLSearchParams({ page, limit: 15 });
       if (search) params.set('search', search);
       if (filterClass) params.set('class', filterClass);
       if (filterGender) params.set('gender', filterGender);
       const { data } = await authAxios.get(`/admin/students?${params}`);
+      apiCache.set(key, data.data);
+      if (page === 1 && !search && !filterClass && !filterGender) {
+        apiCache.set('admin_students_default', data.data);
+      }
       setStudents(data.data.students);
       setTotal(data.data.total);
     } catch { } finally { setLoading(false); }
@@ -58,6 +71,7 @@ export default function StudentDatabase() {
     setConfirmModal(prev => ({ ...prev, loading: true }));
     try {
       await authAxios.delete(`/admin/students/${id}`);
+      apiCache.invalidate('admin_students');
       fetchStudents();
     } catch {
     } finally {

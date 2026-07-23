@@ -6,16 +6,29 @@ import { growthLabel } from '../../utils/growthLabel';
 import { growthColor } from '../../utils/attributeColors';
 import { formatDate } from '../../utils/formatDate';
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function StudentProfile() {
   const { authAxios } = useAuth();
-  const [profile, setProfile] = useState(null);
-  const [growth, setGrowth]   = useState(null);
+  const [profile, setProfile] = useState(() => apiCache.get('parent_profile') || null);
+  const [growth, setGrowth]   = useState(() => apiCache.get('parent_growth') || null);
 
   useEffect(() => {
+    const pCache = apiCache.get('parent_profile');
+    const gCache = apiCache.get('parent_growth');
+    if (pCache && gCache) {
+      setProfile(pCache);
+      setGrowth(gCache);
+    }
     Promise.all([
       authAxios.get('/parent/profile'),
       authAxios.get('/parent/growth'),
-    ]).then(([p, g]) => { setProfile(p.data.data); setGrowth(g.data.data); }).catch(() => {});
+    ]).then(([p, g]) => {
+      apiCache.set('parent_profile', p.data.data);
+      apiCache.set('parent_growth', g.data.data);
+      setProfile(p.data.data);
+      setGrowth(g.data.data);
+    }).catch(() => {});
   }, []);
 
   if (!profile) return <p style={{ textAlign:'center', color:'var(--gray-400)', padding:'3rem' }}>Loading…</p>;

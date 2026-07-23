@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import StarRating from '../../components/Rating/StarRating';
 import { formatDate, formatMonth } from '../../utils/formatDate';
 
+import { apiCache } from '../../utils/apiCache';
+
 const ATTR_LABELS = {
   communication: 'Communication', participation: 'Participation',
   discipline: 'Discipline', teamwork: 'Teamwork', responsibility: 'Responsibility',
@@ -11,12 +13,20 @@ const ATTR_LABELS = {
 
 export default function ParentReports() {
   const { authAxios } = useAuth();
-  const [evaluations, setEvaluations] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [evaluations, setEvaluations] = useState(() => apiCache.get('parent_evaluations') || []);
+  const [loading, setLoading] = useState(() => !apiCache.get('parent_evaluations'));
 
   useEffect(() => {
+    const cached = apiCache.get('parent_evaluations');
+    if (cached) {
+      setEvaluations(cached);
+      setLoading(false);
+    }
     authAxios.get('/parent/evaluations')
-      .then(r => setEvaluations(r.data.data))
+      .then(r => {
+        apiCache.set('parent_evaluations', r.data.data);
+        setEvaluations(r.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

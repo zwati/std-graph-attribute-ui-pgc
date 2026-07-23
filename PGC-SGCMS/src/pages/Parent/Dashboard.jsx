@@ -7,6 +7,8 @@ import CharacterRadar from '../../components/Charts/CharacterRadar';
 import GrowthBar from '../../components/ProgressBar/GrowthBar';
 import { growthLabel } from '../../utils/growthLabel';
 
+import { apiCache } from '../../utils/apiCache';
+
 const ATTR_LABELS = {
   communication: 'Communication',
   participation: 'Class Participation',
@@ -17,15 +19,24 @@ const ATTR_LABELS = {
 
 export default function ParentDashboard() {
   const { authAxios } = useAuth();
-  const [profile, setProfile]   = useState(null);
-  const [growth, setGrowth]     = useState(null);
-  const [loading, setLoading]   = useState(true);
+  const [profile, setProfile]   = useState(() => apiCache.get('parent_profile') || null);
+  const [growth, setGrowth]     = useState(() => apiCache.get('parent_growth') || null);
+  const [loading, setLoading]   = useState(() => !apiCache.get('parent_profile'));
 
   useEffect(() => {
+    const pCache = apiCache.get('parent_profile');
+    const gCache = apiCache.get('parent_growth');
+    if (pCache && gCache) {
+      setProfile(pCache);
+      setGrowth(gCache);
+      setLoading(false);
+    }
     Promise.all([
       authAxios.get('/parent/profile'),
       authAxios.get('/parent/growth'),
     ]).then(([p, g]) => {
+      apiCache.set('parent_profile', p.data.data);
+      apiCache.set('parent_growth', g.data.data);
       setProfile(p.data.data);
       setGrowth(g.data.data);
     }).catch(() => {}).finally(() => setLoading(false));

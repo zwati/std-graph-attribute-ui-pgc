@@ -5,6 +5,8 @@ import { useAuth } from '../../context/AuthContext';
 import { formatDate } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function TeacherDashboard() {
   const { authAxios } = useAuth();
   const navigate = useNavigate();
@@ -17,9 +19,20 @@ export default function TeacherDashboard() {
       setStudents([]);
       return;
     }
-    setLoading(true);
+    const cacheKey = `teacher_students_${clsObj.className}_${clsObj.section}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setStudents(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
     authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
-      .then(r => setStudents(r.data.data))
+      .then(r => {
+        apiCache.set(cacheKey, r.data.data);
+        setStudents(r.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

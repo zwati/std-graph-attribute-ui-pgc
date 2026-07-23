@@ -9,6 +9,8 @@ import TrendLineChart from '../../components/Charts/TrendLineChart';
 import { formatMonth } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
+import { apiCache } from '../../utils/apiCache';
+
 const ATTR_LABELS = {
   communication:'Communication',
   participation:'Participation',
@@ -32,9 +34,18 @@ export default function History() {
       setStudents([]);
       return;
     }
+    const cacheKey = `teacher_students_${clsObj.className}_${clsObj.section}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setStudents(cached);
+      if (cached.length > 0 && !selectedId) {
+        setSelectedId(cached[0]._id);
+      }
+    }
     authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
       .then(r => {
         const list = r.data.data;
+        apiCache.set(cacheKey, list);
         setStudents(list);
         if (list.length > 0 && !selectedId) {
           setSelectedId(list[0]._id);
@@ -51,9 +62,19 @@ export default function History() {
 
   useEffect(() => {
     if (!selectedId) return;
-    setLoading(true);
+    const cacheKey = `teacher_eval_history_${selectedId}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setEvaluations(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
     authAxios.get(`/teacher/evaluations/${selectedId}`)
-      .then(r => setEvaluations(r.data.data))
+      .then(r => {
+        apiCache.set(cacheKey, r.data.data);
+        setEvaluations(r.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [selectedId]);
