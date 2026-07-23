@@ -258,6 +258,67 @@ tbody tr:hover{ background: var(--gray-50); }
 .login-tab.active { border-color: var(--pgc-navy); background: var(--pgc-navy); color: #fff; }
 
 /* ── Landing page ─────────────────────────────────────────── */
+.home-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 2.5rem;
+  background: rgba(13, 27, 75, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.home-nav-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-footer {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .home-nav {
+    padding: 0.65rem 1rem;
+  }
+  .home-nav-center {
+    display: none !important;
+  }
+  .home-nav-brand-sub {
+    display: none !important;
+  }
+  .home-nav-brand-title {
+    font-size: 0.9rem !important;
+  }
+  .home-nav-signin-btn {
+    padding: 0.45rem 1rem !important;
+    font-size: 0.8rem !important;
+  }
+  .home-footer {
+    flex-direction: column !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding: 1.25rem 1rem !important;
+    gap: 0.4rem !important;
+  }
+}
+
 .landing-hero {
   min-height: 100vh; background: var(--pgc-navy);
   display: flex; align-items: center; position: relative; overflow: hidden;

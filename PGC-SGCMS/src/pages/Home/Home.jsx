@@ -25,23 +25,9 @@ export default function Home() {
     <div style={{ minHeight: '100vh', background: 'var(--pgc-navy)', fontFamily: 'Inter, sans-serif' }}>
 
       {/* Top Navbar */}
-      <nav style={{
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr auto',
-        alignItems: 'center',
-        padding: '0.85rem 2.5rem',
-        background: 'rgba(13, 27, 75, 0.88)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-        gap: '1rem'
-      }}>
+      <nav className="home-nav">
         {/* Left Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '.85rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
           <div style={{
             background: '#ffffff',
             borderRadius: '10px',
@@ -50,34 +36,35 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            flexShrink: 0,
           }}>
-            <img src={logoImg} alt="PGC Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
+            <img src={logoImg} alt="PGC Logo" style={{ width: 34, height: 34, objectFit: 'contain' }} />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-              <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.05rem', letterSpacing: '.02em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+              <span className="home-nav-brand-title" style={{ color: '#fff', fontWeight: 800, fontSize: '1rem', letterSpacing: '.02em' }}>
                 PUNJAB COLLEGES
               </span>
               <span style={{
                 background: 'var(--pgc-red)',
                 color: '#fff',
-                fontSize: '.68rem',
+                fontSize: '.65rem',
                 fontWeight: 800,
-                padding: '.15rem .45rem',
+                padding: '.15rem .4rem',
                 borderRadius: '4px',
                 letterSpacing: '.04em'
               }}>
                 SGCMS
               </span>
             </div>
-            <div style={{ color: 'rgba(255,255,255,.55)', fontSize: '.72rem', fontWeight: 500 }}>
+            <div className="home-nav-brand-sub" style={{ color: 'rgba(255,255,255,.55)', fontSize: '.72rem', fontWeight: 500 }}>
               Sahiwal Campus • Student Growth System
             </div>
           </div>
         </div>
 
-        {/* Center Nav Links */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem' }}>
+        {/* Center Nav Links (Hidden on Mobile) */}
+        <div className="home-nav-center">
           <button
             onClick={() => document.getElementById('portals')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
@@ -130,19 +117,20 @@ export default function Home() {
         </div>
 
         {/* Right Action Button */}
-        <div style={{ justifySelf: 'end' }}>
+        <div>
           <button
-            className="btn"
+            className="btn home-nav-signin-btn"
             onClick={() => navigate('/login')}
             style={{
               background: 'linear-gradient(135deg, var(--pgc-red) 0%, #a00d26 100%)',
               color: '#fff',
-              padding: '.6rem 1.6rem',
-              fontSize: '.88rem',
+              padding: '.55rem 1.5rem',
+              fontSize: '.85rem',
               fontWeight: 700,
               borderRadius: '8px',
               boxShadow: '0 4px 14px rgba(200, 16, 46, 0.4)',
               transition: 'transform 0.2s, box-shadow 0.2s',
+              whiteSpace: 'nowrap'
             }}
             onMouseOver={e => {
               e.currentTarget.style.transform = 'translateY(-1px)';
@@ -264,16 +252,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Professional Short Footer */}
-      <footer style={{
-        borderTop: '1px solid rgba(255,255,255,.08)',
-        padding: '1.5rem 2.5rem',
-        display: 'flex',
-        justify: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1rem'
-      }}>
+      {/* Professional Short Footer (Centered & Responsive) */}
+      <footer className="home-footer">
         <span style={{ color: 'rgba(255,255,255,.5)', fontSize: '.82rem' }}>
           © 2026 Punjab Group of Colleges. All rights reserved.
         </span>
