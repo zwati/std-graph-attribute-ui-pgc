@@ -6,6 +6,7 @@ const CATEGORIES = ['Medical', 'Pre-Eng', 'ICS', 'Others'];
 
 
 import { apiCache } from '../../utils/apiCache';
+import CustomSelect from '../../components/CustomSelect';
 
 export default function ClassManagement() {
   const { authAxios } = useAuth();
@@ -246,15 +247,11 @@ export default function ClassManagement() {
             <form onSubmit={handleCreateClass}>
               <div className="form-group">
                 <label className="label">Category</label>
-                <select
-                  className="input"
+                <CustomSelect
                   value={newClass.category}
-                  onChange={e => setNewClass(c => ({ ...c, category: e.target.value }))}
-                >
-                  {CATEGORIES.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
+                  onChange={val => setNewClass(c => ({ ...c, category: val }))}
+                  options={CATEGORIES.map(cat => ({ value: cat, label: cat }))}
+                />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -347,17 +344,14 @@ export default function ClassManagement() {
                   ⚠️ No classes available. Please create a class first in Step 1.
                 </p>
               ) : (
-                <select
-                  className="input"
+                <CustomSelect
                   value={selectedClassId}
-                  onChange={e => { setSelectedClassId(e.target.value); setStudentResult(null); }}
-                >
-                  {classes.map(c => (
-                    <option key={c._id} value={c._id}>
-                      [{c.category}] Class: {c.className} — Section: {c.section} ({c.studentCount || 0} students)
-                    </option>
-                  ))}
-                </select>
+                  onChange={val => { setSelectedClassId(val); setStudentResult(null); }}
+                  options={classes.map(c => ({
+                    value: c._id,
+                    label: `[${c.category}] Class: ${c.className} — Section: ${c.section} (${c.studentCount || 0} students)`
+                  }))}
+                />
               )}
 
               {selectedClassObj && (
@@ -440,17 +434,14 @@ export default function ClassManagement() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
               <div style={{ flex: 1, minWidth: 260 }}>
                 <label className="label" style={{ color: 'var(--pgc-navy)', fontWeight: 700 }}>Select Class Roster to Manage</label>
-                <select
-                  className="input"
+                <CustomSelect
                   value={selectedClassId}
-                  onChange={e => setSelectedClassId(e.target.value)}
-                >
-                  {classes.map(c => (
-                    <option key={c._id} value={c._id}>
-                      [{c.category}] Class: {c.className} — Section: {c.section} ({c.studentCount || 0} students)
-                    </option>
-                  ))}
-                </select>
+                  onChange={val => setSelectedClassId(val)}
+                  options={classes.map(c => ({
+                    value: c._id,
+                    label: `[${c.category}] Class: ${c.className} — Section: ${c.section} (${c.studentCount || 0} students)`
+                  }))}
+                />
               </div>
               <div>
                 <button className="btn btn-primary btn-sm" onClick={() => setActiveTab('addStudent')}>
