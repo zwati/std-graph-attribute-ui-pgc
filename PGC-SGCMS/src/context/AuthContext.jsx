@@ -73,13 +73,34 @@ export function AuthProvider({ children }) {
     });
     instance.interceptors.response.use(
       response => response,
-      error => {
-        if (error.response && error.response.status === 401) {
-          // Token has expired or is invalid! Clear storage and redirect to login
-          localStorage.removeItem('pgc_token');
-          localStorage.removeItem('pgc_refresh');
-          localStorage.removeItem('pgc_user');
-          window.location.href = '/login?expired=true';
+      async error => {
+        const originalRequest = error.config;
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          const rToken = localStorage.getItem('pgc_refresh');
+          if (rToken) {
+            try {
+              const { data } = await axios.post(`${apiUrl}/auth/refresh`, { refreshToken: rToken });
+              const { accessToken: newAccess, refreshToken: newRefresh } = data.data;
+              localStorage.setItem('pgc_token', newAccess);
+              localStorage.setItem('pgc_refresh', newRefresh);
+              setAccessToken(newAccess);
+              originalRequest.headers.Authorization = `Bearer ${newAccess}`;
+              return instance(originalRequest); // Retry original request with new token
+            } catch (refreshErr) {
+              // Refresh token is also expired, trigger full login redirect
+              localStorage.removeItem('pgc_token');
+              localStorage.removeItem('pgc_refresh');
+              localStorage.removeItem('pgc_user');
+              window.location.href = '/login?expired=true';
+              return Promise.reject(refreshErr);
+            }
+          } else {
+            localStorage.removeItem('pgc_token');
+            localStorage.removeItem('pgc_refresh');
+            localStorage.removeItem('pgc_user');
+            window.location.href = '/login?expired=true';
+          }
         }
         return Promise.reject(error);
       }
