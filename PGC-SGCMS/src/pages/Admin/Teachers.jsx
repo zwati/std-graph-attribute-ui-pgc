@@ -1,11 +1,11 @@
-// src/pages/Admin/Teachers.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmModal from '../../components/ConfirmModal';
+import { apiCache } from '../../utils/apiCache';
 
 export default function Teachers() {
   const { authAxios } = useAuth();
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState(() => apiCache.get('admin_teachers') || []);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ username:'', password:'', fullName:'', subject:'' });
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,14 @@ export default function Teachers() {
   });
 
   const fetchTeachers = () => {
-    authAxios.get('/admin/teachers').then(r => setTeachers(r.data.data)).catch(() => {});
+    const cached = apiCache.get('admin_teachers');
+    if (cached) {
+      setTeachers(cached);
+    }
+    authAxios.get('/admin/teachers').then(r => {
+      apiCache.set('admin_teachers', r.data.data);
+      setTeachers(r.data.data);
+    }).catch(() => {});
   };
 
   useEffect(() => {
@@ -33,6 +40,7 @@ export default function Teachers() {
     e.preventDefault(); setError(''); setLoading(true);
     try {
       const { data } = await authAxios.post('/admin/teachers', form);
+      apiCache.invalidate('admin_teachers');
       setTeachers(t => [...t, data.data]);
       setShowForm(false);
       setForm({ username:'', password:'', fullName:'', subject:'' });
@@ -56,6 +64,7 @@ export default function Teachers() {
     setConfirmModal(prev => ({ ...prev, loading: true }));
     try {
       await authAxios.delete(`/admin/teachers/${teacherId}`);
+      apiCache.invalidate('admin_teachers');
       setTeachers(prev => prev.filter(t => t._id !== teacherId));
     } catch {
     } finally {

@@ -1,11 +1,12 @@
 // src/components/TeacherClassSelector.jsx
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiCache } from '../utils/apiCache';
 
 export default function TeacherClassSelector({ onClassSelect }) {
   const { authAxios } = useAuth();
-  const [classes, setClasses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [classes, setClasses] = useState(() => apiCache.get('teacher_classes') || []);
+  const [loading, setLoading] = useState(() => !apiCache.get('teacher_classes'));
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -14,9 +15,27 @@ export default function TeacherClassSelector({ onClassSelect }) {
   });
 
   useEffect(() => {
+    const cached = apiCache.get('teacher_classes');
+    if (cached && cached.length > 0) {
+      setClasses(cached);
+      setLoading(false);
+      const found = cached.find(c => `${c.className}-${c.section}` === selectedKey);
+      if (found) {
+        onClassSelect(found);
+      } else {
+        const first = cached[0];
+        const key = `${first.className}-${first.section}`;
+        setSelectedKey(key);
+        localStorage.setItem('pgc_teacher_class_key', key);
+        onClassSelect(first);
+      }
+    }
+
+    // Silent background fetch / revalidation
     authAxios.get('/teacher/classes')
       .then(r => {
         const list = r.data.data;
+        apiCache.set('teacher_classes', list);
         setClasses(list);
 
         if (list.length > 0) {
@@ -24,7 +43,6 @@ export default function TeacherClassSelector({ onClassSelect }) {
           if (found) {
             onClassSelect(found);
           } else {
-            // Auto open menu if no class is selected yet
             const first = list[0];
             const key = `${first.className}-${first.section}`;
             setSelectedKey(key);
@@ -58,15 +76,15 @@ export default function TeacherClassSelector({ onClassSelect }) {
     setMenuOpen(false);
   }
 
-  if (loading) {
+  if (loading && classes.length === 0) {
     return (
       <div className="card" style={{ marginBottom: '1.25rem', padding: '1rem', color: 'var(--gray-500)' }}>
-        ⏳ Loading assigned classes…
+        ⚡ Loading assigned classes…
       </div>
     );
   }
 
-  if (classes.length === 0) {
+  if (!loading && classes.length === 0) {
     return (
       <div className="card" style={{ marginBottom: '1.25rem', background: 'var(--amber-50)', border: '1px solid #fde68a' }}>
         <h4 style={{ color: 'var(--amber-600)', margin: 0 }}>⚠️ No Classes Available</h4>

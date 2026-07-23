@@ -1,18 +1,26 @@
-// src/pages/Admin/Dashboard.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import ChartCard from '../../components/Cards/ChartCard';
 import MonthlyBarChart from '../../components/Charts/MonthlyBarChart';
+import { apiCache } from '../../utils/apiCache';
 
 export default function AdminDashboard() {
   const { authAxios } = useAuth();
-  const [analytics, setAnalytics] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [analytics, setAnalytics] = useState(() => apiCache.get('admin_analytics') || null);
+  const [loading, setLoading] = useState(() => !apiCache.get('admin_analytics'));
 
   useEffect(() => {
+    const cached = apiCache.get('admin_analytics');
+    if (cached) {
+      setAnalytics(cached);
+      setLoading(false);
+    }
     authAxios.get('/admin/analytics')
-      .then(r => setAnalytics(r.data.data))
-      .catch(() => { })
+      .then(r => {
+        apiCache.set('admin_analytics', r.data.data);
+        setAnalytics(r.data.data);
+      })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 

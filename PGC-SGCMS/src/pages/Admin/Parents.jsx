@@ -1,12 +1,12 @@
-// src/pages/Admin/Parents.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import QRCodeModal from '../../components/QRCodeModal';
+import { apiCache } from '../../utils/apiCache';
 
 export default function Parents() {
   const { authAxios } = useAuth();
-  const [credentials, setCredentials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [credentials, setCredentials] = useState(() => apiCache.get('admin_passwords') || []);
+  const [loading, setLoading] = useState(() => !apiCache.get('admin_passwords'));
   const [search, setSearch] = useState('');
   const [visiblePasswords, setVisiblePasswords] = useState({});
   const [copiedRoll, setCopiedRoll] = useState(null);
@@ -17,9 +17,20 @@ export default function Parents() {
   }, []);
 
   function fetchCredentials() {
-    setLoading(true);
+    const cached = apiCache.get('admin_passwords');
+    if (cached) {
+      setCredentials(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
     authAxios.get('/admin/passwords')
-      .then(r => setCredentials(r.data.data || []))
+      .then(r => {
+        const list = r.data.data || [];
+        apiCache.set('admin_passwords', list);
+        setCredentials(list);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }

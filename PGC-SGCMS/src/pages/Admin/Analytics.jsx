@@ -1,9 +1,9 @@
-// src/pages/Admin/Analytics.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import ChartCard from '../../components/Cards/ChartCard';
 import MonthlyBarChart from '../../components/Charts/MonthlyBarChart';
 import GrowthGauge from '../../components/Charts/GrowthGauge';
+import { apiCache } from '../../utils/apiCache';
 
 const attrLabels = {
   communication: 'Comm',
@@ -16,12 +16,21 @@ const attrLabels = {
 
 export default function Analytics() {
   const { authAxios } = useAuth();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(() => apiCache.get('admin_analytics') || null);
+  const [loading, setLoading] = useState(() => !apiCache.get('admin_analytics'));
 
   useEffect(() => {
+    const cached = apiCache.get('admin_analytics');
+    if (cached) {
+      setData(cached);
+      setLoading(false);
+    }
+
     authAxios.get('/admin/analytics')
-      .then(r => setData(r.data.data))
+      .then(r => {
+        apiCache.set('admin_analytics', r.data.data);
+        setData(r.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
+import { apiCache } from '../../utils/apiCache';
 
 export default function StudentList() {
   const { authAxios } = useAuth();
@@ -18,9 +19,22 @@ export default function StudentList() {
       setStudents([]);
       return;
     }
-    setLoading(true);
+
+    const cacheKey = `teacher_students_${clsObj.className}_${clsObj.section}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setStudents(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
+    // Silent background revalidation
     authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
-      .then(r => setStudents(r.data.data))
+      .then(r => {
+        apiCache.set(cacheKey, r.data.data);
+        setStudents(r.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -55,7 +69,7 @@ export default function StudentList() {
           <table>
             <thead><tr><th>Name</th><th>Roll No.</th><th>Class</th><th>Growth Index</th><th>Last Evaluated</th><th></th></tr></thead>
             <tbody>
-              {loading ? (
+              {loading && students.length === 0 ? (
                 <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>Loading class students…</td></tr>
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No students enrolled in this class.</td></tr>
@@ -81,4 +95,3 @@ export default function StudentList() {
     </div>
   );
 }
-
