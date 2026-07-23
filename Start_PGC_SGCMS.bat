@@ -20,9 +20,9 @@ start /min "PGC-Backend" cmd /c "title PGC-Backend && cd /d "%~dp0server" && npm
 :: Wait 2 seconds for Backend to initialize
 timeout /t 2 /nobreak >nul
 
-:: 3. Launch Frontend Web App in MINIMIZED window (Vite Server Mode)
+:: 3. Launch Frontend Web App in MINIMIZED window (Production Optimized Preview Mode for Sub-Second Speed)
 echo [3/4] Starting Frontend Web App on Port 5173 (Minimized)...
-start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npx vite --host --port 5173"
+start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npm run build && npx vite preview --host --port 5173"
 
 :: Wait 2 seconds for Frontend to initialize
 timeout /t 2 /nobreak >nul

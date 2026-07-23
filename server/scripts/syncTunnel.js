@@ -47,10 +47,14 @@ function checkText(data) {
     const payload = { url: liveUrl, updatedAt: new Date().toISOString() };
     fs.writeFileSync(LIVE_JSON, JSON.stringify(payload, null, 2));
 
+    // Pre-warm local frontend and Cloudflare tunnel routes so first browser load is sub-second
+    fetch(liveUrl).catch(() => {});
+    fetch('http://localhost:5173').catch(() => {});
+
     // Publish to instant zero-cache sync endpoint
     publishLiveUrl(liveUrl);
 
-    // Auto-open default browser exactly when tunnel is ready
+    // Auto-open default browser exactly when tunnel is warmed up and ready
     setTimeout(() => {
       require('child_process').exec('start "" "https://pgcswl-sgcms.vercel.app"');
     }, 1500);

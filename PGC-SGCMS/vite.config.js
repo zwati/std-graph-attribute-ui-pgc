@@ -25,6 +25,12 @@ export default defineConfig({
       'ngrok-skip-browser-warning': 'true',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
   },
 
   build: {
