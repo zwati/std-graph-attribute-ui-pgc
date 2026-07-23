@@ -157,7 +157,7 @@ export default function ClassManagement() {
   return (
     <div className="animate-fade">
       {/* Category & Class Navigation Header */}
-      <div style={{ display: 'flex', gap: '.5rem', marginBottom: '1.25rem', borderBottom: '2px solid var(--gray-200)', paddingBottom: '.5rem' }}>
+      <div className="class-mgmt-tabs">
         <button
           className={`btn ${activeTab === 'classes' ? 'btn-primary' : 'btn-outline'}`}
           onClick={() => setActiveTab('classes')}
@@ -180,7 +180,7 @@ export default function ClassManagement() {
 
       {/* ── TAB 1: CREATE CLASS UNDER CATEGORY ─────────────────────────────────── */}
       {activeTab === 'classes' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+        <div className="class-mgmt-grid">
           {/* Create Class Form */}
           <div className="card">
             <h3 style={{ marginBottom: '1rem' }}>Create New Class</h3>

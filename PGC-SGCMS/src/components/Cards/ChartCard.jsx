@@ -40,7 +40,7 @@ export default function ChartCard({ title, subtitle, children, style = {} }) {
         </div>
       )}
 
-      <div style={{ width: '100%', minWidth: 0, overflowX: 'auto' }}>
+      <div style={{ width: '100%', minWidth: 0 }}>
         {children}
       </div>
     </div>

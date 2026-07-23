@@ -4,12 +4,7 @@ import logoImg from '../assets/logo.png';
 
 export default function QRCodeModal({ isOpen, onClose }) {
   const getInitialUrl = () => {
-    if (typeof window === 'undefined') return 'http://192.168.100.42:5173';
-    // If running under standard HTTPS/HTTP or Cloudflare tunnel (no explicit port in location or port 80/443)
-    if (!window.location.port || window.location.port === '80' || window.location.port === '443') {
-      return `${window.location.protocol}//${window.location.hostname}`;
-    }
-    return `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    return 'https://pgcswl-sgcms.vercel.app';
   };
 
   const [portalUrl, setPortalUrl] = useState(getInitialUrl);
@@ -87,13 +82,14 @@ export default function QRCodeModal({ isOpen, onClose }) {
   return (
     <div style={{
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)',
+      background: 'rgba(13, 27, 75, 0.65)', backdropFilter: 'blur(4px)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      zIndex: 9999, padding: '1rem'
-    }} className="animate-fade">
+      zIndex: 9999, padding: '1rem', overflowY: 'auto'
+    }} className="animate-fade" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="card" style={{
-        maxWidth: 440, width: '100%', background: '#fff', borderRadius: 16,
-        padding: '1.75rem', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', textAlign: 'center'
+        maxWidth: 440, width: 'min(440px, 92vw)', background: '#fff', borderRadius: 16,
+        padding: '1.25rem 1.5rem', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', textAlign: 'center',
+        maxHeight: '90vh', maxHeight: '90dvh', overflowY: 'auto', margin: 'auto', position: 'relative'
       }}>
         {/* Close Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
