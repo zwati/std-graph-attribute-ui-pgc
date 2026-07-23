@@ -71,6 +71,19 @@ export function AuthProvider({ children }) {
       if (t) cfg.headers.Authorization = `Bearer ${t}`;
       return cfg;
     });
+    instance.interceptors.response.use(
+      response => response,
+      error => {
+        if (error.response && error.response.status === 401) {
+          // Token has expired or is invalid! Clear storage and redirect to login
+          localStorage.removeItem('pgc_token');
+          localStorage.removeItem('pgc_refresh');
+          localStorage.removeItem('pgc_user');
+          window.location.href = '/login?expired=true';
+        }
+        return Promise.reject(error);
+      }
+    );
     return instance;
   }, [apiUrl]);
 

@@ -38,6 +38,7 @@ export default function Login() {
   }, []);
 
   const navigate = useNavigate();
+  const expiredMsg = params.get('expired') === 'true';
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -67,6 +68,13 @@ export default function Login() {
   return (
     <div className="login-page">
       <div className="login-card animate-fade">
+        {/* Session Expired Alert Banner */}
+        {expiredMsg && (
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', color: '#991b1b', fontSize: '.8rem', fontWeight: 600 }}>
+            ⏳ Your session has expired due to inactivity. Please login again.
+          </div>
+        )}
+
         {/* PGC Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem', marginBottom: '1.5rem' }}>
           <img src={logoImg} alt="PGC Logo" style={{ width: 44, height: 44, objectFit: 'contain' }} />
