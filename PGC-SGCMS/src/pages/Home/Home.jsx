@@ -24,52 +24,180 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--pgc-navy)', fontFamily: 'Inter, sans-serif' }}>
 
-      {/* Top nav */}
-      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '1.25rem 2.5rem', borderBottom: '1px solid rgba(255,255,255,.08)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
-          <img src={logoImg} alt="PGC Logo" style={{ width: 44, height: 44, objectFit: 'contain' }} />
+      {/* Top Navbar */}
+      <nav style={{
+        display: 'flex',
+        justify: 'space-between',
+        alignItems: 'center',
+        padding: '1rem 2rem',
+        background: 'rgba(13, 27, 75, 0.85)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.85rem' }}>
+          <div style={{
+            background: '#ffffff',
+            borderRadius: '10px',
+            padding: '4px 8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          }}>
+            <img src={logoImg} alt="PGC Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
+          </div>
           <div>
-            <div style={{ color: '#fff', fontWeight: 800, fontSize: '1rem' }}>SGCMS</div>
-            <div style={{ color: 'rgba(255,255,255,.45)', fontSize: '.7rem' }}>Student Growth & Character System</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+              <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.05rem', letterSpacing: '.02em' }}>
+                PUNJAB COLLEGES
+              </span>
+              <span style={{
+                background: 'var(--pgc-red)',
+                color: '#fff',
+                fontSize: '.68rem',
+                fontWeight: 800,
+                padding: '.15rem .45rem',
+                borderRadius: '4px',
+                letterSpacing: '.04em'
+              }}>
+                SGCMS
+              </span>
+            </div>
+            <div style={{ color: 'rgba(255,255,255,.55)', fontSize: '.72rem', fontWeight: 500 }}>
+              Sahiwal Campus • Student Growth & Character System
+            </div>
           </div>
         </div>
-        <button className="btn" onClick={() => navigate('/login')}
-          style={{ background: 'var(--pgc-red)', color: '#fff', padding: '.55rem 1.25rem', fontSize: '.85rem' }}>
-          Sign In →
-        </button>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <button
+            onClick={() => document.getElementById('portals')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,.75)',
+              fontSize: '.85rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+            }}
+            onMouseOver={e => e.currentTarget.style.color = '#fff'}
+            onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.75)'}
+          >
+            Portals
+          </button>
+
+          <button
+            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,.75)',
+              fontSize: '.85rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+            }}
+            onMouseOver={e => e.currentTarget.style.color = '#fff'}
+            onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.75)'}
+          >
+            Features
+          </button>
+
+          <button
+            className="btn"
+            onClick={() => navigate('/login')}
+            style={{
+              background: 'linear-gradient(135deg, var(--pgc-red) 0%, #a00d26 100%)',
+              color: '#fff',
+              padding: '.55rem 1.35rem',
+              fontSize: '.85rem',
+              fontWeight: 700,
+              borderRadius: '8px',
+              boxShadow: '0 4px 14px rgba(200, 16, 46, 0.4)',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(200, 16, 46, 0.6)';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(200, 16, 46, 0.4)';
+            }}
+          >
+            Sign In →
+          </button>
+        </div>
       </nav>
 
       {/* Hero */}
-      <section style={{ padding: '6rem 2.5rem 5rem', textAlign: 'center', position: 'relative', overflow: 'hidden',
+      <section style={{
+        padding: '5rem 1.5rem 4.5rem',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
         backgroundImage: `url(${heroBg})`,
-        backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
         {/* Blur white glass overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 0 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 0 }} />
         <div style={{ position: 'absolute', width: 500, height: 500, borderRadius: '50%',
           background: 'var(--pgc-red)', opacity: .1, top: -100, right: -100, pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%',
           background: 'var(--pgc-navy)', opacity: .1, bottom: -50, left: -50, pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <span style={{ background: 'rgba(200,16,46,.1)', color: 'var(--pgc-red)',
-            padding: '.35rem 1rem', borderRadius: 999, fontSize: '.8rem', fontWeight: 600, letterSpacing: '.04em' }}>
-            Built for PGC Colleges
+        
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto' }}>
+          <span style={{
+            background: 'rgba(200,16,46,.12)',
+            color: 'var(--pgc-red)',
+            padding: '.4rem 1.1rem',
+            borderRadius: 999,
+            fontSize: '.82rem',
+            fontWeight: 700,
+            letterSpacing: '.05em',
+            border: '1px solid rgba(200,16,46,.25)'
+          }}>
+            PUNJAB GROUP OF COLLEGES
           </span>
-          <h1 style={{ color: 'var(--pgc-navy)', fontSize: '3rem', fontWeight: 900, marginTop: '1.5rem',
-            lineHeight: 1.15, marginBottom: '1.25rem' }}>
-            Student Growth &<br />
+          
+          <h1 style={{
+            color: 'var(--pgc-navy)',
+            fontSize: 'clamp(2rem, 5vw, 3.25rem)',
+            fontWeight: 900,
+            marginTop: '1.5rem',
+            lineHeight: 1.15,
+            marginBottom: '1.25rem'
+          }}>
+            Student Growth &amp;<br />
             <span style={{ color: 'var(--pgc-red)' }}>Character Management</span>
           </h1>
-          <p style={{ color: 'var(--gray-700)', fontSize: '1.1rem', maxWidth: 560, margin: '0 auto 2.5rem', fontWeight: 500 }}>
+          
+          <p style={{
+            color: 'var(--gray-800)',
+            fontSize: 'clamp(0.95rem, 2vw, 1.15rem)',
+            maxWidth: 580,
+            margin: '0 auto 2.5rem',
+            fontWeight: 500,
+            lineHeight: 1.6
+          }}>
             A digital platform that replaces verbal PTM feedback with data-driven character reports, interactive charts, and downloadable PDF summaries.
           </p>
+          
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn" onClick={() => navigate('/login')}
-              style={{ background: 'var(--pgc-red)', color: '#fff', fontSize: '1rem', padding: '.75rem 2rem' }}>
+              style={{ background: 'var(--pgc-red)', color: '#fff', fontSize: '1rem', padding: '.75rem 2.25rem', borderRadius: '10px', boxShadow: '0 4px 14px rgba(200,16,46,0.4)' }}>
               Get Started
             </button>
             <button className="btn btn-outline" onClick={() => document.getElementById('portals').scrollIntoView({ behavior: 'smooth' })}
-              style={{ color: 'var(--pgc-navy)', borderColor: 'rgba(13,27,75,.4)', fontSize: '1rem', padding: '.75rem 2rem' }}>
+              style={{ color: 'var(--pgc-navy)', borderColor: 'rgba(13,27,75,.4)', fontSize: '1rem', padding: '.75rem 2rem', borderRadius: '10px', background: 'rgba(255,255,255,0.7)' }}>
               View Portals ↓
             </button>
           </div>
@@ -77,10 +205,10 @@ export default function Home() {
       </section>
 
       {/* Portal cards */}
-      <section id="portals" style={{ padding: '2rem 2.5rem 4rem' }}>
-        <h2 style={{ color: 'rgba(255,255,255,.6)', fontSize: '.85rem', fontWeight: 600,
-          textTransform: 'uppercase', letterSpacing: '.08em', textAlign: 'center', marginBottom: '2rem' }}>
-          Three dedicated portals
+      <section id="portals" style={{ padding: '3rem 1.5rem 4rem' }}>
+        <h2 style={{ color: 'rgba(255,255,255,.6)', fontSize: '.85rem', fontWeight: 700,
+          textTransform: 'uppercase', letterSpacing: '.1em', textAlign: 'center', marginBottom: '2rem' }}>
+          Three Dedicated Portals
         </h2>
         <div className="portal-cards" style={{ maxWidth: 1100, margin: '0 auto' }}>
           {portals.map(p => (
@@ -89,9 +217,9 @@ export default function Home() {
                 <span style={{ fontSize: '2rem' }}>{p.icon}</span>
               </div>
               <h3 style={{ color: '#fff', marginBottom: '.5rem' }}>{p.label}</h3>
-              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.875rem', lineHeight: 1.6 }}>{p.desc}</p>
+              <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.875rem', lineHeight: 1.6 }}>{p.desc}</p>
               <div style={{ marginTop: '1.25rem' }}>
-                <span style={{ color: p.color, fontSize: '.85rem', fontWeight: 600 }}>Enter portal →</span>
+                <span style={{ color: p.color, fontSize: '.85rem', fontWeight: 700 }}>Enter portal →</span>
               </div>
             </div>
           ))}
@@ -99,33 +227,28 @@ export default function Home() {
       </section>
 
       {/* Features grid */}
-      <section style={{ background: 'rgba(255,255,255,.03)', padding: '3rem 2.5rem' }}>
-        <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '2.5rem' }}>Platform Features</h2>
+      <section id="features" style={{ background: 'rgba(255,255,255,.03)', padding: '3.5rem 1.5rem' }}>
+        <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 800 }}>Platform Features</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
           gap: '1.25rem', maxWidth: 1100, margin: '0 auto' }}>
           {features.map(f => (
             <div key={f.title} style={{ background: 'rgba(255,255,255,.05)',
-              border: '1px solid rgba(255,255,255,.08)', borderRadius: 12, padding: '1.5rem' }}>
+              border: '1px solid rgba(255,255,255,.08)', borderRadius: 14, padding: '1.5rem' }}>
               <div style={{ fontSize: '2rem', marginBottom: '.75rem' }}>{f.icon}</div>
-              <h4 style={{ color: '#fff', marginBottom: '.4rem' }}>{f.title}</h4>
-              <p style={{ color: 'rgba(255,255,255,.5)', fontSize: '.875rem', lineHeight: 1.6 }}>{f.desc}</p>
+              <h4 style={{ color: '#fff', marginBottom: '.4rem', fontWeight: 700 }}>{f.title}</h4>
+              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.875rem', lineHeight: 1.6 }}>{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,.08)', padding: '1.5rem 2.5rem',
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,.08)', padding: '1.5rem 2rem',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        <span style={{ color: 'rgba(255,255,255,.35)', fontSize: '.8rem' }}>© 2026 PGC Colleges — SGCMS v1.0</span>
-        <a
-          href="mailto:zwatisolutions@gmail.com?subject=PGC%20SGCMS%20Inquiry"
-          style={{ color: 'rgba(255,255,255,.6)', fontSize: '.82rem', textDecoration: 'none' }}
-          onMouseOver={e => e.currentTarget.style.color = '#fff'}
-          onMouseOut={e => e.currentTarget.style.color = 'rgba(255,255,255,.6)'}
-        >
-          Developed by <strong style={{ color: '#fff', textDecoration: 'underline' }}>ZWATI Solutions</strong>
-        </a>
+        <span style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem' }}>© 2026 Punjab Group of Colleges — SGCMS v1.0</span>
+        <div style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem', userSelect: 'none' }}>
+          Developed by <span style={{ color: 'rgba(255,255,255,.7)', fontWeight: 600 }}>ZWATI Solutions</span>
+        </div>
       </footer>
     </div>
   );

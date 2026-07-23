@@ -145,20 +145,18 @@ export default function Login() {
             <span>←</span> Back to Home
           </button>
 
-          <a
-            href="mailto:zwatisolutions@gmail.com?subject=PGC%20SGCMS%20Inquiry"
+          <div
             style={{
               fontSize: '.75rem',
-              color: 'var(--gray-500)',
-              textDecoration: 'none',
+              color: '#9ca3af',
               marginTop: '.2rem',
-              transition: 'color 0.2s ease',
+              fontWeight: 500,
+              letterSpacing: '.02em',
+              userSelect: 'none',
             }}
-            onMouseOver={e => e.currentTarget.style.color = 'var(--pgc-navy)'}
-            onMouseOut={e => e.currentTarget.style.color = 'var(--gray-500)'}
           >
-            Developed by <strong style={{ color: 'var(--pgc-navy)', textDecoration: 'underline' }}>ZWATI Solutions</strong>
-          </a>
+            Developed by <span style={{ color: '#6b7280', fontWeight: 600 }}>ZWATI Solutions</span>
+          </div>
         </div>
       </div>
     </div>

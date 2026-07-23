@@ -385,10 +385,10 @@ select.input, .input {
   }
 
   /* Compact fonts & cards for small screens */
-  h1 { font-size: 1.4rem; }
-  h2 { font-size: 1.2rem; }
-  h3 { font-size: 1rem; }
-  h4 { font-size: .9rem; }
+  h1 { font-size: 1.35rem; }
+  h2 { font-size: 1.15rem; }
+  h3 { font-size: 0.95rem; }
+  h4 { font-size: .85rem; }
   body, p { font-size: .83rem; }
 
   .card {
@@ -402,7 +402,7 @@ select.input, .input {
   }
 
   .stat-card {
-    padding: .85rem;
+    padding: .75rem .85rem;
     gap: .65rem;
   }
 
@@ -417,11 +417,11 @@ select.input, .input {
   }
 
   .stat-val {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .stat-lbl {
-    font-size: .72rem;
+    font-size: .7rem;
   }
 
   .btn {
@@ -439,12 +439,41 @@ select.input, .input {
     font-size: .83rem;
   }
 
+  .login-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 12px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -0.5rem;
+    padding: 0 0.5rem;
+  }
+
   table {
-    font-size: .8rem;
+    font-size: .78rem;
+    min-width: 500px;
   }
 
   thead th, tbody td {
-    padding: .55rem .65rem;
+    padding: .5rem .55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+  .portal-cards {
+    grid-template-columns: 1fr;
+  }
+  .login-tabs {
+    gap: .25rem;
+  }
+  .login-tab {
+    padding: .45rem .35rem;
+    font-size: .78rem;
   }
 }
 
