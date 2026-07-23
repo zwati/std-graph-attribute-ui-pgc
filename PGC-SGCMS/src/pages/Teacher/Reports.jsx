@@ -68,7 +68,7 @@ export default function TeacherReports() {
       </div>
 
       <ChartCard title={`Growth Index per Student (${selectedClass ? `${selectedClass.className} ${selectedClass.section}` : 'Selected Class'})`} subtitle="Current scores">
-        <MonthlyBarChart data={barData} />
+        <MonthlyBarChart data={barData} domain={[0, 100]} />
       </ChartCard>
     </div>
   );

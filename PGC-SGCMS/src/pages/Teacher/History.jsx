@@ -6,7 +6,7 @@ import StarRating from '../../components/Rating/StarRating';
 import ChartCard from '../../components/Cards/ChartCard';
 import CharacterRadar from '../../components/Charts/CharacterRadar';
 import TrendLineChart from '../../components/Charts/TrendLineChart';
-import { formatMonth } from '../../utils/formatDate';
+import { formatMonth, formatDate } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
 import { apiCache } from '../../utils/apiCache';
@@ -87,7 +87,7 @@ export default function History() {
 
   // Format trend line chart data from evaluation history including leadership
   const trendData = [...evaluations].reverse().map(e => ({
-    month: formatMonth(e.month),
+    month: formatDate(e.createdAt),
     communication: e.communication,
     participation: e.participation,
     discipline: e.discipline,
@@ -164,7 +164,7 @@ export default function History() {
         <div className="table-wrap">
           <table>
             <thead>
-              <tr><th>Month</th><th>Comm</th><th>Part</th><th>Disc</th><th>Team</th><th>Resp</th><th>Lead</th><th>Score</th><th>Remarks</th></tr>
+              <tr><th>Date</th><th>Comm</th><th>Part</th><th>Disc</th><th>Team</th><th>Resp</th><th>Lead</th><th>Score</th><th>Remarks</th></tr>
             </thead>
             <tbody>
               {loading
@@ -173,7 +173,7 @@ export default function History() {
                   ? <tr><td colSpan={9} style={{ textAlign:'center', padding:'2rem', color:'var(--gray-400)' }}>No evaluations yet</td></tr>
                   : evaluations.map(e => (
                     <tr key={e._id}>
-                      <td style={{ fontWeight:600 }}>{formatMonth(e.month)}</td>
+                      <td style={{ fontWeight:600 }}>{formatDate(e.createdAt)}</td>
                       {['communication','participation','discipline','teamwork','responsibility','leadership'].map(a => (
                         <td key={a}><StarRating value={e[a] || 0} readOnly size=".85rem" /></td>
                       ))}

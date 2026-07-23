@@ -11,7 +11,9 @@ import {
  * @param {number[]} domain - [0, 5] rating scale
  */
 export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain = [0, 5] }) {
-  const ticks = domain[1] === 5 ? [0, 1, 2, 3, 4, 5] : undefined;
+  const ticks = domain[1] === 100 
+    ? [0, 20, 40, 60, 80, 100] 
+    : (domain[1] === 5 ? [0, 1, 2, 3, 4, 5] : undefined);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -35,7 +37,7 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
           tick={{ fill: '#6b7280', fontSize: 13 }}
         />
 
-        {/* Y-axis: 1–5 scale */}
+        {/* Y-axis: dynamic scale */}
         <YAxis
           domain={domain}
           axisLine={false}
@@ -46,7 +48,7 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
 
         <Tooltip
           cursor={{ fill: '#f9fafb' }}
-          formatter={(val) => [`${val} / 5`, 'Rating Score']}
+          formatter={(val) => [`${val} / ${domain[1]}`, 'Rating Score']}
           contentStyle={{
             borderRadius: 8,
             border: '1px solid #e5e7eb',
