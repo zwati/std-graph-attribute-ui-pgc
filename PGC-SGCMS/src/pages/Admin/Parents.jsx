@@ -12,7 +12,6 @@ export default function Parents() {
   const [copiedRoll, setCopiedRoll] = useState(null);
   const [showQR, setShowQR] = useState(false);
 
-
   useEffect(() => {
     fetchCredentials();
   }, []);
@@ -43,7 +42,6 @@ export default function Parents() {
   );
 
   function handleExportPDF() {
-
     if (!filtered.length) return alert('No credentials available to export.');
 
     const printWindow = window.open('', '_blank');
@@ -58,7 +56,6 @@ export default function Parents() {
         <td>${s.fatherName || '—'}</td>
         <td>${s.class || ''} (${s.section || s.category || ''})</td>
         <td><span style="background:#fef3c7; border:1px solid #f59e0b; padding:2px 8px; border-radius:4px; font-family:monospace; font-weight:bold; color:#92400e;">${s.parentPassword || '—'}</span></td>
-        <td style="text-align:center; font-weight:bold; color:#d97706;">${s.result9th || '—'}</td>
       </tr>
     `).join('');
 
@@ -66,44 +63,42 @@ export default function Parents() {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>PGC Parent Credentials Report - ${dateStr}</title>
+        <title>Parent Credentials List — PGC SGCMS</title>
         <style>
-          @page { size: A4 portrait; margin: 12mm; }
-          body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; margin: 0; padding: 15px; }
-          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #800000; padding-bottom: 10px; margin-bottom: 15px; }
-          .title-block h1 { margin: 0; color: #800000; font-size: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
-          .title-block p { margin: 3px 0 0; color: #64748b; font-size: 12px; }
-          .meta { text-align: right; font-size: 12px; color: #475569; }
-          table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
-          th { background-color: #0d1b4b; color: #ffffff; padding: 7px 9px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-          td { padding: 6px 9px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
-          tr:nth-child(even) { background-color: #f8fafc; }
-          .footer { margin-top: 25px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+          @page { size: A4 landscape; margin: 12mm; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 20px; }
+          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #800000; padding-bottom: 12px; margin-bottom: 16px; }
+          h1 { margin: 0; font-size: 22px; color: #800000; text-transform: uppercase; }
+          .sub { font-size: 13px; color: #64748b; margin-top: 4px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+          th { background: #0d1b4b; color: #ffffff; padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; }
+          td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+          tr:nth-child(even) { background: #f8fafc; }
+          .footer { margin-top: 20px; font-size: 11px; color: #94a3b8; text-align: center; }
         </style>
       </head>
       <body>
         <div class="header">
-          <div class="title-block">
+          <div>
             <h1>PUNJAB GROUP OF COLLEGES</h1>
-            <p>Parent Portal Credentials & Student Directory</p>
+            <div class="sub">Student Growth System · Parent Credentials Directory</div>
           </div>
-          <div class="meta">
-            <div><strong>Date:</strong> ${dateStr}</div>
-            <div><strong>Total Students:</strong> ${filtered.length}</div>
+          <div style="text-align:right; font-size:12px; color:#64748b;">
+            Date: <strong>${dateStr}</strong><br/>
+            Total Accounts: <strong>${filtered.length}</strong>
           </div>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th style="width:25px; text-align:center;">#</th>
+              <th style="width:40px; text-align:center;">#</th>
               <th>ID (Roll No.)</th>
               <th>Board Roll No.</th>
               <th>Student Name</th>
               <th>Father's Name</th>
               <th>Class & Section</th>
               <th>Parent Password</th>
-              <th style="text-align:center;">9th Class Result</th>
             </tr>
           </thead>
           <tbody>
@@ -131,7 +126,7 @@ export default function Parents() {
   function handleExportCSV() {
     if (!filtered.length) return alert('No credentials available to export.');
 
-    const headers = ['Sr No', 'ID (Roll No)', 'Board Roll No', 'Student Name', 'Father Name', 'Gender', 'Class', 'Section', 'Category', 'Parent Password', '9th Class Result'];
+    const headers = ['Sr No', 'ID (Roll No)', 'Board Roll No', 'Student Name', 'Father Name', 'Gender', 'Class', 'Section', 'Category', 'Parent Password'];
     const csvRows = [headers.join(',')];
 
     filtered.forEach((s, idx) => {
@@ -146,7 +141,6 @@ export default function Parents() {
         `"${s.section || ''}"`,
         `"${s.category || ''}"`,
         `"${s.parentPassword || ''}"`,
-        `"${s.result9th || ''}"`
       ];
       csvRows.push(row.join(','));
     });
@@ -155,7 +149,7 @@ export default function Parents() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `PGC_Parent_Credentials_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute('download', `PGC_Parent_Credentials_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -163,11 +157,12 @@ export default function Parents() {
 
   return (
     <div className="animate-fade">
+      {/* Top Header Card */}
       <div className="card" style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h3 style={{ margin: 0 }}>🔑 Parent Credentials Management (`std-pgc-pswd.json`)</h3>
+          <h3 style={{ margin: 0, color: 'var(--pgc-navy)', fontWeight: 800 }}>🔑 Parent Credentials Directory</h3>
           <p style={{ margin: '.25rem 0 0', fontSize: '.85rem', color: 'var(--gray-500)' }}>
-            Parent usernames match their child's Roll Number. Passwords are saved in <code>std-pgc-pswd.json</code> in the workspace root.
+            Manage and copy parent portal login credentials for student roster.
           </p>
         </div>
 
@@ -175,7 +170,7 @@ export default function Parents() {
           <input
             type="text"
             className="input"
-            placeholder="Search student or roll number..."
+            placeholder="🔍 Search student or roll number..."
             style={{ width: 220 }}
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -197,8 +192,7 @@ export default function Parents() {
 
       <QRCodeModal isOpen={showQR} onClose={() => setShowQR(false)} />
 
-
-
+      {/* Table Card */}
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div className="table-wrap">
           <table>
@@ -216,7 +210,7 @@ export default function Parents() {
               {loading ? (
                 <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>Loading parent credentials…</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No matching parent records found in std-pgc-pswd.json</td></tr>
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--gray-400)' }}>No matching parent records found.</td></tr>
               ) : (
                 filtered.map(s => {
                   const isVisible = visiblePasswords[s.rollNumber];
@@ -239,28 +233,29 @@ export default function Parents() {
                         </code>
                       </td>
                       <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                          <code style={{ background: isVisible ? '#fef3c7' : 'var(--gray-100)', padding: '.2rem .5rem', borderRadius: 4, fontWeight: 700, minWidth: 90, textAlign: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+                          <code style={{ background: isVisible ? '#fef3c7' : 'var(--gray-100)', padding: '.2rem .5rem', borderRadius: 4, fontWeight: 700, minWidth: 80, textAlign: 'center' }}>
                             {isVisible ? s.parentPassword : '••••••••'}
                           </code>
                           <button
                             type="button"
                             className="btn btn-outline btn-sm"
-                            style={{ padding: '.2rem .5rem', fontSize: '.75rem' }}
+                            style={{ padding: '.2rem .45rem', fontSize: '.85rem', lineHeight: 1 }}
                             onClick={() => toggleShowPassword(s.rollNumber)}
                             title={isVisible ? 'Hide Password' : 'Show Password'}
                           >
-                            {isVisible ? '🙈 Hide' : '👁️ Show'}
+                            {isVisible ? '🙈' : '👁️'}
                           </button>
                         </div>
                       </td>
-                      <td>
+                      <td style={{ verticalAlign: 'middle' }}>
                         <button
                           type="button"
                           className="btn btn-primary btn-sm"
                           onClick={() => copyCredentials(s)}
+                          style={{ padding: '.3rem .85rem' }}
                         >
-                          {isCopied ? '✅ Copied!' : '📋 Copy Login Info'}
+                          {isCopied ? 'Copied!' : 'Copy'}
                         </button>
                       </td>
                     </tr>

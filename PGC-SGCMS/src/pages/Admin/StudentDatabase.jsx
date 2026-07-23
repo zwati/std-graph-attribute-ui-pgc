@@ -245,7 +245,7 @@ export default function StudentDatabase() {
                       {s.growthIndex > 0 ? s.growthIndex.toFixed(1) : 'Not rated'}
                     </span>
                   </td>
-                  <td style={{ display: 'flex', gap: '.4rem' }}>
+                  <td style={{ verticalAlign: 'middle' }}>
                     <button className="btn btn-danger btn-sm" onClick={() => requestDeleteStudent(s)}>Delete</button>
                   </td>
                 </tr>

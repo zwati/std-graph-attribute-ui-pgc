@@ -197,6 +197,19 @@ async function addTeacher(req, res) {
   }
 }
 
+// DELETE /api/admin/teachers/:id
+async function deleteTeacher(req, res) {
+  try {
+    const teacher = await Teacher.findByIdAndDelete(req.params.id);
+    if (!teacher) return fail(res, 'Teacher not found', 404);
+    // Also remove linked teacher User account
+    if (teacher.userId) {
+      await User.deleteOne({ _id: teacher.userId });
+    }
+    return ok(res, { message: 'Teacher deleted' });
+  } catch (err) { return serverError(res, err); }
+}
+
 // GET /api/admin/analytics  — school-wide growth summary
 async function getAnalytics(req, res) {
   try {
@@ -248,7 +261,7 @@ async function getAnalytics(req, res) {
 module.exports = {
   getClasses, addClass, deleteClass,
   getStudents, addStudent, updateStudent, deleteStudent, getParentPasswords,
-  getTeachers, addTeacher, getAnalytics,
+  getTeachers, addTeacher, deleteTeacher, getAnalytics,
 };
 
 

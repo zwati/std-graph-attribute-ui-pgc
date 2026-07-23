@@ -43,18 +43,7 @@ export default function Home() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
               <span className="home-nav-brand-title" style={{ color: '#fff', fontWeight: 800, fontSize: '1rem', letterSpacing: '.02em' }}>
-                PUNJAB COLLEGES
-              </span>
-              <span style={{
-                background: 'var(--pgc-red)',
-                color: '#fff',
-                fontSize: '.65rem',
-                fontWeight: 800,
-                padding: '.15rem .4rem',
-                borderRadius: '4px',
-                letterSpacing: '.04em'
-              }}>
-                SGCMS
+                PUNJAB COLLEGES <span style={{ color: 'var(--pgc-red)' }}>SGCMS</span>
               </span>
             </div>
             <div className="home-nav-brand-sub" style={{ color: 'rgba(255,255,255,.55)', fontSize: '.72rem', fontWeight: 500 }}>
