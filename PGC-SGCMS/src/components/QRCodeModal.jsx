@@ -1,21 +1,25 @@
 // src/components/QRCodeModal.jsx
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import logoImg from '../assets/logo.png';
 
 export default function QRCodeModal({ isOpen, onClose }) {
-  const getInitialUrl = () => {
-    return 'https://pgcswl-sgcms.vercel.app';
-  };
-
-  const [portalUrl, setPortalUrl] = useState(getInitialUrl);
+  const portalUrl = 'https://pgcswl-sgcms.vercel.app';
   const [copied, setCopied] = useState(false);
 
+  // Lock background scroll when modal is open
   useEffect(() => {
-    setPortalUrl(getInitialUrl());
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
-
 
   // Use QuickChart QR Code API for crisp vector QR rendering
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(portalUrl)}&color=0d1b4b&bgcolor=ffffff`;
@@ -79,71 +83,113 @@ export default function QRCodeModal({ isOpen, onClose }) {
     printWindow.document.close();
   }
 
-  return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(13, 27, 75, 0.65)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      zIndex: 9999, padding: '1rem', overflowY: 'auto'
-    }} className="animate-fade" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="card" style={{
-        maxWidth: 440, width: 'min(440px, 92vw)', background: '#fff', borderRadius: 16,
-        padding: '1.25rem 1.5rem', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', textAlign: 'center',
-        maxHeight: '90vh', maxHeight: '90dvh', overflowY: 'auto', margin: 'auto', position: 'relative'
-      }}>
+  const modalContent = (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(13, 27, 75, 0.75)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 999999,
+        padding: '1rem',
+      }}
+      onClick={e => e.target === e.currentTarget && onClose()}
+    >
+      <div
+        className="card"
+        style={{
+          maxWidth: 420,
+          width: 'min(420px, 92vw)',
+          background: '#ffffff',
+          borderRadius: 16,
+          padding: '1.5rem',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          textAlign: 'center',
+          maxHeight: '90vh',
+          maxHeight: '90dvh',
+          overflowY: 'auto',
+          margin: 'auto',
+          position: 'relative',
+          animation: 'modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
+      >
         {/* Close Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-            <img src={logoImg} alt="PGC Logo" style={{ width: 28, height: 28 }} />
-            <h3 style={{ margin: 0, color: 'var(--pgc-navy)', fontSize: '1.05rem' }}>Portal QR Access Card</h3>
+            <img src={logoImg} alt="PGC Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
+            <h3 style={{ margin: 0, color: 'var(--pgc-navy)', fontSize: '1.05rem', fontWeight: 800 }}>Portal QR Access Card</h3>
           </div>
           <button
             onClick={onClose}
-            style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--gray-400)' }}
+            style={{
+              background: 'rgba(0,0,0,0.05)',
+              border: 'none',
+              width: 30,
+              height: 30,
+              borderRadius: '50%',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              color: 'var(--gray-600)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
             ✕
           </button>
         </div>
 
-        <p style={{ fontSize: '.82rem', color: 'var(--gray-500)', margin: '0 0 .75rem' }}>
-          Parents can scan this QR code using any mobile phone camera to open the portal directly.
+        <p style={{ fontSize: '.82rem', color: 'var(--gray-600)', margin: '0 0 .85rem', lineHeight: 1.5 }}>
+          Parents can scan this QR code using any smartphone camera to access the portal directly.
         </p>
 
-        {/* Editable URL Input */}
+        {/* Clean Non-Technical Link */}
         <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
-          <label className="label" style={{ fontSize: '.75rem', color: 'var(--pgc-navy)' }}>Target Portal URL / Cloudflare Tunnel</label>
+          <label className="label" style={{ fontSize: '.75rem', color: 'var(--pgc-navy)', fontWeight: 700, marginBottom: '.25rem' }}>
+            Official Portal Web Link
+          </label>
           <input
             type="text"
             className="input"
-            style={{ fontSize: '.8rem', padding: '.35rem .6rem' }}
+            readOnly
+            style={{ fontSize: '.82rem', padding: '.45rem .75rem', background: 'var(--gray-50)', color: 'var(--pgc-navy)', fontWeight: 600 }}
             value={portalUrl}
-            onChange={e => setPortalUrl(e.target.value)}
-            placeholder="https://your-tunnel.trycloudflare.com"
           />
         </div>
 
         {/* QR Code Container */}
         <div style={{
-          background: 'var(--gray-50)', border: '2px solid var(--pgc-navy)',
-          borderRadius: 12, padding: '1rem', display: 'inline-block', marginBottom: '1rem'
+          background: '#f8fafc',
+          border: '2px solid var(--pgc-navy)',
+          borderRadius: 14,
+          padding: '1rem',
+          display: 'inline-block',
+          marginBottom: '1.25rem',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
         }}>
           <img
             src={qrImageUrl}
             alt="Portal Access QR Code"
-            style={{ width: 180, height: 180, borderRadius: 6, display: 'block', margin: '0 auto' }}
+            style={{ width: 190, height: 190, borderRadius: 8, display: 'block', margin: '0 auto' }}
           />
-          <div style={{ fontSize: '.75rem', fontFamily: 'monospace', color: 'var(--pgc-navy)', fontWeight: 700, marginTop: '.5rem', wordBreak: 'break-all' }}>
+          <div style={{ fontSize: '.75rem', fontFamily: 'monospace', color: 'var(--pgc-navy)', fontWeight: 700, marginTop: '.6rem', wordBreak: 'break-all' }}>
             {portalUrl}
           </div>
         </div>
 
-
         {/* Action Controls */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-          <button className="btn btn-primary" onClick={handlePrintCard} style={{ justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+          <button className="btn btn-primary" onClick={handlePrintCard} style={{ justifyContent: 'center', padding: '.65rem 1rem' }}>
             📄 Print Official QR Card for Parents
           </button>
-          <div style={{ display: 'flex', gap: '.5rem' }}>
+          <div style={{ display: 'flex', gap: '.6rem' }}>
             <button className="btn btn-outline" onClick={handleCopyUrl} style={{ flex: 1, justifyContent: 'center' }}>
               {copied ? '✅ Link Copied!' : '📋 Copy Link'}
             </button>
@@ -162,4 +208,6 @@ export default function QRCodeModal({ isOpen, onClose }) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
