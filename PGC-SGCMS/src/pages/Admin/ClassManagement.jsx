@@ -82,17 +82,26 @@ export default function ClassManagement() {
   // Fetch students for selected class roster
   const fetchRoster = useCallback(async () => {
     if (!selectedClassObj) return;
-    setRosterLoading(true);
+    const cacheKey = `roster_${selectedClassObj.className}_${selectedClassObj.section}_${selectedClassObj.category}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setRosterStudents(cached);
+      setRosterLoading(false);
+    } else {
+      if (rosterStudents.length === 0) setRosterLoading(true);
+    }
+
     try {
       const { data } = await authAxios.get(
         `/admin/students?class=${encodeURIComponent(selectedClassObj.className)}&section=${encodeURIComponent(selectedClassObj.section)}&category=${encodeURIComponent(selectedClassObj.category)}&limit=500`
       );
+      apiCache.set(cacheKey, data.data.students);
       setRosterStudents(data.data.students);
     } catch { } finally { setRosterLoading(false); }
   }, [selectedClassObj]);
 
   useEffect(() => {
-    if (activeTab === 'manageRoster' && selectedClassObj) {
+    if ((activeTab === 'manageRoster' || activeTab === 'addStudent') && selectedClassObj) {
       fetchRoster();
     }
   }, [activeTab, selectedClassObj, fetchRoster]);
@@ -162,6 +171,8 @@ export default function ClassManagement() {
         category: selectedClassObj.category,
       };
       const { data } = await authAxios.post('/admin/students', payload);
+      apiCache.invalidate('roster_');
+      apiCache.invalidate('admin_');
       setStudentResult(data.data);
       setStudentForm({ rollNumber: '', boardRollNumber: '', studentName: '', fatherName: '', gender: 'Male', result9th: '', parentPassword: '' });
 
@@ -188,6 +199,8 @@ export default function ClassManagement() {
     setConfirmModal(prev => ({ ...prev, loading: true }));
     try {
       await authAxios.delete(`/admin/students/${studentId}`);
+      apiCache.invalidate('roster_');
+      apiCache.invalidate('admin_');
       setRosterStudents(prev => prev.filter(s => s._id !== studentId));
       fetchClasses();
     } catch {

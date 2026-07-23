@@ -5,6 +5,8 @@ import ChartCard from '../../components/Cards/ChartCard';
 import MonthlyBarChart from '../../components/Charts/MonthlyBarChart';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
 
+import { apiCache } from '../../utils/apiCache';
+
 export default function TeacherReports() {
   const { authAxios } = useAuth();
   const [selectedClass, setSelectedClass] = useState(null);
@@ -15,8 +17,16 @@ export default function TeacherReports() {
       setStudents([]);
       return;
     }
+    const cacheKey = `teacher_students_${clsObj.className}_${clsObj.section}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached) {
+      setStudents(cached);
+    }
     authAxios.get(`/teacher/students?class=${encodeURIComponent(clsObj.className)}&section=${encodeURIComponent(clsObj.section)}`)
-      .then(r => setStudents(r.data.data))
+      .then(r => {
+        apiCache.set(cacheKey, r.data.data);
+        setStudents(r.data.data);
+      })
       .catch(() => {});
   }, []);
 

@@ -66,13 +66,28 @@ export default function StudentEvaluation() {
 
   useEffect(() => {
     if (selectedId) {
+      const studentCacheKey = `student_detail_${selectedId}`;
+      const evalCacheKey = `teacher_eval_history_${selectedId}`;
+
+      const cachedStudent = apiCache.get(studentCacheKey);
+      if (cachedStudent) setStudent(cachedStudent);
+
+      const cachedEval = apiCache.get(evalCacheKey);
+      if (cachedEval) {
+        setPrevEval(cachedEval[0] || null);
+      }
+
       authAxios.get(`/teacher/students/${selectedId}`)
-        .then(r => setStudent(r.data.data)).catch(() => {});
+        .then(r => {
+          apiCache.set(studentCacheKey, r.data.data);
+          setStudent(r.data.data);
+        }).catch(() => {});
 
       // Fetch latest evaluation history for previous scores
       authAxios.get(`/teacher/evaluations/${selectedId}`)
         .then(r => {
           const history = r.data.data;
+          apiCache.set(evalCacheKey, history);
           if (history && history.length > 0) {
             setPrevEval(history[0]);
           } else {
