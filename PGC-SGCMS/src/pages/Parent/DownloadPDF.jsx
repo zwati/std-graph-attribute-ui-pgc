@@ -146,30 +146,32 @@ export default function DownloadPDF() {
         {latestEval && (
           <div style={{ marginBottom:'1.5rem' }}>
             <h4 style={{ marginBottom:'.75rem', color:'var(--pgc-navy)' }}>Character Attribute Scores (Latest Evaluation — {formatMonth(latestEval.month)})</h4>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'.875rem' }}>
-              <thead>
-                <tr style={{ background:'var(--pgc-navy)' }}>
-                  {['Attribute','Rating (1–5)','Score (%)','Assessment'].map(h => (
-                    <th key={h} style={{ padding:'.6rem .85rem', textAlign:'left', color:'#fff', fontWeight:600 }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(ATTR_LABELS).map(([k, label], i) => {
-                  const val = latestEval[k] ?? 0;
-                  const pct = Math.round(val / 5 * 100);
-                  const lvl = pct >= 80 ? 'Excellent' : pct >= 60 ? 'Good' : pct >= 40 ? 'Developing' : 'Needs Improvement';
-                  return (
-                    <tr key={k} style={{ background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
-                      <td style={{ padding:'.6rem .85rem', fontWeight:600 }}>{label}</td>
-                      <td style={{ padding:'.6rem .85rem' }}>{'★'.repeat(val)}{'☆'.repeat(5 - val)}</td>
-                      <td style={{ padding:'.6rem .85rem', fontWeight:700, color:growthColor(pct) }}>{pct}%</td>
-                      <td style={{ padding:'.6rem .85rem', color:'var(--gray-600)' }}>{lvl}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="table-wrap">
+              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'.875rem' }}>
+                <thead>
+                  <tr style={{ background:'var(--pgc-navy)' }}>
+                    {['Attribute','Rating (1–5)','Score (%)','Assessment'].map(h => (
+                      <th key={h} style={{ padding:'.6rem .85rem', textAlign:'left', color:'#fff', fontWeight:600 }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(ATTR_LABELS).map(([k, label], i) => {
+                    const val = latestEval[k] ?? 0;
+                    const pct = Math.round(val / 5 * 100);
+                    const lvl = pct >= 80 ? 'Excellent' : pct >= 60 ? 'Good' : pct >= 40 ? 'Developing' : 'Needs Improvement';
+                    return (
+                      <tr key={k} style={{ background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
+                        <td style={{ padding:'.6rem .85rem', fontWeight:600 }}>{label}</td>
+                        <td style={{ padding:'.6rem .85rem' }}>{'★'.repeat(val)}{'☆'.repeat(5 - val)}</td>
+                        <td style={{ padding:'.6rem .85rem', fontWeight:700, color:growthColor(pct) }}>{pct}%</td>
+                        <td style={{ padding:'.6rem .85rem', color:'var(--gray-600)' }}>{lvl}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
@@ -177,26 +179,28 @@ export default function DownloadPDF() {
         {growth?.monthly?.length > 0 && (
           <div style={{ marginBottom:'1.5rem' }}>
             <h4 style={{ marginBottom:'.75rem', color:'var(--pgc-navy)' }}>Monthly Progress</h4>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'.875rem' }}>
-              <thead>
-                <tr style={{ background:'var(--gray-100)' }}>
-                  {['Month','Comm','Part','Disc','Team','Resp','Lead','Growth Score'].map(h => (
-                    <th key={h} style={{ padding:'.5rem .75rem', textAlign:'left', fontWeight:600, color:'var(--gray-700)' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {growth.monthly.map((m, i) => (
-                  <tr key={m.month} style={{ borderBottom:'1px solid var(--gray-100)', background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
-                    <td style={{ padding:'.5rem .75rem', fontWeight:600 }}>{formatMonth(m.month)}</td>
-                    {['communication','participation','discipline','teamwork','responsibility','leadership'].map(k => (
-                      <td key={k} style={{ padding:'.5rem .75rem' }}>{m[k]?.toFixed(1) ?? '—'}</td>
+            <div className="table-wrap">
+              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'.875rem' }}>
+                <thead>
+                  <tr style={{ background:'var(--gray-100)' }}>
+                    {['Month','Comm','Part','Disc','Team','Resp','Lead','Growth Score'].map(h => (
+                      <th key={h} style={{ padding:'.5rem .75rem', textAlign:'left', fontWeight:600, color:'var(--gray-700)' }}>{h}</th>
                     ))}
-                    <td style={{ padding:'.5rem .75rem', fontWeight:700, color:growthColor(m.score ?? 0) }}>{m.score ?? '—'}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {growth.monthly.map((m, i) => (
+                    <tr key={m.month} style={{ borderBottom:'1px solid var(--gray-100)', background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
+                      <td style={{ padding:'.5rem .75rem', fontWeight:600 }}>{formatMonth(m.month)}</td>
+                      {['communication','participation','discipline','teamwork','responsibility','leadership'].map(k => (
+                        <td key={k} style={{ padding:'.5rem .75rem' }}>{m[k]?.toFixed(1) ?? '—'}</td>
+                      ))}
+                      <td style={{ padding:'.5rem .75rem', fontWeight:700, color:growthColor(m.score ?? 0) }}>{m.score ?? '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
