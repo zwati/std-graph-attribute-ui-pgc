@@ -30,7 +30,6 @@ const navConfig = {
     {
       section: 'Insights', links: [
         { to: '/admin/analytics', icon: icons.analytics, label: 'Analytics' },
-        { to: '/admin/settings', icon: icons.settings, label: 'Settings' },
       ]
     },
   ],

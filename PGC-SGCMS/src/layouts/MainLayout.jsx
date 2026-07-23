@@ -12,7 +12,6 @@ const pageTitles = {
   '/admin/teachers':     'Teachers',
   '/admin/parents':      'Parents',
   '/admin/analytics':    'Analytics',
-  '/admin/settings':     'Settings',
   '/teacher':            'Dashboard',
   '/teacher/students':   'My Students',
   '/teacher/evaluate':   'Evaluate Student',
