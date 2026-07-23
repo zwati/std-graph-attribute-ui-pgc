@@ -9,7 +9,10 @@ export default function ChartCard({ title, subtitle, children, style = {} }) {
         background:   '#ffffff',
         borderRadius: 12,
         boxShadow:    '0 1px 4px rgba(0,0,0,0.08)',
-        padding:      '20px 24px',
+        padding:      '16px 18px',
+        minWidth:     0,
+        maxWidth:     '100%',
+        overflow:     'hidden',
         ...style,
       }}
     >
@@ -20,21 +23,26 @@ export default function ChartCard({ title, subtitle, children, style = {} }) {
             display:        'flex',
             justifyContent: 'space-between',
             alignItems:     'center',
+            flexWrap:       'wrap',
+            gap:            '0.25rem 0.5rem',
             marginBottom:   16,
+            maxWidth:       '100%',
           }}
         >
           {title && (
-            <h3 style={{ fontWeight: 700, fontSize: 16, margin: 0, color: '#111827' }}>
+            <h3 style={{ fontWeight: 700, fontSize: 15, margin: 0, color: '#111827', minWidth: 0 }}>
               {title}
             </h3>
           )}
           {subtitle && (
-            <span style={{ color: '#6b7280', fontSize: 13 }}>{subtitle}</span>
+            <span style={{ color: '#6b7280', fontSize: 12 }}>{subtitle}</span>
           )}
         </div>
       )}
 
-      {children}
+      <div style={{ width: '100%', minWidth: 0, overflowX: 'auto' }}>
+        {children}
+      </div>
     </div>
   );
 }

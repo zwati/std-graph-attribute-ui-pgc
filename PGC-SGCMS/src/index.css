@@ -211,6 +211,7 @@ tbody tr:hover{ background: var(--gray-50); }
 /* ── Chart grid ───────────────────────────────────────────── */
 .chart-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 .chart-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.chart-grid > *, .chart-grid-3 > *, .stat-grid > * { min-width: 0; max-width: 100%; }
 @media (max-width:1024px) { .chart-grid, .chart-grid-3 { grid-template-columns: 1fr; } }
 
 /* ── Star Rating ──────────────────────────────────────────── */
