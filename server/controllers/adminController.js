@@ -74,7 +74,7 @@ async function getStudents(req, res) {
       Student.find(filter)
         .skip((page - 1) * limit)
         .limit(Number(limit))
-        .sort({ studentName: 1 })
+        .sort({ rollNumber: 1 })
         .lean(),
       Student.countDocuments(filter),
     ]);

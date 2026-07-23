@@ -58,7 +58,7 @@ async function getMyStudents(req, res) {
       { rollNumber:  { $regex: search, $options: 'i' } },
     ];
 
-    const students = await Student.find(filter).sort({ studentName: 1 }).lean();
+    const students = await Student.find(filter).sort({ rollNumber: 1 }).lean();
 
     // Attach latest evaluation progress vs loss calculation for each student
     const withTrends = await Promise.all(students.map(async (s) => {

@@ -13,7 +13,7 @@ const ROOT_FILE_PATH = path.resolve(__dirname, '../../std-pgc-pswd.json');
 async function syncPasswordFile() {
   try {
     const students = await Student.find()
-      .sort({ gender: 1, class: 1, section: 1, rollNumber: 1 })
+      .sort({ rollNumber: 1 })
       .select('studentName rollNumber boardRollNumber fatherName gender result9th class section category parentPassword createdAt')
       .lean();
 
@@ -31,7 +31,6 @@ async function syncPasswordFile() {
       parentPassword:  s.parentPassword || 'N/A',
       createdAt:       s.createdAt ? new Date(s.createdAt).toISOString() : new Date().toISOString(),
     }));
-
 
     fs.writeFileSync(ROOT_FILE_PATH, JSON.stringify(fileRecords, null, 2), 'utf8');
     return fileRecords;
