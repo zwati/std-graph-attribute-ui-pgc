@@ -151,7 +151,7 @@ export default function DownloadPDF() {
                 <thead>
                   <tr style={{ background:'var(--pgc-navy)' }}>
                     {['Attribute','Rating (1–5)','Score (%)','Assessment'].map(h => (
-                      <th key={h} style={{ padding:'.6rem .85rem', textAlign:'left', color:'#fff', fontWeight:600 }}>{h}</th>
+                      <th key={h} style={{ padding:'.6rem .85rem', textAlign:'left', color:'#fff', background:'var(--pgc-navy)', fontWeight:600 }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -184,7 +184,7 @@ export default function DownloadPDF() {
                 <thead>
                   <tr style={{ background:'var(--gray-100)' }}>
                     {['Month','Comm','Part','Disc','Team','Resp','Lead','Growth Score'].map(h => (
-                      <th key={h} style={{ padding:'.5rem .75rem', textAlign:'left', fontWeight:600, color:'var(--gray-700)' }}>{h}</th>
+                      <th key={h} style={{ padding:'.5rem .75rem', textAlign:'left', fontWeight:600, color:'var(--gray-700)', background:'var(--gray-100)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
