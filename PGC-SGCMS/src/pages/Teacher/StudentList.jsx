@@ -55,11 +55,11 @@ export default function StudentList() {
     <div className="animate-fade">
       <TeacherClassSelector onClassSelect={setSelectedClass} />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <input className="input" style={{ maxWidth: 320 }}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '.75rem' }}>
+        <input className="input" style={{ width: '100%', maxWidth: 320 }}
           placeholder="🔍 Search by name or roll number…"
           value={search} onChange={e => setSearch(e.target.value)} />
-        <span className="badge badge-navy">
+        <span className="badge badge-navy" style={{ padding: '.4rem .8rem' }}>
           {filtered.length} Students in {selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Class'}
         </span>
       </div>

@@ -131,7 +131,7 @@ export default function TeacherClassSelector({ onClassSelect }) {
 
           {/* ── CONTEXT MENU DROPDOWN LIST ─────────────────────────────────────── */}
           {menuOpen && (
-            <div className="animate-fade" style={{
+            <div className="animate-fade class-selector-dropdown" style={{
               position: 'absolute',
               top: 'calc(100% + 6px)',
               right: 0,

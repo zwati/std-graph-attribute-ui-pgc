@@ -71,8 +71,8 @@ export default function TeacherDashboard() {
       </div>
 
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid var(--gray-100)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ margin: 0 }}>
+        <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid var(--gray-100)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '.75rem' }}>
+          <h3 style={{ margin: 0, fontSize: 'clamp(1rem, 4vw, 1.15rem)' }}>
             Student Roster & Progress Status — {selectedClass ? `${selectedClass.className} (${selectedClass.section})` : 'Select Class'}
           </h3>
           <button className="btn btn-primary btn-sm" onClick={() => navigate('/teacher/evaluate')}>Evaluate a Student</button>
