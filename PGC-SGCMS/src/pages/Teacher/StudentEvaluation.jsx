@@ -73,8 +73,19 @@ export default function StudentEvaluation() {
       if (cachedStudent) setStudent(cachedStudent);
 
       const cachedEval = apiCache.get(evalCacheKey);
-      if (cachedEval) {
-        setPrevEval(cachedEval[0] || null);
+      if (cachedEval && cachedEval.length > 0) {
+        setPrevEval(cachedEval[0]);
+        setRatings({
+          communication: cachedEval[0].communication || 0,
+          participation: cachedEval[0].participation || 0,
+          discipline: cachedEval[0].discipline || 0,
+          teamwork: cachedEval[0].teamwork || 0,
+          responsibility: cachedEval[0].responsibility || 0,
+          leadership: cachedEval[0].leadership || 0,
+        });
+      } else {
+        setPrevEval(null);
+        setRatings({ communication: 0, participation: 0, discipline: 0, teamwork: 0, responsibility: 0, leadership: 0 });
       }
 
       authAxios.get(`/teacher/students/${selectedId}`)
@@ -90,11 +101,26 @@ export default function StudentEvaluation() {
           apiCache.set(evalCacheKey, history);
           if (history && history.length > 0) {
             setPrevEval(history[0]);
+            setRatings({
+              communication: history[0].communication || 0,
+              participation: history[0].participation || 0,
+              discipline: history[0].discipline || 0,
+              teamwork: history[0].teamwork || 0,
+              responsibility: history[0].responsibility || 0,
+              leadership: history[0].leadership || 0,
+            });
           } else {
             setPrevEval(null);
+            setRatings({ communication: 0, participation: 0, discipline: 0, teamwork: 0, responsibility: 0, leadership: 0 });
           }
         })
-        .catch(() => setPrevEval(null));
+        .catch(() => {
+          setPrevEval(null);
+        });
+    } else {
+      setStudent(null);
+      setPrevEval(null);
+      setRatings({ communication: 0, participation: 0, discipline: 0, teamwork: 0, responsibility: 0, leadership: 0 });
     }
   }, [selectedId]);
 
