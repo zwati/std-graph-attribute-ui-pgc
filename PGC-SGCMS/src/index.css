@@ -345,7 +345,7 @@ tbody tr:hover{ background: var(--gray-50); }
   gap: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .home-nav {
     padding: 0.65rem 1rem;
   }
