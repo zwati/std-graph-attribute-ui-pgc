@@ -370,6 +370,7 @@ export default function ClassManagement() {
                   { name: 'boardRollNumber', label: 'Board Roll Number', placeholder: 'e.g. 300598', required: false, col: 2 },
                   { name: 'studentName', label: 'Student Name', placeholder: 'Full name', col: 2, required: true },
                   { name: 'fatherName', label: 'Father\'s Name', placeholder: 'Full name', col: 2, required: true },
+                  { name: 'result9th', label: '9th Class Result (Marks)', placeholder: 'e.g. 524 / 555', col: 2, required: false },
                   { name: 'parentPassword', label: 'Parent Portal Password', placeholder: 'Optional (Leave blank to auto-generate)', col: 2, required: false },
                 ].map(f => (
                   <div key={f.name} className="form-group" style={{ gridColumn: f.col ? `span ${f.col}` : undefined, margin: 0 }}>

@@ -7,7 +7,7 @@ export default function EditStudent() {
   const { authAxios } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ studentName:'', fatherName:'', class:'', section:'', rollNumber:'', customId:'' });
+  const [form, setForm] = useState({ studentName:'', fatherName:'', class:'', section:'', rollNumber:'', customId:'', boardRollNumber:'', result9th:'', parentPassword:'', gender:'Male' });
   const [loading, setLoading] = useState(true);
   const [saving,  setSaving]  = useState(false);
   const [error,   setError]   = useState('');
@@ -17,9 +17,18 @@ export default function EditStudent() {
     authAxios.get(`/admin/students?limit=1000`)
       .then(r => {
         const s = r.data.data.students.find(x => x._id === id);
-        if (s) setForm({ studentName: s.studentName, fatherName: s.fatherName,
-          class: s.class ?? '', section: s.section ?? '',
-          rollNumber: s.rollNumber, customId: s.customId });
+        if (s) setForm({ 
+          studentName: s.studentName, 
+          fatherName: s.fatherName,
+          class: s.class ?? '', 
+          section: s.section ?? '',
+          rollNumber: s.rollNumber, 
+          customId: s.customId,
+          boardRollNumber: s.boardRollNumber ?? '',
+          result9th: s.result9th ?? '',
+          parentPassword: s.parentPassword ?? '',
+          gender: s.gender ?? 'Male'
+        });
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -46,16 +55,29 @@ export default function EditStudent() {
             {[
               { name:'customId',    label:'Custom ID',      col:1 },
               { name:'rollNumber',  label:'Roll Number',    col:1 },
+              { name:'boardRollNumber', label:'Board Roll Number', col:1 },
+              { name:'result9th',   label:'9th Class Result (Marks)', col:1 },
               { name:'studentName', label:'Student Name',   col:2 },
               { name:'fatherName',  label:'Father\'s Name', col:2 },
               { name:'class',       label:'Class',          col:1 },
               { name:'section',     label:'Section',        col:1 },
+              { name:'gender',      label:'Gender',         col:1, type: 'select', options: ['Male', 'Female'] },
+              { name:'parentPassword', label:'Parent Password', col:1, placeholder: 'Optional (Plaintext parent password)' },
             ].map(f => (
               <div key={f.name} className="form-group"
                 style={{ gridColumn: f.col === 2 ? 'span 2' : undefined, margin:0 }}>
                 <label className="label">{f.label}</label>
-                <input className="input" name={f.name} required value={form[f.name]}
-                  onChange={e => setForm(v => ({ ...v, [e.target.name]: e.target.value }))} />
+                {f.type === 'select' ? (
+                  <select className="input" name={f.name} value={form[f.name]}
+                    onChange={e => setForm(v => ({ ...v, [e.target.name]: e.target.value }))}>
+                    {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                ) : (
+                  <input className="input" name={f.name} required={f.name !== 'boardRollNumber' && f.name !== 'result9th' && f.name !== 'parentPassword'} 
+                    placeholder={f.placeholder}
+                    value={form[f.name]}
+                    onChange={e => setForm(v => ({ ...v, [e.target.name]: e.target.value }))} />
+                )}
               </div>
             ))}
           </div>
