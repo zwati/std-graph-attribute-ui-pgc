@@ -517,7 +517,7 @@ export default function ClassManagement() {
                               Edit
                             </button>
                             <button className="btn btn-danger btn-sm" onClick={() => requestRemoveStudent(s)}>
-                              🗑 Remove Student
+                              Delete
                             </button>
                           </div>
                         </td>
