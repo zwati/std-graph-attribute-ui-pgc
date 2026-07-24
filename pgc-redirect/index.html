@@ -184,6 +184,8 @@
 
   <script>
     const SYNC_URL = 'https://ntfy.sh/pgc_sahiwal_tunnel_2026/json?poll=1';
+    const startTime = Date.now();
+    const MIN_DELAY = 2200; // 2.2 seconds minimum display time for readability
 
     async function redirect() {
       try {
@@ -193,7 +195,12 @@
         if (lines.length > 0) {
           const lastEvent = JSON.parse(lines[lines.length - 1]);
           if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
-            window.location.replace(lastEvent.message);
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, MIN_DELAY - elapsed);
+            
+            setTimeout(() => {
+              window.location.replace(lastEvent.message);
+            }, remaining);
             return;
           }
         }
