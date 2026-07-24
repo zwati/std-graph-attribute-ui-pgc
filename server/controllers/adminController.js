@@ -103,10 +103,10 @@ async function addStudent(req, res) {
       return fail(res, 'rollNumber, studentName, fatherName, class and section are required');
     }
 
-    // Auto-generate parent password if not provided
+    // Auto-generate parent password if not provided (Format: PGC@<4-digit random uppercase hex>)
     const rawPassword  = parentPassword && parentPassword.trim() !== ''
       ? parentPassword.trim()
-      : crypto.randomBytes(4).toString('hex').toUpperCase();
+      : `PGC@${crypto.randomBytes(2).toString('hex').toUpperCase()}`;
 
     const passwordHash = await bcrypt.hash(rawPassword, 12);
 
