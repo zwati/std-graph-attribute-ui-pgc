@@ -229,17 +229,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Principal's Vision Section (Premium Light Editorial Layout) */}
-      <section id="vision" style={{ padding: '5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)' }}>
+      {/* Principal's Vision Section (Premium Dark Section with White Quote Card) */}
+      <section id="vision" style={{ padding: '5rem 1.5rem', background: 'var(--pgc-navy)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h2 style={{ color: 'var(--pgc-navy)', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 850, fontSize: '2rem' }}>🎓 The Principal's Initiative</h2>
+          <h2 style={{ color: '#ffffff', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 850, fontSize: '2rem' }}>🎓 The Principal's Initiative</h2>
           
           <div className="card" style={{ 
             background: '#ffffff',
             border: '1px solid var(--gray-200)',
             padding: '3rem 2.5rem', 
             borderRadius: '20px',
-            boxShadow: '0 15px 45px rgba(13, 27, 75, 0.05), 0 5px 15px rgba(0, 0, 0, 0.02)',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.3)',
             display: 'flex',
             gap: '2.5rem',
             alignItems: 'center',
@@ -317,39 +317,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portal cards */}
-      <section id="portals" style={{ padding: '3rem 1.5rem 4rem' }}>
-        <h2 style={{ color: 'rgba(255,255,255,.6)', fontSize: '.85rem', fontWeight: 700,
-          textTransform: 'uppercase', letterSpacing: '.1em', textAlign: 'center', marginBottom: '2rem' }}>
+      {/* Dedicated Portals Section (Off-White Section with Dark Blue Cards) */}
+      <section id="portals" style={{ padding: '5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)' }}>
+        <h2 style={{ color: 'var(--pgc-navy)', fontSize: '2rem', fontWeight: 850, textAlign: 'center', marginBottom: '2.5rem' }}>
           Three Dedicated Portals
         </h2>
         <div className="portal-cards" style={{ maxWidth: 1100, margin: '0 auto' }}>
           {portals.map(p => (
-            <div key={p.role} className="portal-card" onClick={() => navigate(p.path)}>
-              <div className="portal-icon" style={{ background: `${p.color}22` }}>
+            <div key={p.role} className="portal-card" onClick={() => navigate(p.path)}
+              style={{
+                background: 'linear-gradient(135deg, #0d1b4b 0%, #152763 100%)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 10px 30px rgba(13, 27, 75, 0.15)',
+                color: '#ffffff',
+                padding: '2.5rem 2rem',
+                borderRadius: '16px',
+                textAlign: 'center',
+                transition: 'all 0.25s ease'
+              }}
+            >
+              <div className="portal-icon" style={{ background: 'rgba(255, 255, 255, 0.08)', width: 64, height: 64, borderRadius: 16, margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '2rem' }}>{p.icon}</span>
               </div>
-              <h3 style={{ color: '#fff', marginBottom: '.5rem' }}>{p.label}</h3>
-              <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.875rem', lineHeight: 1.6 }}>{p.desc}</p>
-              <div style={{ marginTop: '1.25rem' }}>
-                <span style={{ color: p.color, fontSize: '.85rem', fontWeight: 700 }}>Enter portal →</span>
+              <h3 style={{ color: '#ffffff', marginBottom: '.75rem', fontWeight: 800 }}>{p.label}</h3>
+              <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '.875rem', lineHeight: 1.6 }}>{p.desc}</p>
+              <div style={{ marginTop: '1.5rem' }}>
+                <span style={{ color: '#fff', fontSize: '.85rem', fontWeight: 700, textDecoration: 'underline' }}>Enter portal →</span>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Features grid */}
-      <section id="features" style={{ background: 'rgba(255,255,255,.03)', padding: '3.5rem 1.5rem' }}>
-        <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 800 }}>Platform Features</h2>
+      {/* Platform Features Section (Dark Navy Background with White Cards) */}
+      <section id="features" style={{ background: 'var(--pgc-navy)', padding: '5rem 1.5rem' }}>
+        <h2 style={{ color: '#ffffff', textAlign: 'center', marginBottom: '3rem', fontWeight: 850, fontSize: '2rem' }}>Platform Features</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-          gap: '1.25rem', maxWidth: 1100, margin: '0 auto' }}>
+          gap: '1.5rem', maxWidth: 1100, margin: '0 auto' }}>
           {features.map(f => (
-            <div key={f.title} style={{ background: 'rgba(255,255,255,.05)',
-              border: '1px solid rgba(255,255,255,.08)', borderRadius: 14, padding: '1.5rem' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '.75rem' }}>{f.icon}</div>
-              <h4 style={{ color: '#fff', marginBottom: '.4rem', fontWeight: 700 }}>{f.title}</h4>
-              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.875rem', lineHeight: 1.6 }}>{f.desc}</p>
+            <div key={f.title} style={{ 
+              background: '#ffffff',
+              border: '1px solid var(--gray-200)', 
+              borderRadius: 16, 
+              padding: '2rem 1.75rem',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)'
+            }}>
+              <div style={{ fontSize: '2.25rem', marginBottom: '1rem' }}>{f.icon}</div>
+              <h4 style={{ color: 'var(--pgc-navy)', marginBottom: '.5rem', fontWeight: 800, fontSize: '1.1rem' }}>{f.title}</h4>
+              <p style={{ color: '#475569', fontSize: '.875rem', lineHeight: 1.6, fontWeight: 500 }}>{f.desc}</p>
             </div>
           ))}
         </div>
