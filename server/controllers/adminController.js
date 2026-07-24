@@ -210,6 +210,35 @@ async function deleteTeacher(req, res) {
   } catch (err) { return serverError(res, err); }
 }
 
+// PATCH /api/admin/teachers/:id
+async function updateTeacher(req, res) {
+  try {
+    const { username, password, fullName, subject } = req.body;
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) return fail(res, 'Teacher not found', 404);
+
+    teacher.fullName = fullName ?? teacher.fullName;
+    teacher.subject  = subject ?? teacher.subject;
+    await teacher.save();
+
+    if (teacher.userId) {
+      const userUpdates = {};
+      if (username) userUpdates.username = username;
+      if (password && password.trim() !== '') {
+        userUpdates.passwordHash = await bcrypt.hash(password, 12);
+      }
+      if (Object.keys(userUpdates).length > 0) {
+        await User.findByIdAndUpdate(teacher.userId, userUpdates);
+      }
+    }
+
+    return ok(res, teacher);
+  } catch (err) {
+    if (err.code === 11000) return fail(res, 'Username already exists', 409);
+    return serverError(res, err);
+  }
+}
+
 // GET /api/admin/analytics  — school-wide growth summary
 async function getAnalytics(req, res) {
   try {
@@ -257,38 +286,6 @@ async function getAnalytics(req, res) {
   } catch (err) { return serverError(res, err); }
 }
 
-
-// PATCH /api/admin/teachers/:id — update teacher profile and associated login User credentials
-async function updateTeacher(req, res) {
-  try {
-    const { fullName, subject, username, password } = req.body;
-    
-    const teacher = await Teacher.findById(req.params.id);
-    if (!teacher) return fail(res, 'Teacher not found', 404);
-
-    if (fullName !== undefined) teacher.fullName = fullName.trim();
-    if (subject !== undefined) teacher.subject = subject.trim();
-    await teacher.save();
-
-    if (teacher.userId) {
-      const userUpdate = {};
-      if (username !== undefined) userUpdate.username = username.trim();
-      if (password && password.trim() !== '') {
-        const userHash = await bcrypt.hash(password.trim(), 12);
-        userUpdate.passwordHash = userHash;
-      }
-      
-      if (Object.keys(userUpdate).length > 0) {
-        await User.findByIdAndUpdate(teacher.userId, userUpdate);
-      }
-    }
-
-    return ok(res, teacher);
-  } catch (err) {
-    if (err.code === 11000) return fail(res, 'Username already exists', 409);
-    return serverError(res, err);
-  }
-}
 
 module.exports = {
   getClasses, addClass, deleteClass,

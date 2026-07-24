@@ -25,7 +25,7 @@ router.get('/passwords',     getParentPasswords);
 
 router.get('/teachers',       getTeachers);
 router.post('/teachers',      addTeacher);
-router.patch('/teachers/:id', updateTeacher);
+router.patch('/teachers/:id',  updateTeacher);
 router.delete('/teachers/:id', deleteTeacher);
 
 router.get('/analytics', getAnalytics);

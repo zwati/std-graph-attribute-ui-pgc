@@ -7,7 +7,7 @@ export default function Teachers() {
   const { authAxios } = useAuth();
   const [teachers, setTeachers] = useState(() => apiCache.get('admin_teachers') || []);
   const [showForm, setShowForm] = useState(false);
-  const [editingTeacher, setEditingTeacher] = useState(null);
+  const [editingTeacherId, setEditingTeacherId] = useState(null);
   const [form, setForm] = useState({ username:'', password:'', fullName:'', subject:'' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -37,32 +37,46 @@ export default function Teachers() {
     fetchTeachers();
   }, []);
 
-  async function handleSubmit(e) {
+  async function handleAdd(e) {
     e.preventDefault(); setError(''); setLoading(true);
     try {
-      if (editingTeacher) {
-        await authAxios.patch(`/admin/teachers/${editingTeacher._id}`, form);
+      if (editingTeacherId) {
+        await authAxios.patch(`/admin/teachers/${editingTeacherId}`, form);
       } else {
         await authAxios.post('/admin/teachers', form);
       }
       apiCache.invalidate('admin_teachers');
       setShowForm(false);
-      setEditingTeacher(null);
+      setEditingTeacherId(null);
       setForm({ username:'', password:'', fullName:'', subject:'' });
       fetchTeachers();
-    } catch (err) { setError(err?.response?.data?.error ?? 'Failed to save teacher account.'); }
-    finally { setLoading(false); }
+    } catch (err) {
+      setError(err?.response?.data?.error ?? (editingTeacherId ? 'Failed to update teacher.' : 'Failed to add teacher.'));
+    } finally { setLoading(false); }
   }
 
-  function handleEditClick(t) {
-    setEditingTeacher(t);
+  function handleToggleForm() {
+    if (showForm) {
+      setShowForm(false);
+      setEditingTeacherId(null);
+      setForm({ username:'', password:'', fullName:'', subject:'' });
+    } else {
+      setEditingTeacherId(null);
+      setForm({ username:'', password:'', fullName:'', subject:'' });
+      setShowForm(true);
+    }
+  }
+
+  function startEdit(t) {
+    setEditingTeacherId(t._id);
     setForm({
-      fullName: t.fullName,
-      subject: t.subject || '',
       username: t.userId?.username || '',
       password: '',
+      fullName: t.fullName || '',
+      subject: t.subject || '',
     });
     setShowForm(true);
+    setError('');
   }
 
   function requestDeleteTeacher(teacher) {
@@ -91,29 +105,20 @@ export default function Teachers() {
   return (
     <div className="animate-fade">
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-        <button className="btn btn-primary" onClick={() => {
-          if (showForm && editingTeacher) {
-            setEditingTeacher(null);
-            setForm({ username:'', password:'', fullName:'', subject:'' });
-          } else {
-            setShowForm(v => !v);
-            setEditingTeacher(null);
-            setForm({ username:'', password:'', fullName:'', subject:'' });
-          }
-        }}>
-          {showForm && !editingTeacher ? '✕ Cancel' : '➕ Add Teacher'}
+        <button className="btn btn-primary" onClick={handleToggleForm}>
+          {showForm ? '✕ Cancel' : '➕ Add Teacher'}
         </button>
       </div>
 
       {showForm && (
         <div className="card animate-fade" style={{ marginBottom: '1.25rem', maxWidth: 520 }}>
-          <h4 style={{ marginBottom: '1rem' }}>{editingTeacher ? 'Edit Teacher Account' : 'New Teacher Account'}</h4>
-          <form onSubmit={handleSubmit}>
+          <h4 style={{ marginBottom: '1rem' }}>{editingTeacherId ? 'Edit Teacher Account' : 'New Teacher Account'}</h4>
+          <form onSubmit={handleAdd}>
             {[
-              { name: 'fullName', label: 'Full Name', placeholder: 'e.g. Mr. Ali Raza' },
-              { name: 'subject',  label: 'Subject',   placeholder: 'e.g. Physics' },
-              { name: 'username', label: 'Username',  placeholder: 'Login username' },
-              { name: 'password', label: 'Password',  placeholder: editingTeacher ? 'Optional (Leave blank to keep current)' : 'Set password', type: 'password', required: !editingTeacher },
+              { name: 'fullName', label: 'Full Name', placeholder: 'e.g. Mr. Ali Raza', required: true },
+              { name: 'subject',  label: 'Subject',   placeholder: 'e.g. Physics', required: true },
+              { name: 'username', label: 'Username',  placeholder: 'Login username', required: true },
+              { name: 'password', label: 'Password',  placeholder: editingTeacherId ? 'Leave blank to keep current' : 'Set password', type: 'password', required: !editingTeacherId },
             ].map(f => (
               <div className="form-group" key={f.name}>
                 <label className="label">{f.label}</label>
@@ -122,10 +127,10 @@ export default function Teachers() {
                   onChange={e => setForm(v => ({ ...v, [e.target.name]: e.target.value }))} />
               </div>
             ))}
-            {error && <div className="error-msg" style={{ marginBottom: '.75rem' }}>⚠ {error}</div>}
+            {error && <div className="error-msg">{error}</div>}
             <button type="submit" className="btn btn-primary" disabled={loading}
               style={{ width: '100%', justifyContent: 'center' }}>
-              {loading ? 'Saving…' : editingTeacher ? '💾 Save Changes' : 'Add Teacher'}
+              {loading ? 'Saving…' : (editingTeacherId ? '💾 Save Changes' : 'Add Teacher')}
             </button>
           </form>
         </div>
@@ -143,7 +148,7 @@ export default function Teachers() {
                 <th>Name</th>
                 <th>Subject</th>
                 <th>Username</th>
-                <th style={{ textStyle: 'center' }}>Actions</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -156,9 +161,7 @@ export default function Teachers() {
                     <td><span className="badge badge-gray">{t.userId?.username ?? '—'}</span></td>
                     <td style={{ verticalAlign: 'middle' }}>
                       <div style={{ display: 'flex', gap: '.4rem' }}>
-                        <button className="btn btn-outline btn-sm" onClick={() => handleEditClick(t)}>
-                          Edit
-                        </button>
+                        <button className="btn btn-outline btn-sm" onClick={() => startEdit(t)}>Edit</button>
                         <button className="btn btn-danger btn-sm" onClick={() => requestDeleteTeacher(t)}>
                           Delete
                         </button>

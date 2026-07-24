@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
+// src/pages/Home/Home.jsx — Landing page
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import heroBg from '../../assets/hero-bg.jpg';
 import logoImg from '../../assets/logo.png';
 import principalImg from '../../assets/principal.png';
-
-const redirectMap = { parent: '/parent', teacher: '/teacher', admin: '/admin' };
 
 const portals = [
   { role: 'parent',  icon: '👪', label: 'Parent Portal',  desc: 'View your child\'s growth, progress charts, and download the PTM report.', color: '#7c3aed', path: '/login?role=parent' },
@@ -18,19 +15,12 @@ const features = [
   { icon: '📈', title: 'Monthly Trends', desc: 'Line & bar charts tracking growth across every month of the term.' },
   { icon: '🎯', title: 'Growth Index', desc: 'A single 0–100 score summarising overall character development.' },
   { icon: '📄', title: 'PDF Reports', desc: 'Generate and download a professional PTM report instantly.' },
-  { icon: '🔒', title: 'Secure Access', desc: 'Role-based portals with secure encrypted authentication for each user type.' },
+  { icon: '🔒', title: 'Secure Access', desc: 'Secure role-based portals for parents, teachers, and administrators.' },
   { icon: '⭐', title: 'Star Ratings', desc: 'Teachers rate each attribute 1–5 stars; system auto-computes the index.' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user && user.role) {
-      navigate(redirectMap[user.role] ?? '/');
-    }
-  }, [user, navigate]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--pgc-navy)', fontFamily: 'Inter, sans-serif' }}>
