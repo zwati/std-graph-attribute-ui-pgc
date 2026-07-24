@@ -7,6 +7,7 @@ export default function Teachers() {
   const { authAxios } = useAuth();
   const [teachers, setTeachers] = useState(() => apiCache.get('admin_teachers') || []);
   const [showForm, setShowForm] = useState(false);
+  const [editingTeacher, setEditingTeacher] = useState(null);
   const [form, setForm] = useState({ username:'', password:'', fullName:'', subject:'' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -36,17 +37,32 @@ export default function Teachers() {
     fetchTeachers();
   }, []);
 
-  async function handleAdd(e) {
+  async function handleSubmit(e) {
     e.preventDefault(); setError(''); setLoading(true);
     try {
-      const { data } = await authAxios.post('/admin/teachers', form);
+      if (editingTeacher) {
+        await authAxios.patch(`/admin/teachers/${editingTeacher._id}`, form);
+      } else {
+        await authAxios.post('/admin/teachers', form);
+      }
       apiCache.invalidate('admin_teachers');
-      setTeachers(t => [...t, data.data]);
       setShowForm(false);
+      setEditingTeacher(null);
       setForm({ username:'', password:'', fullName:'', subject:'' });
       fetchTeachers();
-    } catch (err) { setError(err?.response?.data?.error ?? 'Failed to add teacher.'); }
+    } catch (err) { setError(err?.response?.data?.error ?? 'Failed to save teacher account.'); }
     finally { setLoading(false); }
+  }
+
+  function handleEditClick(t) {
+    setEditingTeacher(t);
+    setForm({
+      fullName: t.fullName,
+      subject: t.subject || '',
+      username: t.userId?.username || '',
+      password: '',
+    });
+    setShowForm(true);
   }
 
   function requestDeleteTeacher(teacher) {
@@ -75,32 +91,41 @@ export default function Teachers() {
   return (
     <div className="animate-fade">
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-        <button className="btn btn-primary" onClick={() => setShowForm(v => !v)}>
-          {showForm ? '✕ Cancel' : '➕ Add Teacher'}
+        <button className="btn btn-primary" onClick={() => {
+          if (showForm && editingTeacher) {
+            setEditingTeacher(null);
+            setForm({ username:'', password:'', fullName:'', subject:'' });
+          } else {
+            setShowForm(v => !v);
+            setEditingTeacher(null);
+            setForm({ username:'', password:'', fullName:'', subject:'' });
+          }
+        }}>
+          {showForm && !editingTeacher ? '✕ Cancel' : '➕ Add Teacher'}
         </button>
       </div>
 
       {showForm && (
         <div className="card animate-fade" style={{ marginBottom: '1.25rem', maxWidth: 520 }}>
-          <h4 style={{ marginBottom: '1rem' }}>New Teacher Account</h4>
-          <form onSubmit={handleAdd}>
+          <h4 style={{ marginBottom: '1rem' }}>{editingTeacher ? 'Edit Teacher Account' : 'New Teacher Account'}</h4>
+          <form onSubmit={handleSubmit}>
             {[
               { name: 'fullName', label: 'Full Name', placeholder: 'e.g. Mr. Ali Raza' },
               { name: 'subject',  label: 'Subject',   placeholder: 'e.g. Physics' },
               { name: 'username', label: 'Username',  placeholder: 'Login username' },
-              { name: 'password', label: 'Password',  placeholder: 'Set password', type: 'password' },
+              { name: 'password', label: 'Password',  placeholder: editingTeacher ? 'Optional (Leave blank to keep current)' : 'Set password', type: 'password', required: !editingTeacher },
             ].map(f => (
               <div className="form-group" key={f.name}>
                 <label className="label">{f.label}</label>
-                <input className="input" type={f.type ?? 'text'} name={f.name} required
+                <input className="input" type={f.type ?? 'text'} name={f.name} required={f.required}
                   value={form[f.name]} placeholder={f.placeholder}
                   onChange={e => setForm(v => ({ ...v, [e.target.name]: e.target.value }))} />
               </div>
             ))}
-            {error && <div className="error-msg">{error}</div>}
+            {error && <div className="error-msg" style={{ marginBottom: '.75rem' }}>⚠ {error}</div>}
             <button type="submit" className="btn btn-primary" disabled={loading}
               style={{ width: '100%', justifyContent: 'center' }}>
-              {loading ? 'Adding…' : 'Add Teacher'}
+              {loading ? 'Saving…' : editingTeacher ? '💾 Save Changes' : 'Add Teacher'}
             </button>
           </form>
         </div>
@@ -130,9 +155,14 @@ export default function Teachers() {
                     <td>{t.subject}</td>
                     <td><span className="badge badge-gray">{t.userId?.username ?? '—'}</span></td>
                     <td style={{ verticalAlign: 'middle' }}>
-                      <button className="btn btn-danger btn-sm" onClick={() => requestDeleteTeacher(t)}>
-                        🗑 Delete
-                      </button>
+                      <div style={{ display: 'flex', gap: '.4rem' }}>
+                        <button className="btn btn-outline btn-sm" onClick={() => handleEditClick(t)}>
+                          Edit
+                        </button>
+                        <button className="btn btn-danger btn-sm" onClick={() => requestDeleteTeacher(t)}>
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

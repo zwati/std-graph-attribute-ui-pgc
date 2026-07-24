@@ -23,7 +23,13 @@ export default function Login() {
   const [error, setErr] = useState('');
 
   const [showInstallGuide, setShowInstallGuide] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    if (user && user.role) {
+      navigate(redirectMap[user.role] ?? '/');
+    }
+  }, [user, navigate]);
 
   // PWA Install Prompt event
   const [deferredPrompt, setDeferredPrompt] = useState(null);

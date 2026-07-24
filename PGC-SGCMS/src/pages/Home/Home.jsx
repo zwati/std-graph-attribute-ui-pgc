@@ -1,26 +1,36 @@
-// src/pages/Home/Home.jsx — Landing page
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import heroBg from '../../assets/hero-bg.jpg';
 import logoImg from '../../assets/logo.png';
 import principalImg from '../../assets/principal.png';
 
+const redirectMap = { parent: '/parent', teacher: '/teacher', admin: '/admin' };
+
 const portals = [
   { role: 'parent',  icon: '👪', label: 'Parent Portal',  desc: 'View your child\'s growth, progress charts, and download the PTM report.', color: '#7c3aed', path: '/login?role=parent' },
-  { role: 'teacher', icon: '👨‍🏫', label: 'Teacher Portal', desc: 'Evaluate students on 5 character attributes and track class-wide progress.', color: '#16a34a', path: '/login?role=teacher' },
+  { role: 'teacher', icon: '👨‍🏫', label: 'Teacher Portal', desc: 'Evaluate students on 6 character attributes and track class-wide progress.', color: '#16a34a', path: '/login?role=teacher' },
   { role: 'admin',   icon: '🛠',  label: 'Admin Portal',   desc: 'Manage students, teachers, and access school-wide analytics and reports.', color: '#C8102E', path: '/login?role=admin' },
 ];
 
 const features = [
-  { icon: '🕸', title: 'Radar Analysis', desc: '5-attribute spider chart showing character balance at a glance.' },
+  { icon: '🕸', title: 'Radar Analysis', desc: '6-attribute spider chart showing character balance at a glance.' },
   { icon: '📈', title: 'Monthly Trends', desc: 'Line & bar charts tracking growth across every month of the term.' },
   { icon: '🎯', title: 'Growth Index', desc: 'A single 0–100 score summarising overall character development.' },
   { icon: '📄', title: 'PDF Reports', desc: 'Generate and download a professional PTM report instantly.' },
-  { icon: '🔒', title: 'Secure Access', desc: 'Role-based portals with JWT authentication for each user type.' },
+  { icon: '🔒', title: 'Secure Access', desc: 'Role-based portals with secure encrypted authentication for each user type.' },
   { icon: '⭐', title: 'Star Ratings', desc: 'Teachers rate each attribute 1–5 stars; system auto-computes the index.' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user && user.role) {
+      navigate(redirectMap[user.role] ?? '/');
+    }
+  }, [user, navigate]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--pgc-navy)', fontFamily: 'Inter, sans-serif' }}>
