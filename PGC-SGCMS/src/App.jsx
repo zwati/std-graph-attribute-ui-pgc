@@ -18,6 +18,18 @@ lImg.src = logoImg;
 const hBg = new Image();
 hBg.src = heroBg;
 
+// Global beforeinstallprompt stasher for PWA In-App install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  window.deferredPWAEvent = e;
+  window.dispatchEvent(new CustomEvent('pwa-prompt-available'));
+});
+
+window.addEventListener('appinstalled', () => {
+  window.deferredPWAEvent = null;
+  window.dispatchEvent(new CustomEvent('pwa-prompt-available'));
+});
+
 export default function App() {
   return (
     <BrowserRouter>

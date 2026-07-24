@@ -26,15 +26,26 @@ export default function Login() {
   const { login } = useAuth();
 
   // PWA Install Prompt event
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(window.deferredPWAEvent || null);
 
   useEffect(() => {
+    const handlePromptAvailable = () => {
+      setDeferredPrompt(window.deferredPWAEvent);
+    };
+
+    window.addEventListener('pwa-prompt-available', handlePromptAvailable);
+
     const handleBeforeInstall = (e) => {
       e.preventDefault();
+      window.deferredPWAEvent = e;
       setDeferredPrompt(e);
     };
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+
+    return () => {
+      window.removeEventListener('pwa-prompt-available', handlePromptAvailable);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+    };
   }, []);
 
   const navigate = useNavigate();
