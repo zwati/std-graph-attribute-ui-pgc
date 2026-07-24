@@ -235,7 +235,7 @@ export default function Home() {
           <h2 style={{ color: '#ffffff', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 850, fontSize: '2rem' }}>🎓 The Principal's Initiative</h2>
           
           <div className="card" style={{ 
-            background: '#ffffff',
+            background: '#f8fafc',
             border: '1px solid var(--gray-200)',
             padding: '3rem 2.5rem', 
             borderRadius: '20px',
@@ -356,7 +356,7 @@ export default function Home() {
           gap: '1.5rem', maxWidth: 1100, margin: '0 auto' }}>
           {features.map(f => (
             <div key={f.title} style={{ 
-              background: '#ffffff',
+              background: '#f8fafc',
               border: '1px solid var(--gray-200)', 
               borderRadius: 16, 
               padding: '2rem 1.75rem',
