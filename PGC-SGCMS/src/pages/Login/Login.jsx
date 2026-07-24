@@ -97,7 +97,7 @@ export default function Login() {
         </div>
 
         {/* PWA Always-Visible Install Banner */}
-        {!isStandalone && (
+        {!isStandalone && deferredPrompt && (
           <div style={{ background: 'rgba(13, 27, 75, 0.05)', border: '1px solid rgba(13, 27, 75, 0.2)', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ fontSize: '.8rem', fontWeight: 600, color: 'var(--pgc-navy)' }}>
               📲 Mobile & Desktop App
