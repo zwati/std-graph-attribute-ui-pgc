@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import heroBg from '../../assets/hero-bg.jpg';
 import logoImg from '../../assets/logo.png';
+import principalImg from '../../assets/principal.png';
 
 const portals = [
   { role: 'parent',  icon: '👪', label: 'Parent Portal',  desc: 'View your child\'s growth, progress charts, and download the PTM report.', color: '#7c3aed', path: '/login?role=parent' },
@@ -54,6 +55,31 @@ export default function Home() {
 
         {/* Center Nav Links (Hidden on Mobile) */}
         <div className="home-nav-center">
+          <button
+            onClick={() => document.getElementById('vision')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,.8)',
+              fontSize: '.9rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              padding: '.4rem .8rem',
+              borderRadius: '6px'
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.color = 'rgba(255,255,255,.8)';
+              e.currentTarget.style.background = 'none';
+            }}
+          >
+            Vision
+          </button>
+
           <button
             onClick={() => document.getElementById('portals')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
@@ -195,10 +221,99 @@ export default function Home() {
               style={{ background: 'var(--pgc-red)', color: '#fff', fontSize: '1rem', padding: '.75rem 2.25rem', borderRadius: '10px', boxShadow: '0 4px 14px rgba(200,16,46,0.4)' }}>
               Get Started
             </button>
-            <button className="btn btn-outline" onClick={() => document.getElementById('portals').scrollIntoView({ behavior: 'smooth' })}
+            <button className="btn btn-outline" onClick={() => document.getElementById('vision').scrollIntoView({ behavior: 'smooth' })}
               style={{ color: 'var(--pgc-navy)', borderColor: 'rgba(13,27,75,.4)', fontSize: '1rem', padding: '.75rem 2rem', borderRadius: '10px', background: 'rgba(255,255,255,0.7)' }}>
-              View Portals ↓
+              View Vision ↓
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Principal's Vision Section */}
+      <section id="vision" style={{ padding: '4rem 1.5rem 3.5rem', background: 'rgba(255, 255, 255, 0.01)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '2rem', fontWeight: 800 }}>🎓 The Principal's Initiative</h2>
+          
+          <div className="card" style={{ 
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '2.5rem', 
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            display: 'flex',
+            gap: '2.5rem',
+            alignItems: 'center',
+            flexWrap: 'wrap'
+          }}>
+            {/* Picture block */}
+            <div style={{ flex: '1 1 200px', display: 'flex', justifyContent: 'center' }}>
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: -6,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--pgc-red) 0%, var(--pgc-navy) 100%)',
+                  zIndex: 0
+                }} />
+                <img 
+                  src={principalImg} 
+                  alt="Principal, Punjab College Sahiwal" 
+                  style={{
+                    width: '170px',
+                    height: '170px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '4px solid #0D1B4B',
+                    position: 'relative',
+                    zIndex: 1,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+                  }} 
+                />
+              </div>
+            </div>
+            
+            {/* Quote Block */}
+            <div style={{ flex: '2 1 450px' }}>
+              <span style={{
+                color: 'var(--pgc-red)',
+                fontSize: '.85rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '.05em',
+                display: 'block',
+                marginBottom: '.5rem'
+              }}>
+                A Visionary Concept for Character Building
+              </span>
+              
+              <h3 style={{ color: '#fff', fontSize: '1.45rem', fontWeight: 800, margin: '0 0 1rem' }}>
+                Principal, Punjab College Sahiwal
+              </h3>
+              <p style={{ color: 'rgba(255, 255, 255, 0.45)', fontSize: '.85rem', margin: '-0.75rem 0 1.25rem', fontWeight: 600 }}>
+                Punjab College Sahiwal (Pakpattan Road Campus)
+              </p>
+              
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.85)', 
+                fontSize: '0.98rem', 
+                lineHeight: 1.7, 
+                fontStyle: 'italic', 
+                margin: '0 0 1.25rem',
+                borderLeft: '3px solid var(--pgc-red)',
+                paddingLeft: '1.25rem'
+              }}>
+                "Education is not merely about producing academic results or obtaining grading sheets; it is about cultivating character, nurturing critical attributes like Discipline, Responsibility, and Leadership. SGCMS is a pioneering step towards quantifying and tracking character progress, enabling parents to stay fully informed of their child's holistic growth."
+              </p>
+              
+              <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+                <span style={{ fontSize: '1.25rem' }}>🎯</span>
+                <span style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '.85rem', fontWeight: 500 }}>
+                  Active campus initiative to enhance student-teacher-parent synergy.
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
