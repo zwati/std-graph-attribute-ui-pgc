@@ -229,19 +229,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Principal's Vision Section */}
-      <section id="vision" style={{ padding: '4rem 1.5rem 3.5rem', background: 'rgba(255, 255, 255, 0.01)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+      {/* Principal's Vision Section (Premium Light Editorial Layout) */}
+      <section id="vision" style={{ padding: '5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '2rem', fontWeight: 800 }}>🎓 The Principal's Initiative</h2>
+          <h2 style={{ color: 'var(--pgc-navy)', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 850, fontSize: '2rem' }}>🎓 The Principal's Initiative</h2>
           
           <div className="card" style={{ 
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '2.5rem', 
-            borderRadius: '16px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
+            background: '#ffffff',
+            border: '1px solid var(--gray-200)',
+            padding: '3rem 2.5rem', 
+            borderRadius: '20px',
+            boxShadow: '0 15px 45px rgba(13, 27, 75, 0.05), 0 5px 15px rgba(0, 0, 0, 0.02)',
             display: 'flex',
             gap: '2.5rem',
             alignItems: 'center',
@@ -261,14 +259,14 @@ export default function Home() {
                   src={principalImg} 
                   alt="Principal, Punjab College Sahiwal" 
                   style={{
-                    width: '170px',
-                    height: '170px',
+                    width: '180px',
+                    height: '180px',
                     borderRadius: '50%',
                     objectFit: 'cover',
-                    border: '4px solid #0D1B4B',
+                    border: '4px solid #ffffff',
                     position: 'relative',
                     zIndex: 1,
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+                    boxShadow: '0 8px 30px rgba(13, 27, 75, 0.15)'
                   }} 
                 />
               </div>
@@ -279,37 +277,38 @@ export default function Home() {
               <span style={{
                 color: 'var(--pgc-red)',
                 fontSize: '.85rem',
-                fontWeight: 700,
+                fontWeight: 800,
                 textTransform: 'uppercase',
-                letterSpacing: '.05em',
+                letterSpacing: '.08em',
                 display: 'block',
                 marginBottom: '.5rem'
               }}>
                 A Visionary Concept for Character Building
               </span>
               
-              <h3 style={{ color: '#fff', fontSize: '1.45rem', fontWeight: 800, margin: '0 0 1rem' }}>
+              <h3 style={{ color: 'var(--pgc-navy)', fontSize: '1.65rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
                 Principal, Punjab College Sahiwal
               </h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.45)', fontSize: '.85rem', margin: '-0.75rem 0 1.25rem', fontWeight: 600 }}>
+              <p style={{ color: '#64748b', fontSize: '.88rem', margin: '0 0 1.5rem', fontWeight: 600 }}>
                 Punjab College Sahiwal (Pakpattan Road Campus)
               </p>
               
               <p style={{ 
-                color: 'rgba(255, 255, 255, 0.85)', 
-                fontSize: '0.98rem', 
-                lineHeight: 1.7, 
+                color: '#1e293b', 
+                fontSize: '1.02rem', 
+                lineHeight: 1.75, 
                 fontStyle: 'italic', 
-                margin: '0 0 1.25rem',
-                borderLeft: '3px solid var(--pgc-red)',
-                paddingLeft: '1.25rem'
+                margin: '0 0 1.5rem',
+                borderLeft: '4px solid var(--pgc-red)',
+                paddingLeft: '1.25rem',
+                fontWeight: 500
               }}>
                 "Education is not merely about producing academic results or obtaining grading sheets; it is about cultivating character, nurturing critical attributes like Discipline, Responsibility, and Leadership. SGCMS is a pioneering step towards quantifying and tracking character progress, enabling parents to stay fully informed of their child's holistic growth."
               </p>
               
-              <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '.6rem', alignItems: 'center' }}>
                 <span style={{ fontSize: '1.25rem' }}>🎯</span>
-                <span style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '.85rem', fontWeight: 500 }}>
+                <span style={{ color: '#475569', fontSize: '.88rem', fontWeight: 600 }}>
                   Active campus initiative to enhance student-teacher-parent synergy.
                 </span>
               </div>
