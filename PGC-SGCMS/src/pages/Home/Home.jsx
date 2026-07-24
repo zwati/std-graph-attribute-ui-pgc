@@ -336,13 +336,13 @@ export default function Home() {
                 transition: 'all 0.25s ease'
               }}
             >
-              <div className="portal-icon" style={{ background: 'rgba(255, 255, 255, 0.08)', width: 64, height: 64, borderRadius: 16, margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
+              <div className="portal-icon" style={{ background: `${p.color}22`, width: 64, height: 64, borderRadius: 16, margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '2rem' }}>{p.icon}</span>
               </div>
               <h3 style={{ color: '#ffffff', marginBottom: '.75rem', fontWeight: 800 }}>{p.label}</h3>
               <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '.875rem', lineHeight: 1.6 }}>{p.desc}</p>
               <div style={{ marginTop: '1.5rem' }}>
-                <span style={{ color: '#fff', fontSize: '.85rem', fontWeight: 700, textDecoration: 'underline' }}>Enter portal →</span>
+                <span style={{ color: p.color, fontSize: '.85rem', fontWeight: 700 }}>Enter portal →</span>
               </div>
             </div>
           ))}
