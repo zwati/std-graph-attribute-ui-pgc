@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmModal from '../../components/ConfirmModal';
 
@@ -10,6 +11,7 @@ import CustomSelect from '../../components/CustomSelect';
 
 export default function ClassManagement() {
   const { authAxios } = useAuth();
+  const navigate = useNavigate();
   const [classes, setClasses] = useState(() => apiCache.get('admin_classes') || []);
   const [loading, setLoading] = useState(() => !apiCache.get('admin_classes'));
   const [activeTab, setActiveTab] = useState('classes'); // 'classes' | 'addStudent' | 'manageRoster'
@@ -432,7 +434,7 @@ export default function ClassManagement() {
         <div className="animate-fade">
           {/* Class Filter Selector */}
           <div className="card" style={{ marginBottom: '1.25rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
               <div style={{ flex: 1, minWidth: 260 }}>
                 <label className="label" style={{ color: 'var(--pgc-navy)', fontWeight: 700 }}>Select Class Roster to Manage</label>
                 <CustomSelect
@@ -506,9 +508,18 @@ export default function ClassManagement() {
                           </span>
                         </td>
                         <td>
-                          <button className="btn btn-danger btn-sm" onClick={() => requestRemoveStudent(s)}>
-                            🗑 Remove Student
-                          </button>
+                          <div style={{ display: 'flex', gap: '.4rem' }}>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm"
+                              onClick={() => navigate(`/admin/edit/${s._id}`)}
+                            >
+                              Edit
+                            </button>
+                            <button className="btn btn-danger btn-sm" onClick={() => requestRemoveStudent(s)}>
+                              🗑 Remove Student
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );

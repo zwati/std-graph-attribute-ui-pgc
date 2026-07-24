@@ -256,7 +256,10 @@ export default function StudentDatabase() {
                     </span>
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
-                    <button className="btn btn-danger btn-sm" onClick={() => requestDeleteStudent(s)}>Delete</button>
+                    <div style={{ display: 'flex', gap: '.4rem' }}>
+                      <button className="btn btn-outline btn-sm" onClick={() => navigate(`/admin/edit/${s._id}`)}>Edit</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => requestDeleteStudent(s)}>Delete</button>
+                    </div>
                   </td>
                 </tr>
               ))}
