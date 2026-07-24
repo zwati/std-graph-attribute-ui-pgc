@@ -50,6 +50,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const expiredMsg = params.get('expired') === 'true';
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -96,14 +97,16 @@ export default function Login() {
         </div>
 
         {/* PWA Always-Visible Install Banner */}
-        <div style={{ background: 'rgba(13, 27, 75, 0.05)', border: '1px solid rgba(13, 27, 75, 0.2)', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ fontSize: '.8rem', fontWeight: 600, color: 'var(--pgc-navy)' }}>
-            📲 Mobile & Desktop App
+        {!isStandalone && (
+          <div style={{ background: 'rgba(13, 27, 75, 0.05)', border: '1px solid rgba(13, 27, 75, 0.2)', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ fontSize: '.8rem', fontWeight: 600, color: 'var(--pgc-navy)' }}>
+              📲 Mobile & Desktop App
+            </div>
+            <button type="button" className="btn btn-primary btn-sm" onClick={handleInstallClick} style={{ padding: '.3rem .8rem', fontSize: '.78rem' }}>
+              Install App 📥
+            </button>
           </div>
-          <button type="button" className="btn btn-primary btn-sm" onClick={handleInstallClick} style={{ padding: '.3rem .8rem', fontSize: '.78rem' }}>
-            Install App 📥
-          </button>
-        </div>
+        )}
 
         {/* Install Guide Modal / Dropdown */}
         {showInstallGuide && (

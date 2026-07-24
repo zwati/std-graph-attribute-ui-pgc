@@ -42,6 +42,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // HTML Document / Navigation requests — Network-first, fallback to cached index.html
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match('/index.html') || caches.match('/'))
+    );
+    return;
+  }
+
   // Network-first for API requests
   if (url.pathname.includes('/api/')) {
     event.respondWith(
