@@ -308,6 +308,19 @@
     });
 
     async function redirect() {
+      // If we are offline, immediately redirect to last known tunnel
+      if (!navigator.onLine) {
+        const lastKnown = localStorage.getItem('last_known_tunnel_url');
+        if (lastKnown) {
+          window.location.replace(lastKnown);
+          return;
+        } else {
+          document.getElementById('loader-container').style.display = 'none';
+          document.getElementById('status-lbl').innerText = 'You are offline. Please check your internet connection.';
+          return;
+        }
+      }
+
       try {
         const res = await fetch(SYNC_URL, { cache: 'no-store' });
         const text = await res.text();
@@ -316,12 +329,21 @@
           const lastEvent = JSON.parse(lines[lines.length - 1]);
           if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
             targetTunnelUrl = lastEvent.message.replace(/\/+$/, '');
+            localStorage.setItem('last_known_tunnel_url', targetTunnelUrl);
             handleReady();
             return;
           }
         }
         setTimeout(redirect, 1500);
       } catch (err) {
+        // Fallback for network request failure if user goes offline
+        if (!navigator.onLine) {
+          const lastKnown = localStorage.getItem('last_known_tunnel_url');
+          if (lastKnown) {
+            window.location.replace(lastKnown);
+            return;
+          }
+        }
         setTimeout(redirect, 1500);
       }
     }
