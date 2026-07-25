@@ -1,5 +1,7 @@
 // src/pages/Home/Home.jsx — Landing page
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import heroBg from '../../assets/hero-bg.jpg';
 import logoImg from '../../assets/logo.png';
 import principalImg from '../../assets/principal.png';
@@ -21,6 +23,14 @@ const features = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      const redirectMap = { parent: '/parent', teacher: '/teacher', admin: '/admin' };
+      navigate(redirectMap[user.role] ?? '/');
+    }
+  }, [user, navigate]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--pgc-navy)', fontFamily: 'Inter, sans-serif' }}>

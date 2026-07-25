@@ -14,16 +14,46 @@ const tabs = [
 const redirectMap = { parent: '/parent', teacher: '/teacher', admin: '/admin' };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [params] = useSearchParams();
+  const { login, user } = useAuth();
+
   const initRole = params.get('role') ?? 'parent';
-  const [tab, setTab] = useState(tabs.findIndex(t => t.role === initRole) || 0);
+  const [tab, setTab] = useState(() => {
+    const idx = tabs.findIndex(t => t.role === initRole);
+    return idx >= 0 ? idx : 0;
+  });
+  const current = tabs[tab];
+
   const [username, setU] = useState('');
   const [password, setP] = useState('');
   const [loading, setL] = useState(false);
   const [error, setErr] = useState('');
-
+  const [rememberMe, setRememberMe] = useState(false);
   const [showInstallGuide, setShowInstallGuide] = useState(false);
-  const { login } = useAuth();
+
+  // Load saved credentials when active tab changes
+  useEffect(() => {
+    const savedUser = localStorage.getItem(`saved_user_${current.role}`);
+    const savedPass = localStorage.getItem(`saved_pass_${current.role}`);
+    const savedRemember = localStorage.getItem(`saved_remember_${current.role}`) === 'true';
+    if (savedRemember && savedUser) {
+      setU(savedUser);
+      setP(savedPass || '');
+      setRememberMe(true);
+    } else {
+      setU('');
+      setP('');
+      setRememberMe(false);
+    }
+  }, [tab, current.role]);
+
+  // Auto-redirect if user already has an active session
+  useEffect(() => {
+    if (user) {
+      navigate(redirectMap[user.role] ?? '/');
+    }
+  }, [user, navigate]);
 
   // PWA Install Prompt event
   const [deferredPrompt, setDeferredPrompt] = useState(window.deferredPWAEvent || null);
@@ -48,19 +78,40 @@ export default function Login() {
     };
   }, []);
 
-  const navigate = useNavigate();
   const expiredMsg = params.get('expired') === 'true';
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setErr('');
+
+    if (!navigator.onLine) {
+      setErr('You are offline. Please check your internet connection.');
+      return;
+    }
+
     setL(true);
     try {
-      const user = await login(username.trim(), password);
-      navigate(redirectMap[user.role] ?? '/');
+      const loggedUser = await login(username.trim(), password);
+
+      // Save or remove credentials based on Remember Me checkbox state
+      if (rememberMe) {
+        localStorage.setItem(`saved_user_${current.role}`, username.trim());
+        localStorage.setItem(`saved_pass_${current.role}`, password);
+        localStorage.setItem(`saved_remember_${current.role}`, 'true');
+      } else {
+        localStorage.removeItem(`saved_user_${current.role}`);
+        localStorage.removeItem(`saved_pass_${current.role}`);
+        localStorage.removeItem(`saved_remember_${current.role}`);
+      }
+
+      navigate(redirectMap[loggedUser.role] ?? '/');
     } catch (err) {
-      setErr(err?.response?.data?.error ?? 'Invalid credentials. Please verify your server connection.');
+      if (!navigator.onLine || err.message === 'Network Error' || !err.response) {
+        setErr('You are offline. Please check your internet connection.');
+      } else {
+        setErr(err?.response?.data?.error ?? 'Invalid credentials. Please verify your server connection.');
+      }
     } finally {
       setL(false);
     }
@@ -74,8 +125,6 @@ export default function Login() {
       setShowInstallGuide(v => !v);
     }
   }
-
-  const current = tabs[tab];
 
   return (
     <div className="login-page">
@@ -136,6 +185,21 @@ export default function Login() {
             <input id="password" className="input" type="password" required
               placeholder="Enter password" value={password} onChange={e => setP(e.target.value)} />
           </div>
+
+          {/* Remember Me Checkbox */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '1.25rem', userSelect: 'none' }}>
+            <input 
+              id="rememberMe" 
+              type="checkbox" 
+              checked={rememberMe} 
+              onChange={e => setRememberMe(e.target.checked)} 
+              style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: 'var(--pgc-navy)' }} 
+            />
+            <label htmlFor="rememberMe" style={{ fontSize: '.85rem', color: 'var(--gray-700)', cursor: 'pointer', fontWeight: 500 }}>
+              Remember Me
+            </label>
+          </div>
+
           {error && <div className="error-msg" style={{ marginBottom: '.75rem' }}>⚠ {error}</div>}
           <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '.75rem' }}
             disabled={loading}>
