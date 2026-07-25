@@ -2,11 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Punjab Group of Colleges — Welcome to SGCMS</title>
+  
+  <!-- PWA Headers -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#0d1b4b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -159,7 +169,62 @@
     .credits strong {
       color: rgba(255, 255, 255, 0.7);
     }
+
+    /* Button styles */
+    .enter-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(90deg, #C8102E, #ff4757);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px rgba(200, 16, 46, 0.35);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .enter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200, 16, 46, 0.5);
+    }
+    .enter-btn:active {
+      transform: translateY(0);
+    }
+    
+    .install-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .install-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
   </style>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
 </head>
 <body>
   <div class="splash-card">
@@ -171,11 +236,21 @@
     <h1>PUNJAB GROUP OF COLLEGES</h1>
     <div class="subtitle">Student Growth &amp; Character Management System</div>
 
-    <div class="progress-container">
-      <div class="progress-bar"></div>
+    <div id="loader-container" class="progress-container">
+      <div id="loader-bar" class="progress-bar"></div>
     </div>
 
-    <div class="status-text">Loading Portal...</div>
+    <div id="status-lbl" class="status-text">Connecting to server...</div>
+
+    <!-- Actions block visible after tunnel resolved in standard browser -->
+    <div id="actions-container" style="display: none; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; width: 100%;">
+      <button id="enter-btn" class="enter-btn">
+        Enter Portal 🚀
+      </button>
+      <button id="install-btn" class="install-btn">
+        Install PGC App 📥
+      </button>
+    </div>
   </div>
 
   <div class="credits">
@@ -185,7 +260,22 @@
   <script>
     const SYNC_URL = 'https://ntfy.sh/pgc_sahiwal_tunnel_2026/json?poll=1';
     const startTime = Date.now();
-    const MIN_DELAY = 2000; // 2.0 seconds minimum display time for readability
+    const MIN_DELAY = 2000; // 2.0 seconds minimum display time for branding
+    
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    let deferredPrompt;
+    let targetTunnelUrl = '';
+
+    // Capture standard PWA install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // If we are in web browser and sync is completed, render install button
+      if (targetTunnelUrl) {
+        document.getElementById('install-btn').style.display = 'inline-flex';
+      }
+    });
 
     async function redirect() {
       try {
@@ -195,12 +285,8 @@
         if (lines.length > 0) {
           const lastEvent = JSON.parse(lines[lines.length - 1]);
           if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
-            const elapsed = Date.now() - startTime;
-            const remaining = Math.max(0, MIN_DELAY - elapsed);
-            
-            setTimeout(() => {
-              window.location.replace(lastEvent.message);
-            }, remaining);
+            targetTunnelUrl = lastEvent.message.replace(/\/+$/, '');
+            handleReady();
             return;
           }
         }
@@ -209,6 +295,46 @@
         setTimeout(redirect, 1500);
       }
     }
+
+    function handleReady() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_DELAY - elapsed);
+
+      setTimeout(() => {
+        if (isStandalone) {
+          // Native App Mode: Redirect automatically and instantly
+          window.location.replace(targetTunnelUrl);
+        } else {
+          // Standard Browser: Stop loader and show Enter/Install actions
+          document.getElementById('loader-container').style.display = 'none';
+          document.getElementById('status-lbl').innerText = 'Campus server connection verified!';
+          
+          document.getElementById('actions-container').style.display = 'flex';
+          
+          if (deferredPrompt) {
+            document.getElementById('install-btn').style.display = 'inline-flex';
+          }
+        }
+      }, remaining);
+    }
+
+    // Button click listeners
+    document.getElementById('enter-btn').addEventListener('click', () => {
+      if (targetTunnelUrl) {
+        window.location.replace(targetTunnelUrl);
+      }
+    });
+
+    document.getElementById('install-btn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          deferredPrompt = null;
+          document.getElementById('install-btn').style.display = 'none';
+        }
+      }
+    });
 
     redirect();
   </script>

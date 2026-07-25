@@ -1,0 +1,28 @@
+{
+  "name": "PGC SGCMS - Student Growth System",
+  "short_name": "PGC SGCMS",
+  "description": "Student Growth & Character Management System - Punjab Colleges Sahiwal Campus",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D1B4B",
+  "theme_color": "#0D1B4B",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
