@@ -27,43 +27,6 @@ function getDefaultApiUrl() {
 
 export function AuthProvider({ children }) {
   const [apiUrl, setApiUrl] = useState(getDefaultApiUrl);
-  const [syncingTunnel, setSyncingTunnel] = useState(() => {
-    if (typeof window !== 'undefined' && window.location?.hostname) {
-      const host = window.location.hostname;
-      const isLocal = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.');
-      return !isLocal;
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    if (syncingTunnel) {
-      const start = Date.now();
-      console.log('🔍 Syncing active campus server endpoint...');
-      fetch('https://ntfy.sh/pgc_sahiwal_tunnel_2026/json?poll=1')
-        .then(res => res.text())
-        .then(text => {
-          const lines = text.trim().split('\n').filter(Boolean);
-          if (lines.length > 0) {
-            const lastEvent = JSON.parse(lines[lines.length - 1]);
-            if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
-              const tunnelUrl = lastEvent.message.replace(/\/+$/, '');
-              const finalApiUrl = `${tunnelUrl}/api`;
-              setApiUrl(finalApiUrl);
-              console.log('✅ Dynamic campus server synced:', finalApiUrl);
-            }
-          }
-        })
-        .catch(err => console.error('Tunnel sync failed:', err))
-        .finally(() => {
-          const elapsed = Date.now() - start;
-          const remaining = Math.max(0, 2000 - elapsed);
-          setTimeout(() => {
-            setSyncingTunnel(false);
-          }, remaining);
-        });
-    }
-  }, [syncingTunnel]);
 
   const [user, setUser] = useState(() => {
     try { return JSON.parse(localStorage.getItem('pgc_user')) ?? null; }
@@ -147,7 +110,7 @@ export function AuthProvider({ children }) {
   }, [apiUrl]);
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout, authAxios, API: apiUrl, apiUrl, updateServerUrl, syncingTunnel }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout, authAxios, API: apiUrl, apiUrl, updateServerUrl }}>
       {children}
     </AuthContext.Provider>
   );
