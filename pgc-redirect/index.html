@@ -266,6 +266,30 @@
     let deferredPrompt;
     let targetTunnelUrl = '';
 
+    // Check if the app is already installed via multiple APIs
+    async function checkAppInstalled() {
+      if (isStandalone) {
+        localStorage.setItem('pwa_installed_flag', 'true');
+        return true;
+      }
+      
+      if ('getInstalledRelatedApps' in navigator) {
+        try {
+          const apps = await navigator.getInstalledRelatedApps();
+          if (apps && apps.length > 0) {
+            localStorage.setItem('pwa_installed_flag', 'true');
+            return true;
+          } else {
+            localStorage.removeItem('pwa_installed_flag');
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      
+      return localStorage.getItem('pwa_installed_flag') === 'true';
+    }
+
     // Capture standard PWA install prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -274,6 +298,14 @@
       // If we are in web browser and sync is completed, render install button
       if (targetTunnelUrl) {
         document.getElementById('install-btn').style.display = 'inline-flex';
+      }
+    });
+
+    // Listen to successful app installation event
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('pwa_installed_flag', 'true');
+      if (targetTunnelUrl) {
+        window.location.replace(targetTunnelUrl);
       }
     });
 
@@ -296,16 +328,17 @@
       }
     }
 
-    function handleReady() {
+    async function handleReady() {
       const elapsed = Date.now() - startTime;
       const remaining = Math.max(0, MIN_DELAY - elapsed);
+      const isInstalled = await checkAppInstalled();
 
       setTimeout(() => {
-        if (isStandalone) {
-          // Native App Mode: Redirect automatically and instantly
+        if (isInstalled) {
+          // Already installed: Auto-redirect instantly and seamlessly
           window.location.replace(targetTunnelUrl);
         } else {
-          // Standard Browser: Stop loader and show Enter/Install actions
+          // Standard Browser (Not installed): Stop loader and show Enter/Install actions
           document.getElementById('loader-container').style.display = 'none';
           document.getElementById('status-lbl').innerText = 'Campus server connection verified!';
           
