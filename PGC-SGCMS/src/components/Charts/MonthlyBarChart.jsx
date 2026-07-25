@@ -49,6 +49,17 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
         <Tooltip
           cursor={{ fill: '#f9fafb' }}
           formatter={(val) => [`${val} / ${domain[1]}`, 'Rating Score']}
+          labelFormatter={(label) => {
+            const fullNames = {
+              'Comm': 'Communication',
+              'Disc': 'Discipline',
+              'Lead': 'Leadership',
+              'Part': 'Participation',
+              'Resp': 'Responsibility',
+              'Team': 'Teamwork',
+            };
+            return fullNames[label] || label;
+          }}
           contentStyle={{
             borderRadius: 8,
             border: '1px solid #e5e7eb',
