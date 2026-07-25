@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import MainLayout     from '../layouts/MainLayout';
+import { useAuth }    from '../context/AuthContext';
+import SplashLoader   from '../components/SplashLoader/SplashLoader';
 
 // Public pages
 import Home     from '../pages/Home/Home';
@@ -33,6 +35,12 @@ import ParentReports    from '../pages/Parent/Reports';
 import DownloadPDF      from '../pages/Parent/DownloadPDF';
 
 export default function AppRoutes() {
+  const { syncingTunnel } = useAuth();
+
+  if (syncingTunnel) {
+    return <SplashLoader />;
+  }
+
   return (
     <Routes>
       {/* ── Public ───────────────────────────────────────── */}
