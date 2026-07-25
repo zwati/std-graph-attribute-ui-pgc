@@ -12,7 +12,7 @@ To ensure smooth 24/7 background operation for all services (MongoDB, Express AP
 | Component | Minimum Specification | Recommended Specification |
 | :--- | :--- | :--- |
 | **Operating System** | Windows 10 (64-bit) | Windows 11 (64-bit) |
-| **Processor (CPU)** | Intel Core i3 / AMD Ryzen 3 (Dual-Core) | Intel Core i5 / AMD Ryzen 5 (Quad-Core) |
+| **Processor (CPU)** | Intel Core i3 (6th Gen or newer) / AMD Ryzen 3 (1000 Series or newer) | Intel Core i5 (8th Gen or newer) / AMD Ryzen 5 (3000 Series or newer) |
 | **Memory (RAM)** | 8 GB DDR4 | 16 GB DDR4/DDR5 |
 | **Storage (SSD)** | 120 GB SSD (with 10 GB free) | 256 GB NVMe SSD (with 20 GB free) |
 | **Network** | Active Wi-Fi / Ethernet Connection | Active Broadband / LAN (High stability) |
