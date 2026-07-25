@@ -30,7 +30,6 @@ export default function Login() {
   const [loading, setL] = useState(false);
   const [error, setErr] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [showInstallGuide, setShowInstallGuide] = useState(false);
 
   // Load saved credentials when active tab changes
   useEffect(() => {
@@ -55,28 +54,7 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  // PWA Install Prompt event
-  const [deferredPrompt, setDeferredPrompt] = useState(window.deferredPWAEvent || null);
 
-  useEffect(() => {
-    const handlePromptAvailable = () => {
-      setDeferredPrompt(window.deferredPWAEvent);
-    };
-
-    window.addEventListener('pwa-prompt-available', handlePromptAvailable);
-
-    const handleBeforeInstall = (e) => {
-      e.preventDefault();
-      window.deferredPWAEvent = e;
-      setDeferredPrompt(e);
-    };
-    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
-
-    return () => {
-      window.removeEventListener('pwa-prompt-available', handlePromptAvailable);
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-    };
-  }, []);
 
   const expiredMsg = params.get('expired') === 'true';
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
@@ -116,16 +94,6 @@ export default function Login() {
       setL(false);
     }
   }
-
-  function handleInstallClick() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => setDeferredPrompt(null));
-    } else {
-      setShowInstallGuide(v => !v);
-    }
-  }
-
   return (
     <div className="login-page">
       <div className="login-card animate-fade">
@@ -144,35 +112,6 @@ export default function Login() {
             <div style={{ fontSize: '.75rem', color: 'var(--gray-400)' }}>Student Growth & Character System</div>
           </div>
         </div>
-
-        {/* PWA Always-Visible Install Banner */}
-        {!isStandalone && deferredPrompt && (
-          <div style={{ background: 'rgba(13, 27, 75, 0.05)', border: '1px solid rgba(13, 27, 75, 0.2)', borderRadius: 8, padding: '.65rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ fontSize: '.8rem', fontWeight: 600, color: 'var(--pgc-navy)' }}>
-              📲 Mobile & Desktop App
-            </div>
-            <button type="button" className="btn btn-primary btn-sm" onClick={handleInstallClick} style={{ padding: '.3rem .8rem', fontSize: '.78rem' }}>
-              Install App 📥
-            </button>
-          </div>
-        )}
-
-        {/* Install Guide Modal / Dropdown */}
-        {showInstallGuide && (
-          <div style={{ background: '#fff', border: '2px solid var(--pgc-navy)', borderRadius: 10, padding: '1rem', marginBottom: '1.25rem', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.6rem' }}>
-              <strong style={{ color: 'var(--pgc-navy)', fontSize: '.9rem' }}>How to Install PGC App:</strong>
-              <button onClick={() => setShowInstallGuide(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>✕</button>
-            </div>
-            <div style={{ fontSize: '.8rem', color: 'var(--gray-700)', lineHeight: 1.5 }}>
-              <div><strong>🖥 Desktop (Chrome/Edge):</strong> Click the <strong>Install Icon (⊕ / 📥)</strong> at the top-right of your browser address bar, or click Menu (⋮) → <em>"Install PGC SGCMS"</em>.</div>
-              <div style={{ marginTop: '.4rem' }}><strong>📱 Android (Chrome):</strong> Tap Menu (⋮) → tap <em>"Add to Home screen"</em> or <em>"Install app"</em>.</div>
-              <div style={{ marginTop: '.4rem' }}><strong>🍎 iPhone (Safari):</strong> Tap Share button (⎋) → tap <em>"Add to Home Screen"</em>.</div>
-            </div>
-          </div>
-        )}
-
-        {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="label" htmlFor="username">ID</label>
