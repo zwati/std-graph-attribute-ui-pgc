@@ -279,8 +279,6 @@
           if (apps && apps.length > 0) {
             localStorage.setItem('pwa_installed_flag', 'true');
             return true;
-          } else {
-            localStorage.removeItem('pwa_installed_flag');
           }
         } catch (e) {
           // ignore

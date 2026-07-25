@@ -7,6 +7,13 @@
   "orientation": "portrait",
   "background_color": "#0D1B4B",
   "theme_color": "#0D1B4B",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://pgcswl-sgcms.vercel.app/manifest.webmanifest"
+    }
+  ],
   "icons": [
     {
       "src": "/icon-192.png",
