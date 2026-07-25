@@ -60,17 +60,42 @@ The system is configured as a fully automated stack. To boot up all four core se
 
 ---
 
-## ⚙️ 4. Configuring Windows Auto-Start / Automatic Boot
-To ensure that all services launch automatically as soon as the computer boots up (e.g., in case of a power interruption), follow these steps:
+## ⚙️ 4. Automatic Power-On & Headless Self-Healing Setup (Power Loss Recovery)
 
-1. Press **`Windows Key + R`** to open the Run dialog.
-2. Type **`shell:startup`** and press **Enter**. This opens the Windows **Startup** folder.
-3. Right-click inside the Startup folder and select **New $\rightarrow$ Shortcut**.
-4. Click **Browse** and select the **[Start_PGC_SGCMS.bat](file:///d:/Software%20Projects/PGC/std-graph-attribute-ui-pgc/Start_PGC_SGCMS.bat)** file.
-5. Click **Next**, name the shortcut (e.g. `SGCMS AutoLauncher`), and click **Finish**.
-6. **Configure Windows Auto-Login (Optional but Recommended)**:
-   * To allow the PC to boot directly to the desktop without waiting at the lock screen:
-   * Press **`Win + R`**, type **`netplwiz`**, select the server user account, uncheck *"Users must enter a username and password to use this computer"*, and click Apply to enter your password.
+To ensure the server is 100% maintenance-free and automatically boots up, connects to the internet, and starts all services when electricity returns after a power outage, configure the following four layers:
+
+### Layer A: Hardware Auto-Power-On (BIOS Configuration)
+This forces the computer to boot automatically as soon as it receives power, without anyone pressing the physical power button:
+1. Turn off the computer, turn it back on, and repeatedly press the BIOS key (usually **`Del`**, **`F2`**, **`F10`**, or **`F12`** depending on the PC brand).
+2. Use the arrow keys to navigate to the **Advanced**, **Power Management**, or **APM Configuration** tab.
+3. Locate settings named **"Restore on AC Power Loss"**, **"AC Power Recovery"**, or **"State after G3"**.
+4. Change the value from *Power Off* or *Keep Last State* to **`Power On`** (or **`Enabled`**).
+5. Press **`F10`** to Save and Exit.
+
+### Layer B: Bypass Windows Lock Screen (Automatic Auto-Login)
+This allows Windows to bypass the login prompt and boot straight to the desktop so startup scripts can execute:
+1. **Restore Netplwiz Checkbox (Windows 10/11 Security Patch)**:
+   * Press **`Win + R`**, type **`regedit`**, and press **Enter** (opens Registry Editor).
+   * Navigate to the path:
+     `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device`
+   * Double-click **`DevicePasswordLessBuildVersion`** on the right panel and change its value data from `2` to **`0`**. Click OK and close Registry Editor.
+2. **Setup Auto-Login**:
+   * Press **`Win + R`**, type **`netplwiz`**, and press **Enter**.
+   * Select your admin user account from the list.
+   * **Uncheck** the box that says: *"Users must enter a username and password to use this computer"*.
+   * Click **Apply**. A prompt will appear asking for the account password. Enter the password twice and click **OK**.
+   *(Alternatively, you can download Microsoft's official secure utility **Autologon** from [learn.microsoft.com](https://learn.microsoft.com/en-us/sysinternals/downloads/autologon) to configure this securely with one click).*
+
+### Layer C: Automatic Internet Connection
+1. Click the Wi-Fi icon in the bottom-right taskbar.
+2. Select the campus Wi-Fi network and check **"Connect automatically"**.
+3. Click Connect. If using Ethernet, Windows connects to LAN networks automatically by default.
+
+### Layer D: Automatic Service Launch on Boot
+1. Press **`Win + R`**, type **`shell:startup`**, and press **Enter** (opens the Windows Startup folder).
+2. Create a shortcut to the **[Start_PGC_SGCMS.bat](file:///d:/Software%20Projects/PGC/std-graph-attribute-ui-pgc/Start_PGC_SGCMS.bat)** file.
+3. Paste that shortcut inside this Startup folder.
+4. **Testing**: Restart the computer. Windows should boot directly to the desktop without prompt, connect to the internet, and instantly launch the green/black PGC terminal with all 4 services!
 
 ---
 
@@ -85,13 +110,3 @@ The user login endpoints are globally accessible via the dedicated domain. You d
    * Parents and staff scan the QR code using any smartphone connected to Wi-Fi or mobile data (4G/5G).
    * They will be shown the 2.0-second Punjab Group of Colleges redirect splash page, and will then be routed directly to the active localhost tunnel in real-time.
    * If they haven't installed the app, they can click the **"Install App 📥"** button on the login screen to add it directly to their home screen as a standalone application.
-
----
-
-## 🧹 6. Cleaned Files Registry
-The following outdated, redundant instruction files and temporary assets have been safely purged from the workspace to clean up the deployment package:
-* `To Run.txt` (Consolidated into this setup guide)
-* `server setting.txt` (Consolidated into this setup guide)
-* `pwa and server.md` (Consolidated into this setup guide)
-* `PGC_Network_Setup_Guide.md` (Redundant local IP/firewall instructions)
-* `wahab-pgc-pswd.png` / `zaid-pgc-pswd.png` (Temporary credentials screenshots)
