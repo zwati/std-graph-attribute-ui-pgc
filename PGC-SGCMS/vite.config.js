@@ -7,6 +7,7 @@ export default defineConfig({
     port: 5173,
     host: true,
     allowedHosts: true,
+    historyApiFallback: true,
     headers: {
       'ngrok-skip-browser-warning': 'true',
     },
@@ -21,6 +22,7 @@ export default defineConfig({
     port: 5173,
     host: true,
     allowedHosts: true,
+    historyApiFallback: true,
     headers: {
       'ngrok-skip-browser-warning': 'true',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
