@@ -3,11 +3,12 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  appType: 'spa',
+
   server: {
     port: 5173,
     host: true,
     allowedHosts: true,
-    historyApiFallback: true,
     headers: {
       'ngrok-skip-browser-warning': 'true',
     },
@@ -18,11 +19,11 @@ export default defineConfig({
       },
     },
   },
+
   preview: {
     port: 5173,
     host: true,
     allowedHosts: true,
-    historyApiFallback: true,
     headers: {
       'ngrok-skip-browser-warning': 'true',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -49,5 +50,3 @@ export default defineConfig({
     },
   },
 })
-
-
