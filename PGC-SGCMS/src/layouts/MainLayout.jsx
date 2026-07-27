@@ -8,7 +8,6 @@ const pageTitles = {
   '/admin/students':     'Student Database',
   '/admin/classes':      'Class & Category Management',
   '/admin/add-student':  'Class Management',
-
   '/admin/teachers':     'Teachers',
   '/admin/parents':      'Parents',
   '/admin/analytics':    'Analytics',
@@ -24,9 +23,22 @@ const pageTitles = {
   '/parent/download':    'Download PDF Report',
 };
 
+const dynamicTitlePatterns = [
+  { pattern: /^\/admin\/student\/.+\/profile$/, title: 'Student Profile' },
+  { pattern: /^\/admin\/edit\/.+$/, title: 'Edit Student' },
+];
+
+function getPageTitle(pathname) {
+  if (pageTitles[pathname]) return pageTitles[pathname];
+  for (const { pattern, title } of dynamicTitlePatterns) {
+    if (pattern.test(pathname)) return title;
+  }
+  return 'PGC SGCMS';
+}
+
 export default function MainLayout() {
   const { pathname } = useLocation();
-  const title = pageTitles[pathname] ?? 'PGC SGCMS';
+  const title = getPageTitle(pathname);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Close mobile drawer on route change

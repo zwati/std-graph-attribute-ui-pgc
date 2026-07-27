@@ -1,0 +1,1296 @@
+[{
+  "_id": {
+    "$oid": "6a609dd4bb2c11a80c8190e7"
+  },
+  "customId": "2302",
+  "rollNumber": "2302",
+  "studentName": "MUHAMMAD ABDULLAH ARSHAD",
+  "fatherName": "ARSHAD HAMEED",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "300598",
+  "gender": "Male",
+  "result9th": "524",
+  "category": "Medical",
+  "parentPassword": "PGC@2302",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:16.064Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:16.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd4bb2c11a80c8190e9"
+  },
+  "customId": "2305",
+  "rollNumber": "2305",
+  "studentName": "ABDULLAH AHSAN",
+  "fatherName": "AHSAN AHMAD SAIFI",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "300951",
+  "gender": "Male",
+  "result9th": "518",
+  "category": "Medical",
+  "parentPassword": "PGC@2305",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:16.412Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:16.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd4bb2c11a80c8190eb"
+  },
+  "customId": "1115",
+  "rollNumber": "1115",
+  "studentName": "MUHAMMAD SUFIYAN RIAZ",
+  "fatherName": "MUHAMMAD RIAZ",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "302160",
+  "gender": "Male",
+  "result9th": "512",
+  "category": "Medical",
+  "parentPassword": "PGC@1115",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:16.756Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:16.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd5bb2c11a80c8190ed"
+  },
+  "customId": "2301",
+  "rollNumber": "2301",
+  "studentName": "MUHAMMAD TANVEEL UR REHMAN RIKAZ",
+  "fatherName": "MUHAMMAD AKHTAR ASHRAF",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "300930",
+  "gender": "Male",
+  "result9th": "512",
+  "category": "Medical",
+  "parentPassword": "PGC@2301",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:17.105Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:17.105Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd5bb2c11a80c8190ef"
+  },
+  "customId": "2306",
+  "rollNumber": "2306",
+  "studentName": "MUEZ UL HAQ",
+  "fatherName": "HAMEED UL HAQ CH",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "300597",
+  "gender": "Male",
+  "result9th": "509",
+  "category": "Medical",
+  "parentPassword": "PGC@2306",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:17.469Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:17.469Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd5bb2c11a80c8190f1"
+  },
+  "customId": "1013",
+  "rollNumber": "1013",
+  "studentName": "MUHAMMAD AYYAN KHAN",
+  "fatherName": "ASADULLAH KHAN",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "300161",
+  "gender": "Male",
+  "result9th": "508",
+  "category": "Medical",
+  "parentPassword": "PGC@1013",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:17.823Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:17.823Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd6bb2c11a80c8190f3"
+  },
+  "customId": "2304",
+  "rollNumber": "2304",
+  "studentName": "MUHAMMAD HAMMAD KHATTAK",
+  "fatherName": "SHEHZAD JAMIL KHATTAK",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "301627",
+  "gender": "Male",
+  "result9th": "504",
+  "category": "Medical",
+  "parentPassword": "PGC@2304",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:18.170Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:18.170Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd6bb2c11a80c8190f5"
+  },
+  "customId": "1014",
+  "rollNumber": "1014",
+  "studentName": "CHAUDHRY AHMAD SHER",
+  "fatherName": "MUHAMMAD ARIF",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "301365",
+  "gender": "Male",
+  "result9th": "501",
+  "category": "Medical",
+  "parentPassword": "PGC@1014",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:18.513Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:18.513Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd6bb2c11a80c8190f7"
+  },
+  "customId": "1902",
+  "rollNumber": "1902",
+  "studentName": "MUHAMMAD HAMMAD TARIQ",
+  "fatherName": "TARIQ MEHMOOD",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "326304",
+  "gender": "Male",
+  "result9th": "535",
+  "category": "ICS",
+  "parentPassword": "PGC@1902",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:18.855Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:18.855Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd7bb2c11a80c8190f9"
+  },
+  "customId": "2031",
+  "rollNumber": "2031",
+  "studentName": "HAIDER HAROON",
+  "fatherName": "HAROON SALEEM",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "330007",
+  "gender": "Male",
+  "result9th": "524",
+  "category": "ICS",
+  "parentPassword": "PGC@2031",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:19.193Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:19.193Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd7bb2c11a80c8190fb"
+  },
+  "customId": "1817",
+  "rollNumber": "1817",
+  "studentName": "AHMAD HASSAN",
+  "fatherName": "ASHIQ ALI",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "330843",
+  "gender": "Male",
+  "result9th": "521",
+  "category": "ICS",
+  "parentPassword": "PGC@1817",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:19.505Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:19.505Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd7bb2c11a80c8190fd"
+  },
+  "customId": "1811",
+  "rollNumber": "1811",
+  "studentName": "ALI JALAL ABID",
+  "fatherName": "ABID ALI",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "326114",
+  "gender": "Male",
+  "result9th": "515",
+  "category": "ICS",
+  "parentPassword": "PGC@1811",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:19.816Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:19.816Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd8bb2c11a80c8190ff"
+  },
+  "customId": "1822",
+  "rollNumber": "1822",
+  "studentName": "HUZAIFA ALI",
+  "fatherName": "ISRAR AHMED",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "326156",
+  "gender": "Male",
+  "result9th": "511",
+  "category": "ICS",
+  "parentPassword": "PGC@1822",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:20.125Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:20.125Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd8bb2c11a80c819101"
+  },
+  "customId": "1855",
+  "rollNumber": "1855",
+  "studentName": "MUHAMMAD AHMAD",
+  "fatherName": "MUHAMMAD KHALIQ",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "326282",
+  "gender": "Male",
+  "result9th": "506",
+  "category": "ICS",
+  "parentPassword": "PGC@1855",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:20.442Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:20.442Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd8bb2c11a80c819103"
+  },
+  "customId": "2032",
+  "rollNumber": "2032",
+  "studentName": "HAMZA FARHAN",
+  "fatherName": "FARHAN ASHRAF",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "329422",
+  "gender": "Male",
+  "result9th": "504",
+  "category": "ICS",
+  "parentPassword": "PGC@2032",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:20.759Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:20.759Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd9bb2c11a80c819105"
+  },
+  "customId": "1818",
+  "rollNumber": "1818",
+  "studentName": "MUHAMMAD UMER BUTT",
+  "fatherName": "ALI IMRAN",
+  "class": "1st Year",
+  "section": "ICS Phy",
+  "boardRollNumber": "326461",
+  "gender": "Male",
+  "result9th": "500",
+  "category": "ICS",
+  "parentPassword": "PGC@1818",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:21.069Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:21.069Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd9bb2c11a80c819107"
+  },
+  "customId": "3537",
+  "rollNumber": "3537",
+  "studentName": "MAHAM LATIF",
+  "fatherName": "LATIF JAVID",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304320",
+  "gender": "Female",
+  "result9th": "526",
+  "category": "Medical",
+  "parentPassword": "PGC@3537",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:21.378Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:21.378Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dd9bb2c11a80c819109"
+  },
+  "customId": "3538",
+  "rollNumber": "3538",
+  "studentName": "AFEERAH ZAINAB",
+  "fatherName": "ZAHID NAZIR",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "305453",
+  "gender": "Female",
+  "result9th": "526",
+  "category": "Medical",
+  "parentPassword": "PGC@3538",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:21.690Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:21.690Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddabb2c11a80c81910b"
+  },
+  "customId": "3514",
+  "rollNumber": "3514",
+  "studentName": "KINZA UROOJ",
+  "fatherName": "AHMAD ALI",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "308666",
+  "gender": "Female",
+  "result9th": "520",
+  "category": "Medical",
+  "parentPassword": "PGC@3514",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:22.004Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:22.004Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddabb2c11a80c81910d"
+  },
+  "customId": "3551",
+  "rollNumber": "3551",
+  "studentName": "AIZA ZAWAR KHAN",
+  "fatherName": "MUHAMMAD ZAWAR",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "308663",
+  "gender": "Female",
+  "result9th": "514",
+  "category": "Medical",
+  "parentPassword": "PGC@3551",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:22.314Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:22.314Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddabb2c11a80c81910f"
+  },
+  "customId": "3556",
+  "rollNumber": "3556",
+  "studentName": "MAHNOOR TARIQ",
+  "fatherName": "MUHAMMAD NASEER TARIQ",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304022",
+  "gender": "Female",
+  "result9th": "513",
+  "category": "Medical",
+  "parentPassword": "PGC@3556",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:22.624Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:22.624Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddabb2c11a80c819111"
+  },
+  "customId": "3739",
+  "rollNumber": "3739",
+  "studentName": "AFSA AKBAR",
+  "fatherName": "MUHAMMAD AKBAR",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304035",
+  "gender": "Female",
+  "result9th": "510",
+  "category": "Medical",
+  "parentPassword": "PGC@3739",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:22.935Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:22.935Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddbbb2c11a80c819113"
+  },
+  "customId": "3533",
+  "rollNumber": "3533",
+  "studentName": "FATIMA SHAHID",
+  "fatherName": "SHAHID MAQSOOD TABASSUM",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "305331",
+  "gender": "Female",
+  "result9th": "509",
+  "category": "Medical",
+  "parentPassword": "PGC@3533",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:23.243Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:23.243Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddbbb2c11a80c819115"
+  },
+  "customId": "3614",
+  "rollNumber": "3614",
+  "studentName": "ALISHA FAROOQ",
+  "fatherName": "TAHIR FAROOQ",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304047",
+  "gender": "Female",
+  "result9th": "509",
+  "category": "Medical",
+  "parentPassword": "PGC@3614",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:23.547Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:23.547Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddbbb2c11a80c819117"
+  },
+  "customId": "3501",
+  "rollNumber": "3501",
+  "studentName": "JAVERIA HAMID",
+  "fatherName": "MUHAMMAD HAMID MEHMOOD",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304093",
+  "gender": "Female",
+  "result9th": "501",
+  "category": "Medical",
+  "parentPassword": "PGC@3501",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:23.860Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:23.860Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddcbb2c11a80c819119"
+  },
+  "customId": "3721",
+  "rollNumber": "3721",
+  "studentName": "AREEJ FATIMA",
+  "fatherName": "MUHAMMAD IQBAL",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "309604",
+  "gender": "Female",
+  "result9th": "500",
+  "category": "Medical",
+  "parentPassword": "PGC@3721",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:24.186Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:24.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddcbb2c11a80c81911b"
+  },
+  "customId": "3646",
+  "rollNumber": "3646",
+  "studentName": "WANIYA QUTAB",
+  "fatherName": "QUTUBUDIN",
+  "class": "1st Year",
+  "section": "Pre-Med",
+  "boardRollNumber": "304072",
+  "gender": "Female",
+  "result9th": "500",
+  "category": "Medical",
+  "parentPassword": "PGC@3646",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:24.543Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:24.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddcbb2c11a80c81911d"
+  },
+  "customId": "5107",
+  "rollNumber": "5107",
+  "studentName": "KAINAT FATIMA",
+  "fatherName": "YASIR ARFAT ALI",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312429",
+  "gender": "Female",
+  "result9th": "531",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5107",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:24.868Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:24.868Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dddbb2c11a80c81911f"
+  },
+  "customId": "5106",
+  "rollNumber": "5106",
+  "studentName": "HASSNA BANO",
+  "fatherName": "TANVEER AHMED",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312430",
+  "gender": "Female",
+  "result9th": "520",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5106",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:25.180Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:25.180Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dddbb2c11a80c819121"
+  },
+  "customId": "5115",
+  "rollNumber": "5115",
+  "studentName": "ZAINAB TARIQ",
+  "fatherName": "ABDUL SATTAR TARIQ",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312626",
+  "gender": "Female",
+  "result9th": "513",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5115",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:25.488Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:25.488Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609dddbb2c11a80c819123"
+  },
+  "customId": "5113",
+  "rollNumber": "5113",
+  "studentName": "MARYAM KHALID",
+  "fatherName": "KHALID MEHMOOD",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312523",
+  "gender": "Female",
+  "result9th": "512",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5113",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:25.801Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:25.801Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddebb2c11a80c819125"
+  },
+  "customId": "4221",
+  "rollNumber": "4221",
+  "studentName": "ABANA KHANZADI",
+  "fatherName": "MUHAMMAD SADDIQUE",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312434",
+  "gender": "Female",
+  "result9th": "511",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@4221",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:26.115Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:26.115Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddebb2c11a80c819127"
+  },
+  "customId": "5101",
+  "rollNumber": "5101",
+  "studentName": "AYESHA",
+  "fatherName": "SARFRAZ",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312409",
+  "gender": "Female",
+  "result9th": "505",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5101",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:26.432Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:26.432Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddebb2c11a80c819129"
+  },
+  "customId": "4201",
+  "rollNumber": "4201",
+  "studentName": "HAFSA",
+  "fatherName": "MUHAMMAD SHAHID AHMAD",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312516",
+  "gender": "Female",
+  "result9th": "504",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@4201",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:26.759Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:26.759Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddfbb2c11a80c81912b"
+  },
+  "customId": "5116",
+  "rollNumber": "5116",
+  "studentName": "UNAISA TARIQ",
+  "fatherName": "FAIZ AHMAD",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312432",
+  "gender": "Female",
+  "result9th": "504",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@5116",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:27.097Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:27.097Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddfbb2c11a80c81912d"
+  },
+  "customId": "4214",
+  "rollNumber": "4214",
+  "studentName": "FARHEEN ZUBAIR",
+  "fatherName": "MUHAMMAD ZUBAIR",
+  "class": "1st Year",
+  "section": "Pre-Eng",
+  "boardRollNumber": "312458",
+  "gender": "Female",
+  "result9th": "502",
+  "category": "Pre-Eng",
+  "parentPassword": "PGC@4214",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:27.513Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:27.513Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609ddfbb2c11a80c81912f"
+  },
+  "customId": "4307",
+  "rollNumber": "4307",
+  "studentName": "FIZA NOOR",
+  "fatherName": "USMAN KHALID",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "334047",
+  "gender": "Female",
+  "result9th": "531",
+  "category": "ICS",
+  "parentPassword": "PGC@4307",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:27.829Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:27.829Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de0bb2c11a80c819131"
+  },
+  "customId": "4318",
+  "rollNumber": "4318",
+  "studentName": "MUNEEZA BATOOL",
+  "fatherName": "GHULAM QUMBER DHAUHAN",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "333315",
+  "gender": "Female",
+  "result9th": "530",
+  "category": "ICS",
+  "parentPassword": "PGC@4318",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:28.156Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:28.156Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de0bb2c11a80c819133"
+  },
+  "customId": "4304",
+  "rollNumber": "4304",
+  "studentName": "ESHAL",
+  "fatherName": "MUHAMMAD NAVEED",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "337313",
+  "gender": "Female",
+  "result9th": "522",
+  "category": "ICS",
+  "parentPassword": "PGC@4304",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:28.500Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:28.500Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de0bb2c11a80c819135"
+  },
+  "customId": "4402",
+  "rollNumber": "4402",
+  "studentName": "HADIA SHAHBAZ",
+  "fatherName": "SHAHBAZ HUSSAIN",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "338189",
+  "gender": "Female",
+  "result9th": "521",
+  "category": "ICS",
+  "parentPassword": "PGC@4402",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:28.821Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:28.821Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de1bb2c11a80c819137"
+  },
+  "customId": "4311",
+  "rollNumber": "4311",
+  "studentName": "RUBAB FAROOQ",
+  "fatherName": "FAROOQ",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "334883",
+  "gender": "Female",
+  "result9th": "519",
+  "category": "ICS",
+  "parentPassword": "PGC@4311",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:29.139Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:29.139Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de1bb2c11a80c819139"
+  },
+  "customId": "4316",
+  "rollNumber": "4316",
+  "studentName": "TARB E ZOHRA",
+  "fatherName": "MUHAMMAD NOMAN",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "336754",
+  "gender": "Female",
+  "result9th": "517",
+  "category": "ICS",
+  "parentPassword": "PGC@4316",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:29.458Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:29.458Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de1bb2c11a80c81913b"
+  },
+  "customId": "4331",
+  "rollNumber": "4331",
+  "studentName": "AYESHA ASIF",
+  "fatherName": "ASIF NOOR",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "337253",
+  "gender": "Female",
+  "result9th": "512",
+  "category": "ICS",
+  "parentPassword": "PGC@4331",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:29.774Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:29.774Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de2bb2c11a80c81913d"
+  },
+  "customId": "4306",
+  "rollNumber": "4306",
+  "studentName": "SHANZA SAEED",
+  "fatherName": "SAEED HUSSAIN",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "335465",
+  "gender": "Female",
+  "result9th": "509",
+  "category": "ICS",
+  "parentPassword": "PGC@4306",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:30.095Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:30.095Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de2bb2c11a80c81913f"
+  },
+  "customId": "4312",
+  "rollNumber": "4312",
+  "studentName": "ZAINAB RAFIQUE",
+  "fatherName": "ABID RAFIQUE",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "338173",
+  "gender": "Female",
+  "result9th": "506",
+  "category": "ICS",
+  "parentPassword": "PGC@4312",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:30.411Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:30.411Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de2bb2c11a80c819141"
+  },
+  "customId": "4320",
+  "rollNumber": "4320",
+  "studentName": "AMINA SHAHZAD",
+  "fatherName": "MIRZA MUHAMMAD SHAHZAD AFZAL",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "337293",
+  "gender": "Female",
+  "result9th": "505",
+  "category": "ICS",
+  "parentPassword": "PGC@4320",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:30.764Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:30.764Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de3bb2c11a80c819143"
+  },
+  "customId": "4322",
+  "rollNumber": "4322",
+  "studentName": "ALIHA SOHAIL",
+  "fatherName": "SOHAIL SARWAR",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "338135",
+  "gender": "Female",
+  "result9th": "503",
+  "category": "ICS",
+  "parentPassword": "PGC@4322",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:31.107Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:31.107Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a609de3bb2c11a80c819145"
+  },
+  "customId": "4313",
+  "rollNumber": "4313",
+  "studentName": "ZAINAB TAHIR",
+  "fatherName": "MUHAMMAD TAHIR HAMID",
+  "class": "1st Year",
+  "section": "ICS",
+  "boardRollNumber": "333269",
+  "gender": "Female",
+  "result9th": "501",
+  "category": "ICS",
+  "parentPassword": "PGC@4313",
+  "growthIndex": 0,
+  "growthTrendEMA": 0,
+  "evaluationCount": 0,
+  "lastEvaluatedAt": null,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:31.456Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:31.456Z"
+  },
+  "__v": 0
+}]

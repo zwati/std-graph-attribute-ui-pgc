@@ -6,6 +6,7 @@ const { allow } = require('../middleware/roleAuth');
 const {
   getClasses, addClass, deleteClass,
   getStudents, addStudent, updateStudent, deleteStudent, getParentPasswords,
+  getStudentById, getStudentGrowth,
   getTeachers, addTeacher, updateTeacher, deleteTeacher, getAnalytics,
 } = require('../controllers/adminController');
 
@@ -15,10 +16,12 @@ router.get('/classes',       getClasses);
 router.post('/classes',      addClass);
 router.delete('/classes/:id', deleteClass);
 
-router.get('/students',       getStudents);
-router.post('/students',      addStudent);
-router.patch('/students/:id',  updateStudent);
-router.delete('/students/:id', deleteStudent);
+router.get('/students',            getStudents);
+router.post('/students',           addStudent);
+router.get('/students/:id',        getStudentById);
+router.get('/students/:id/growth', getStudentGrowth);
+router.patch('/students/:id',      updateStudent);
+router.delete('/students/:id',     deleteStudent);
 
 router.get('/passwords',     getParentPasswords);
 

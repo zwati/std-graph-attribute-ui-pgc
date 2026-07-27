@@ -43,7 +43,10 @@ export default function StudentProfile() {
           {/* Avatar */}
           <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--pgc-navy)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <span style={{ fontSize: '2rem', color: '#fff' }}>🎓</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" width="38" height="38" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M20 21a8 8 0 1 0-16 0"/>
+            </svg>
           </div>
           <div style={{ flex: 1 }}>
             <h2 style={{ margin: '0 0 .25rem' }}>

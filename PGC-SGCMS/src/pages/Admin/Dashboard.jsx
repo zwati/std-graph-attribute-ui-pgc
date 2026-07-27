@@ -24,11 +24,23 @@ export default function AdminDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
+  const mkSvg = (content) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">{content}</svg>
+  );
+
   const stats = [
-    { label: 'Total Students', val: analytics?.totalStudents ?? '—', icon: '👨‍🎓', color: 'navy' },
-    { label: 'Avg Growth Index', val: analytics?.schoolAvgGrowth ? `${analytics.schoolAvgGrowth.toFixed(1)}%` : '—', icon: '📈', color: 'green' },
-    { label: 'Evaluations Today', val: analytics?.evaluationsToday ?? 0, icon: '⭐', color: 'amber' },
-    { label: 'Active Teachers', val: analytics?.activeTeachers ?? 0, icon: '👨‍🏫', color: 'red' },
+    { label: 'Total Students', val: analytics?.totalStudents ?? '—', color: 'navy',
+      icon: mkSvg(<><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>)
+    },
+    { label: 'Avg Growth Index', val: analytics?.schoolAvgGrowth ? `${analytics.schoolAvgGrowth.toFixed(1)}%` : '—', color: 'green',
+      icon: mkSvg(<><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></>)
+    },
+    { label: 'Evaluations Today', val: analytics?.evaluationsToday ?? 0, color: 'amber',
+      icon: mkSvg(<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>)
+    },
+    { label: 'Active Teachers', val: analytics?.activeTeachers ?? 0, color: 'red',
+      icon: mkSvg(<><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>)
+    },
   ];
 
   const top = analytics?.topStudents ?? [];
@@ -50,7 +62,7 @@ export default function AdminDashboard() {
       <div className="stat-grid" style={{ marginBottom: '1.5rem' }}>
         {stats.map(s => (
           <div className="stat-card" key={s.label}>
-            <div className={`stat-icon ${s.color}`}><span style={{ fontSize: '1.4rem' }}>{s.icon}</span></div>
+            <div className={`stat-icon ${s.color}`}>{s.icon}</div>
             <div>
               <div className="stat-val">{loading ? '…' : s.val}</div>
               <div className="stat-lbl">{s.label}</div>

@@ -689,3 +689,16 @@ select.input, .input {
     gap: 0.75rem !important;
   }
 }
+
+/* ── Radial action menu — ensure table cells don't clip popout buttons ── */
+tbody td { overflow: visible; }
+.table-wrap { overflow-x: auto; }
+
+/* ── Spin animation for loading states ──────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin-icon {
+  animation: spin 0.9s linear infinite;
+}
+

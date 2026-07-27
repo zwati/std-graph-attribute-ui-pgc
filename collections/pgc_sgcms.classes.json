@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "6a609dd3bb2c11a80c8190e3"
+  },
+  "className": "1st Year",
+  "category": "Medical",
+  "section": "Pre-Med",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:15.675Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:15.675Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a609dd3bb2c11a80c8190e4"
+  },
+  "className": "1st Year",
+  "category": "Pre-Eng",
+  "section": "Pre-Eng",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a609dd3bb2c11a80c8190e5"
+  },
+  "className": "1st Year",
+  "category": "ICS",
+  "section": "ICS",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a609dd3bb2c11a80c8190e6"
+  },
+  "className": "1st Year",
+  "category": "ICS",
+  "section": "ICS Phy",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T10:39:15.677Z"
+  }
+}]

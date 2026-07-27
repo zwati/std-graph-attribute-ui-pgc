@@ -287,9 +287,99 @@ async function getAnalytics(req, res) {
 }
 
 
+// GET /api/admin/students/:id — fetch a single student's full profile
+async function getStudentById(req, res) {
+  try {
+    const student = await Student.findById(req.params.id).select('-__v').lean();
+    if (!student) return fail(res, 'Student not found', 404);
+    return ok(res, student);
+  } catch (err) { return serverError(res, err); }
+}
+
+// GET /api/admin/students/:id/growth — fetch growth data for a specific student
+async function getStudentGrowth(req, res) {
+  try {
+    const student = await Student.findById(req.params.id)
+      .select('growthIndex growthTrendEMA evaluationCount lastEvaluatedAt')
+      .lean();
+    if (!student) return fail(res, 'Student not found', 404);
+
+    const Evaluation = require('../models/Evaluation');
+
+    const monthly = await Evaluation.aggregate([
+      { $match: { studentId: student._id } },
+      { $group: {
+        _id: '$month',
+        score:          { $avg: '$growthIndexAtSubmit' },
+        communication:  { $avg: '$communication' },
+        participation:  { $avg: '$participation' },
+        discipline:     { $avg: '$discipline' },
+        teamwork:       { $avg: '$teamwork' },
+        responsibility: { $avg: '$responsibility' },
+        leadership:     { $avg: '$leadership' },
+      }},
+      { $sort: { _id: 1 } },
+      { $project: {
+        month:          '$_id',
+        score:          { $round: ['$score', 1] },
+        communication:  { $round: ['$communication', 1] },
+        participation:  { $round: ['$participation', 1] },
+        discipline:     { $round: ['$discipline', 1] },
+        teamwork:       { $round: ['$teamwork', 1] },
+        responsibility: { $round: ['$responsibility', 1] },
+        leadership:     { $round: ['$leadership', 1] },
+        _id: 0,
+      }},
+    ]);
+
+    const allEvals = await Evaluation.find({ studentId: student._id })
+      .sort({ createdAt: 1 })
+      .select('month growthIndexAtSubmit communication participation discipline teamwork responsibility leadership createdAt')
+      .lean();
+
+    let prevScore = null;
+    const progressHistory = allEvals.map((ev) => {
+      const currentScore = ev.growthIndexAtSubmit || 0;
+      let diff = 0;
+      let status = 'initial';
+      if (prevScore !== null) {
+        diff = parseFloat((currentScore - prevScore).toFixed(1));
+        status = diff > 0 ? 'progress' : diff < 0 ? 'loss' : 'equal';
+      }
+      prevScore = currentScore;
+      const d = new Date(ev.createdAt || Date.now());
+      return {
+        _id: ev._id,
+        month: ev.month,
+        monthName: d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        score: currentScore,
+        diff,
+        status,
+        date: d.toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
+        communication: ev.communication || 0,
+        participation: ev.participation || 0,
+        discipline: ev.discipline || 0,
+        teamwork: ev.teamwork || 0,
+        responsibility: ev.responsibility || 0,
+        leadership: ev.leadership || 0,
+      };
+    });
+
+    return ok(res, {
+      growthIndex:     student.growthIndex,
+      growthTrendEMA:  student.growthTrendEMA,
+      evaluationCount: student.evaluationCount,
+      lastEvaluatedAt: student.lastEvaluatedAt,
+      monthly,
+      progressHistory,
+    });
+  } catch (err) { return serverError(res, err); }
+}
+
 module.exports = {
   getClasses, addClass, deleteClass,
   getStudents, addStudent, updateStudent, deleteStudent, getParentPasswords,
+  getStudentById, getStudentGrowth,
   getTeachers, addTeacher, updateTeacher, deleteTeacher, getAnalytics,
 };
 

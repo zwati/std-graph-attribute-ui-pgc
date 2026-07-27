@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "6a606ee437baa9162576ff8d"
+  },
+  "userId": {
+    "$oid": "6a606ee437baa9162576ff8c"
+  },
+  "fullName": "PGC Faculty Teacher",
+  "subject": "Character & Growth Assessment",
+  "classes": [],
+  "createdAt": {
+    "$date": "2026-07-22T07:19:00.829Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T07:19:00.829Z"
+  },
+  "__v": 0
+}]

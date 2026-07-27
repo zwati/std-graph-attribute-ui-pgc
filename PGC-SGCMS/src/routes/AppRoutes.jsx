@@ -14,6 +14,7 @@ import AdminDashboard   from '../pages/Admin/Dashboard';
 import ClassManagement  from '../pages/Admin/ClassManagement';
 import EditStudent      from '../pages/Admin/EditStudent';
 import StudentDatabase  from '../pages/Admin/StudentDatabase';
+import AdminStudentProfile from '../pages/Admin/AdminStudentProfile';
 import Teachers         from '../pages/Admin/Teachers';
 import Parents          from '../pages/Admin/Parents';
 import Analytics        from '../pages/Admin/Analytics';
@@ -50,6 +51,7 @@ export default function AppRoutes() {
         <Route path="/admin/classes"     element={<ClassManagement />} />
         <Route path="/admin/add-student" element={<Navigate to="/admin/classes" replace />} />
         <Route path="/admin/edit/:id"    element={<EditStudent />} />
+        <Route path="/admin/student/:id/profile" element={<AdminStudentProfile />} />
         <Route path="/admin/teachers"    element={<Teachers />} />
         <Route path="/admin/parents"    element={<Parents />} />
         <Route path="/admin/analytics"  element={<Analytics />} />
