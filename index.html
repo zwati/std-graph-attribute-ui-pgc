@@ -256,6 +256,11 @@
         Install PGC App 📥
       </button>
     </div>
+    <!-- Manual Install Instructions hidden by default -->
+    <div id="install-guide" style="display: none; width: 100%; max-width: 440px; margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; text-align: left; font-size: 0.8rem; line-height: 1.5; color: rgba(255, 255, 255, 0.8); z-index: 2; position: relative;">
+      <strong style="color: #ff6b81; display: block; margin-bottom: 0.4rem; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px;">How to Install App:</strong>
+      <div id="guide-content"></div>
+    </div>
   </div>
 
   <div class="credits">
@@ -301,7 +306,7 @@
       e.preventDefault();
       deferredPrompt = e;
       
-      // If we are in web browser and sync is completed, render install button
+      // If we are in web browser and sync is completed, show install button
       if (targetTunnelUrl) {
         document.getElementById('install-btn').style.display = 'inline-flex';
       }
@@ -310,6 +315,7 @@
     // Listen to successful app installation event
     window.addEventListener('appinstalled', () => {
       localStorage.setItem('pwa_installed_flag', 'true');
+      document.getElementById('install-guide').style.display = 'none';
       if (targetTunnelUrl) {
         window.location.replace(targetTunnelUrl);
       }
@@ -386,12 +392,21 @@
           document.getElementById('status-lbl').innerText = 'Campus server connection verified!';
           
           document.getElementById('actions-container').style.display = 'flex';
-          
-          if (deferredPrompt) {
-            document.getElementById('install-btn').style.display = 'inline-flex';
-          }
+          document.getElementById('install-btn').style.display = 'inline-flex'; // Always show so they can click and see instructions if prompt is blocked!
         }
       }, remaining);
+    }
+
+    // Helper to generate platform-specific instructions when native prompt is in cooldown
+    function getInstallInstructionsText() {
+      const userAgent = navigator.userAgent.toLowerCase();
+      if (/ipad|iphone|ipod/.test(userAgent) && !window.MSStream) {
+        return 'Tap the Share button <strong>(⎋)</strong> in Safari and select <strong>"Add to Home Screen"</strong> from the menu.';
+      }
+      if (/android/.test(userAgent)) {
+        return 'Tap the Chrome menu button <strong>(⋮)</strong> at the top-right and select <strong>"Install App"</strong> or <strong>"Add to Home Screen"</strong>.';
+      }
+      return 'Click the install icon <strong>(⊕ / 📥)</strong> directly in your browser address bar at the top-right, or open the browser menu <strong>(⋮)</strong> and select <strong>"Install PGC SGCMS"</strong>.';
     }
 
     // Button click listeners
@@ -408,6 +423,16 @@
         if (outcome === 'accepted') {
           deferredPrompt = null;
           document.getElementById('install-btn').style.display = 'none';
+          document.getElementById('install-guide').style.display = 'none';
+        }
+      } else {
+        // Fallback: If native prompt is blocked, toggle clear visual instructions
+        const guide = document.getElementById('install-guide');
+        if (guide.style.display === 'none') {
+          document.getElementById('guide-content').innerHTML = getInstallInstructionsText();
+          guide.style.display = 'block';
+        } else {
+          guide.style.display = 'none';
         }
       }
     });
