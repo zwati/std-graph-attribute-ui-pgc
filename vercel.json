@@ -1,8 +1,0 @@
-{
-  "buildCommand": "cd PGC-SGCMS && npm install && npm run build",
-  "outputDirectory": "PGC-SGCMS/dist",
-  "installCommand": "cd PGC-SGCMS && npm install",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}

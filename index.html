@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Punjab Group of Colleges — Welcome to SGCMS</title>
+  
+  <!-- PWA Headers -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#0d1b4b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #1b2a6b 0%, #0d1b4b 60%, #070e28 100%);
+      color: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient background glow effects */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: rgba(200, 16, 46, 0.15);
+      filter: blur(100px);
+      border-radius: 50%;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+
+    .splash-card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 3rem 2.5rem 2.5rem;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(124, 58, 237, 0.1);
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .logo-container {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 1.5rem;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.2);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.2); }
+      50% { transform: scale(1.04); box-shadow: 0 15px 30px rgba(200, 16, 46, 0.3), 0 0 25px rgba(255, 255, 255, 0.4); }
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: rgba(200, 16, 46, 0.2);
+      border: 1px solid rgba(200, 16, 46, 0.4);
+      color: #ff6b81;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.75rem;
+    }
+
+    /* Progress bar loader */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, #C8102E, #ff4757, #C8102E);
+      border-radius: 10px;
+      position: absolute;
+      animation: loading 1.6s ease-in-out infinite;
+      box-shadow: 0 0 12px rgba(200, 16, 46, 0.8);
+    }
+
+    @keyframes loading {
+      0% { left: -40%; width: 30%; }
+      50% { left: 35%; width: 50%; }
+      100% { left: 100%; width: 30%; }
+    }
+
+    .status-text {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.3px;
+    }
+
+    .credits {
+      position: absolute;
+      bottom: 1.75rem;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+      z-index: 1;
+    }
+
+    .credits strong {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Button styles */
+    .enter-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(90deg, #C8102E, #ff4757);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px rgba(200, 16, 46, 0.35);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .enter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200, 16, 46, 0.5);
+    }
+    .enter-btn:active {
+      transform: translateY(0);
+    }
+    
+    .install-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .install-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</head>
+<body>
+  <div class="splash-card">
+    <div class="logo-container">
+      <img src="logo.png" alt="Punjab Group of Colleges" class="logo-img">
+    </div>
+
+    <div class="badge">Sahiwal Campus</div>
+    <h1>PUNJAB GROUP OF COLLEGES</h1>
+    <div class="subtitle">Student Growth &amp; Character Management System</div>
+
+    <div id="loader-container" class="progress-container">
+      <div id="loader-bar" class="progress-bar"></div>
+    </div>
+
+    <div id="status-lbl" class="status-text">Connecting to server...</div>
+
+    <!-- Retry button hidden by default -->
+    <button id="retry-btn" class="install-btn" style="display: none; margin: 1.25rem auto 0 auto; max-width: 200px; padding: 0.65rem 1.2rem; font-size: 0.8rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px;">
+      Retry Connection 🔄
+    </button>
+
+    <!-- Actions block visible after tunnel resolved in standard browser -->
+    <div id="actions-container" style="display: none; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; width: 100%;">
+      <button id="enter-btn" class="enter-btn">
+        Enter Portal 🚀
+      </button>
+      <button id="install-btn" class="install-btn">
+        Install PGC App 📥
+      </button>
+    </div>
+  </div>
+
+  <div class="credits">
+    Developed by <strong>ZWATI Solutions</strong>
+  </div>
+
+  <script>
+    const SYNC_URL = 'https://ntfy.sh/pgc_sahiwal_tunnel_2026/json?poll=1';
+    const startTime = Date.now();
+    const MIN_DELAY = 2000; // 2.0 seconds minimum display time for branding
+    
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    let deferredPrompt;
+    let targetTunnelUrl = '';
+
+    // Check if the app is already installed via multiple APIs
+    async function checkAppInstalled() {
+      if (isStandalone) {
+        localStorage.setItem('pwa_installed_flag', 'true');
+        return true;
+      }
+      
+      if ('getInstalledRelatedApps' in navigator) {
+        try {
+          const apps = await navigator.getInstalledRelatedApps();
+          if (apps && apps.length > 0) {
+            localStorage.setItem('pwa_installed_flag', 'true');
+            return true;
+          } else {
+            localStorage.removeItem('pwa_installed_flag');
+            return false;
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      
+      return localStorage.getItem('pwa_installed_flag') === 'true';
+    }
+
+    // Capture standard PWA install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // If we are in web browser and sync is completed, render install button
+      if (targetTunnelUrl) {
+        document.getElementById('install-btn').style.display = 'inline-flex';
+      }
+    });
+
+    // Listen to successful app installation event
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('pwa_installed_flag', 'true');
+      if (targetTunnelUrl) {
+        window.location.replace(targetTunnelUrl);
+      }
+    });
+
+    let failCount = 0;
+
+    async function redirect() {
+      // If we are offline, immediately redirect to last known tunnel
+      if (!navigator.onLine) {
+        const lastKnown = localStorage.getItem('last_known_tunnel_url');
+        if (lastKnown) {
+          document.getElementById('status-lbl').innerText = 'Offline mode: Redirecting to cached portal...';
+          setTimeout(() => {
+            window.location.replace(lastKnown);
+          }, 1000);
+          return;
+        } else {
+          document.getElementById('loader-container').style.display = 'none';
+          document.getElementById('status-lbl').innerText = 'You are offline. Please check your internet connection.';
+          document.getElementById('retry-btn').style.display = 'inline-block';
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch(SYNC_URL, { cache: 'no-store' });
+        const text = await res.text();
+        const lines = text.trim().split('\n').filter(Boolean);
+        if (lines.length > 0) {
+          const lastEvent = JSON.parse(lines[lines.length - 1]);
+          if (lastEvent && lastEvent.message && lastEvent.message.startsWith('http')) {
+            targetTunnelUrl = lastEvent.message.replace(/\/+$/, '');
+            localStorage.setItem('last_known_tunnel_url', targetTunnelUrl);
+            failCount = 0;
+            handleReady();
+            return;
+          }
+        }
+        setTimeout(redirect, 1500);
+      } catch (err) {
+        failCount++;
+        if (failCount >= 2) {
+          const lastKnown = localStorage.getItem('last_known_tunnel_url');
+          if (lastKnown) {
+            document.getElementById('status-lbl').innerText = 'Offline fallback: Redirecting to cached portal...';
+            setTimeout(() => {
+              window.location.replace(lastKnown);
+            }, 1000);
+            return;
+          } else {
+            document.getElementById('loader-container').style.display = 'none';
+            document.getElementById('status-lbl').innerText = 'You are offline. Please check your internet connection.';
+            document.getElementById('retry-btn').style.display = 'inline-block';
+            return;
+          }
+        }
+        setTimeout(redirect, 1500);
+      }
+    }
+
+    async function handleReady() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_DELAY - elapsed);
+      const isInstalled = await checkAppInstalled();
+
+      setTimeout(() => {
+        if (isInstalled) {
+          // Already installed: Auto-redirect instantly and seamlessly
+          window.location.replace(targetTunnelUrl);
+        } else {
+          // Standard Browser (Not installed): Stop loader and show Enter/Install actions
+          document.getElementById('loader-container').style.display = 'none';
+          document.getElementById('status-lbl').innerText = 'Campus server connection verified!';
+          
+          document.getElementById('actions-container').style.display = 'flex';
+          
+          if (deferredPrompt) {
+            document.getElementById('install-btn').style.display = 'inline-flex';
+          }
+        }
+      }, remaining);
+    }
+
+    // Button click listeners
+    document.getElementById('enter-btn').addEventListener('click', () => {
+      if (targetTunnelUrl) {
+        window.location.replace(targetTunnelUrl);
+      }
+    });
+
+    document.getElementById('install-btn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          deferredPrompt = null;
+          document.getElementById('install-btn').style.display = 'none';
+        }
+      }
+    });
+
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      document.getElementById('retry-btn').style.display = 'none';
+      document.getElementById('loader-container').style.display = 'block';
+      document.getElementById('status-lbl').innerText = 'Connecting to server...';
+      failCount = 0;
+      redirect();
+    });
+
+    redirect();
+  </script>
+</body>
+</html>
