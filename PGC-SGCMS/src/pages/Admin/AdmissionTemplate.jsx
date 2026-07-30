@@ -79,10 +79,10 @@ export default function AdmissionTemplate() {
             <img src={logoImg} alt="PGC Logo" style={{ width: 44, height: 44, objectFit: 'contain' }} />
             <div>
               <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--pgc-navy)', letterSpacing: '.01em' }}>
-                Punjab Group of Colleges
+                Punjab Group of Colleges Sahiwal
               </div>
               <div style={{ fontSize: '.72rem', color: 'var(--gray-500)', fontWeight: 600 }}>
-                Student Character & Attribute Management System (SGCMS)
+                Student Growth & Character Management System (SGCMS)
               </div>
             </div>
           </div>
