@@ -6,7 +6,7 @@ import GrowthGauge from '../../components/Charts/GrowthGauge';
 import CharacterRadar from '../../components/Charts/CharacterRadar';
 import GrowthBar from '../../components/ProgressBar/GrowthBar';
 import { growthLabel } from '../../utils/growthLabel';
-
+import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 import { apiCache } from '../../utils/apiCache';
 
 const ATTR_LABELS = {
@@ -121,7 +121,7 @@ export default function ParentDashboard() {
             <ChartCard title="Attribute Scores" subtitle="Latest evaluation (1–5 scale)">
               <div className="parent-attr-grid">
                 {Object.keys(ATTR_LABELS).map(k => (
-                  <GrowthBar key={k} label={ATTR_LABELS[k]} value={latestEval[k] ?? 0} max={5} />
+                  <GrowthBar key={k} label={ATTR_LABELS[k]} value={latestEval[k] ?? 0} max={5} fillColor={ATTRIBUTE_COLORS[k]} />
                 ))}
               </div>
             </ChartCard>

@@ -12,11 +12,11 @@ function getDefaultApiUrl() {
     const host = window.location.hostname;
     const port = window.location.port;
 
-    // If accessed via Cloudflare Tunnel, domain, or non-5000 port, use relative /api proxy
-    if (host.includes('trycloudflare') || host.includes('cloudflare') || (port !== '5000' && port !== '5173')) {
+    // If accessed via Cloudflare Tunnel, domain, or non-8090 port, use relative /api proxy
+    if (host.includes('trycloudflare') || host.includes('cloudflare') || (port !== '8090' && port !== '8085')) {
       return '/api';
     }
-    return `${protocol}//${host}:5000/api`;
+    return `${protocol}//${host}:8090/api`;
   }
   if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
   return '/api';

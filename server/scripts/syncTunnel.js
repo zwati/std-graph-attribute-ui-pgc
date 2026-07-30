@@ -9,7 +9,7 @@ const NTFY_ENDPOINT = 'https://ntfy.sh/pgc_sahiwal_tunnel_2026';
 
 console.log('⚡ Launching Cloudflare Tunnel & Instant Zero-Cache Sync...');
 
-const cf = spawn('npx', ['cloudflared', 'tunnel', '--url', 'http://localhost:5173'], {
+const cf = spawn('npx', ['cloudflared', 'tunnel', '--url', 'http://localhost:8085'], {
   shell: true,
   cwd: ROOT_DIR,
 });

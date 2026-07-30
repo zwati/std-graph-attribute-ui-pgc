@@ -33,7 +33,7 @@ timeout /t 3 /nobreak >nul
 :: -----------------------------------------------------------------------
 :: 2. Launch Backend Server
 :: -----------------------------------------------------------------------
-echo [2/4] Starting Express Backend Server on Port 5000 (Minimized)...
+echo [2/4] Starting Express Backend Server on Port 8090 (Minimized)...
 start /min "PGC-Backend" cmd /c "title PGC-Backend && cd /d "%~dp0server" && npm run dev"
 
 :: Wait for Backend to initialize
@@ -43,9 +43,9 @@ timeout /t 3 /nobreak >nul
 :: 3. Launch Frontend Web App (Build + Preview)
 :: Note: npm run build may take 15-30 seconds before vite preview is ready
 :: -----------------------------------------------------------------------
-echo [3/4] Starting Frontend Web App on Port 5173 (Minimized)...
+echo [3/4] Starting Frontend Web App on Port 8085 (Minimized)...
 echo       [NOTE] Frontend build may take up to 30 seconds...
-start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npm run build && npx vite preview --host --port 5173"
+start /min "PGC-Frontend" cmd /c "title PGC-Frontend && cd /d "%~dp0PGC-SGCMS" && npm run build && npx vite preview --host --port 8085"
 
 :: Wait longer for frontend build to complete before tunnel starts
 timeout /t 20 /nobreak >nul

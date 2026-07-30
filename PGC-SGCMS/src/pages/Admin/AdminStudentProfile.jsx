@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import GrowthBar from '../../components/ProgressBar/GrowthBar';
 import { growthLabel } from '../../utils/growthLabel';
-import { growthColor } from '../../utils/attributeColors';
+import { growthColor, ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 import { formatDate } from '../../utils/formatDate';
 
 const ATTRS = ['communication', 'participation', 'discipline', 'teamwork', 'responsibility', 'leadership'];
@@ -189,8 +189,9 @@ export default function AdminStudentProfile() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '.75rem' }}>
             {ATTRS.map(attr => {
               const val = lastEval[attr] ?? 0;
-              const pct = Math.min((val / 10) * 100, 100);
+              const pct = Math.min((val / 5) * 100, 100);
               const IconComp = ATTR_ICONS[attr];
+              const attrColor = ATTRIBUTE_COLORS[attr];
               return (
                 <div key={attr} style={{ background: 'var(--gray-50)', borderRadius: 8, padding: '.75rem 1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.4rem' }}>
@@ -198,10 +199,10 @@ export default function AdminStudentProfile() {
                       <span style={{ color: 'var(--pgc-navy)', opacity: .7 }}><IconComp /></span>
                       {attr}
                     </span>
-                    <span style={{ fontSize: '.9rem', fontWeight: 800, color: growthColor(pct) }}>{val}/10</span>
+                    <span style={{ fontSize: '.9rem', fontWeight: 800, color: attrColor }}>{val}/5</span>
                   </div>
                   <div style={{ background: 'var(--gray-200)', borderRadius: 999, height: 6, overflow: 'hidden' }}>
-                    <div style={{ width: `${pct}%`, height: '100%', borderRadius: 999, background: `linear-gradient(90deg, ${growthColor(pct)}, ${growthColor(pct)}cc)`, transition: 'width .6s ease' }} />
+                    <div style={{ width: `${pct}%`, height: '100%', borderRadius: 999, background: `linear-gradient(90deg, ${attrColor}, ${attrColor}cc)`, transition: 'width .6s ease' }} />
                   </div>
                 </div>
               );

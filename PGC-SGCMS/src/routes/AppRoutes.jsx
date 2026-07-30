@@ -18,6 +18,7 @@ import AdminStudentProfile from '../pages/Admin/AdminStudentProfile';
 import Teachers         from '../pages/Admin/Teachers';
 import Parents          from '../pages/Admin/Parents';
 import Analytics        from '../pages/Admin/Analytics';
+import AdmissionTemplate from '../pages/Admin/AdmissionTemplate';
 
 // Teacher pages
 import TeacherDashboard    from '../pages/Teacher/Dashboard';
@@ -55,6 +56,7 @@ export default function AppRoutes() {
         <Route path="/admin/teachers"    element={<Teachers />} />
         <Route path="/admin/parents"    element={<Parents />} />
         <Route path="/admin/analytics"  element={<Analytics />} />
+        <Route path="/admin/admission-template" element={<AdmissionTemplate />} />
       </Route>
 
 

@@ -75,6 +75,7 @@ const navConfig = {
     {
       section: 'Insights', links: [
         { to: '/admin/analytics', icon: icons.analytics, label: 'Analytics' },
+        { to: '/admin/admission-template', icon: icons.download, label: 'Admission Form' },
       ]
     },
   ],

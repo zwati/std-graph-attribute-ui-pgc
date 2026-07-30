@@ -1,9 +1,9 @@
 // src/components/ProgressBar/GrowthBar.jsx
 import { growthColor } from '../../utils/attributeColors';
 
-export default function GrowthBar({ value = 0, max = 5, label, showPercent = false }) {
+export default function GrowthBar({ value = 0, max = 5, label, showPercent = false, fillColor }) {
   const pct = Math.round((value / max) * 100);
-  const color = max === 100 ? growthColor(value) : growthColor(pct);
+  const color = fillColor || (max === 100 ? growthColor(value) : growthColor(pct));
 
   return (
     <div style={{ marginBottom: '.75rem' }}>

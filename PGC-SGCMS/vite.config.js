@@ -6,7 +6,7 @@ export default defineConfig({
   appType: 'spa',
 
   server: {
-    port: 5173,
+    port: 8085,
     host: true,
     allowedHosts: true,
     headers: {
@@ -14,14 +14,14 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:8090',
         changeOrigin: true,
       },
     },
   },
 
   preview: {
-    port: 5173,
+    port: 8085,
     host: true,
     allowedHosts: true,
     headers: {
@@ -30,7 +30,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:8090',
         changeOrigin: true,
       },
     },

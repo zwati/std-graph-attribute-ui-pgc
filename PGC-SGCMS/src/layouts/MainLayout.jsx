@@ -11,6 +11,7 @@ const pageTitles = {
   '/admin/teachers':     'Teachers',
   '/admin/parents':      'Parents',
   '/admin/analytics':    'Analytics',
+  '/admin/admission-template': 'Admission Evaluation Form',
   '/teacher':            'Dashboard',
   '/teacher/students':   'My Students',
   '/teacher/evaluate':   'Evaluate Student',
