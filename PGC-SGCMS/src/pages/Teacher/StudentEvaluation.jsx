@@ -8,6 +8,7 @@ import TeacherClassSelector from '../../components/TeacherClassSelector';
 
 import { apiCache } from '../../utils/apiCache';
 import SearchableStudentSelector from '../../components/SearchableStudentSelector';
+import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 
 const ATTRS = ['communication','participation','discipline','teamwork','responsibility','leadership'];
 const ATTR_LABELS = {
@@ -243,6 +244,7 @@ export default function StudentEvaluation() {
                     previousValue={prevRating}
                     onChange={v => setRating(attr, v)}
                     size="1.85rem"
+                    attributeColor={ATTRIBUTE_COLORS[attr]}
                   />
                 </div>
               );

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import StarRating from '../../components/Rating/StarRating';
 import { formatDate, formatMonth } from '../../utils/formatDate';
+import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 
 import { apiCache } from '../../utils/apiCache';
 
@@ -63,7 +64,7 @@ export default function ParentReports() {
                 {Object.entries(ATTR_LABELS).map(([k, label]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '.82rem', color: 'var(--gray-600)' }}>{label}</span>
-                    <StarRating value={ev[k]} readOnly size=".9rem" />
+                    <StarRating value={ev[k]} readOnly size=".9rem" attributeColor={ATTRIBUTE_COLORS[k]} />
                   </div>
                 ))}
               </div>

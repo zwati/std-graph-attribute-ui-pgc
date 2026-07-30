@@ -8,6 +8,7 @@ import CharacterRadar from '../../components/Charts/CharacterRadar';
 import TrendLineChart from '../../components/Charts/TrendLineChart';
 import { formatMonth, formatDate } from '../../utils/formatDate';
 import TeacherClassSelector from '../../components/TeacherClassSelector';
+import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 
 import { apiCache } from '../../utils/apiCache';
 import SearchableStudentSelector from '../../components/SearchableStudentSelector';
@@ -142,7 +143,7 @@ export default function History() {
             {Object.keys(ATTR_LABELS).map(k => (
               <div key={k} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'.75rem' }}>
                 <span style={{ fontSize:'.875rem', fontWeight:500 }}>{ATTR_LABELS[k]}</span>
-                <StarRating value={latest[k]} readOnly size="1rem" />
+                <StarRating value={latest[k]} readOnly size="1rem" attributeColor={ATTRIBUTE_COLORS[k]} />
               </div>
             ))}
             {latest.remarks && (
@@ -175,7 +176,7 @@ export default function History() {
                     <tr key={e._id}>
                       <td style={{ fontWeight:600 }}>{formatDate(e.createdAt)}</td>
                       {['communication','participation','discipline','teamwork','responsibility','leadership'].map(a => (
-                        <td key={a}><StarRating value={e[a] || 0} readOnly size=".85rem" /></td>
+                        <td key={a}><StarRating value={e[a] || 0} readOnly size=".85rem" attributeColor={ATTRIBUTE_COLORS[a]} /></td>
                       ))}
                       <td style={{ fontWeight:700, color:'var(--pgc-navy)' }}>{e.growthIndexAtSubmit?.toFixed(1)}</td>
                       <td style={{ maxWidth:160, fontSize:'.8rem', color:'var(--gray-500)', whiteSpace:'normal' }}>

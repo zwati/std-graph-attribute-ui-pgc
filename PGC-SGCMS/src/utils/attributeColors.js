@@ -3,11 +3,11 @@
 
 export const ATTRIBUTE_COLORS = {
   communication:  '#0D1B4B',   // PGC Navy
-  participation:  '#C8102E',   // PGC Red
-  discipline:     '#16a34a',   // Green
-  teamwork:       '#d97706',   // Amber
+  participation:  '#0891b2',   // Teal/Cyan
+  discipline:     '#0284c7',   // Ocean Blue
+  teamwork:       '#db2777',   // Rose
   responsibility: '#7c3aed',   // Violet
-  leadership:     '#2563eb',   // Blue
+  leadership:     '#d4af37',   // Gold/Yellow
 };
 
 export const ATTRIBUTE_LABELS = {

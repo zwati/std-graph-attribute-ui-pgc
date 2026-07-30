@@ -1,9 +1,9 @@
 // src/components/Rating/StarRating.jsx
 // 1–5 interactive star rating input with dynamic Progress (Green), Loss (Red), or Default (Yellow) colors
 
-export default function StarRating({ value = 0, previousValue = 0, onChange, readOnly = false, size = '1.5rem' }) {
+export default function StarRating({ value = 0, previousValue = 0, onChange, readOnly = false, size = '1.5rem', attributeColor = '#eab308' }) {
   // Determine color scheme based on comparison with previous rating
-  let activeColor = '#eab308'; // Default Yellow for first-time evaluation or unchanged score
+  let activeColor = attributeColor; // Attribute specific color for first-time evaluation or unchanged score
 
   const hasPrevious = previousValue > 0;
   const isImproved  = hasPrevious && value > 0 && value > previousValue;
@@ -14,7 +14,7 @@ export default function StarRating({ value = 0, previousValue = 0, onChange, rea
   } else if (isLoss) {
     activeColor = '#dc2626'; // RED when teacher gives LESS stars
   } else {
-    activeColor = '#eab308'; // YELLOW for first-time or equal rating
+    activeColor = attributeColor; // Attribute specific color for first-time or equal rating
   }
 
   return (
@@ -27,11 +27,11 @@ export default function StarRating({ value = 0, previousValue = 0, onChange, rea
         let opacity = 1;
 
         if (isNewFilled) {
-          // New rated star uses dynamic color (Green if improved, Red if loss, Yellow if equal/first-time)
+          // New rated star uses dynamic color (Green if improved, Red if loss, Attribute color if equal/first-time)
           starColor = activeColor;
         } else if (isPrevFilled) {
           // Lighter ghost star showing earlier rating baseline
-          starColor = isLoss ? '#fca5a5' : '#fde047'; // Lighter Red if loss, Lighter Yellow baseline otherwise
+          starColor = isLoss ? '#fca5a5' : attributeColor; 
           opacity = 0.65;
         }
 
