@@ -37,10 +37,21 @@ function updateGrowth(student, newScore, alpha = 0.25) {
  * @returns {number}     - 0–100
  */
 function computeScore(attrs) {
-  const keys  = ['communication', 'participation', 'discipline', 'teamwork', 'responsibility', 'leadership'];
-  const total = keys.reduce((sum, k) => sum + (attrs[k] ?? 0), 0);
-  const avg   = total / keys.length;      // avg on 1–5 scale
-  return parseFloat(((avg / 5) * 100).toFixed(2));  // scale to 0–100
+  const discipline = attrs.discipline ?? 0;
+  const leadership = attrs.leadership ?? 0;
+  const responsibility = attrs.responsibility ?? 0;
+  const participation = attrs.participation ?? 0;
+  const communication = attrs.communication ?? 0;
+  const teamwork = attrs.teamwork ?? 0;
+
+  const weightedScore = (0.20 * discipline) +
+                        (0.20 * leadership) +
+                        (0.17 * responsibility) +
+                        (0.17 * participation) +
+                        (0.13 * communication) +
+                        (0.13 * teamwork);
+
+  return parseFloat((weightedScore * 20).toFixed(2));
 }
 
 
