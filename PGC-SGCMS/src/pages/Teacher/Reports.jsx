@@ -68,7 +68,16 @@ export default function TeacherReports() {
       </div>
 
       <ChartCard title={`Growth Index per Student (${selectedClass ? `${selectedClass.className} ${selectedClass.section}` : 'Selected Class'})`} subtitle="Current scores">
-        <MonthlyBarChart data={barData} domain={[0, 100]} />
+        <div style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch', paddingBottom: '0.5rem' }}>
+          <div style={{ minWidth: '100%', width: students.length > 10 ? `${students.length * 50}px` : '100%' }}>
+            <MonthlyBarChart 
+              data={barData} 
+              domain={[0, 100]} 
+              xAxisAngle={-30} 
+              textAnchor="end" 
+            />
+          </div>
+        </div>
       </ChartCard>
     </div>
   );

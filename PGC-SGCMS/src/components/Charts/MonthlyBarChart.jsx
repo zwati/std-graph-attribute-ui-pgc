@@ -11,7 +11,7 @@ import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
  * @param {string}   color - override bar color (default PGC Navy)
  * @param {number[]} domain - [0, 5] rating scale
  */
-export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain = [0, 5] }) {
+export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain = [0, 5], xAxisAngle = 0, textAnchor = 'middle' }) {
   const ticks = domain[1] === 100 
     ? [0, 20, 40, 60, 80, 100] 
     : (domain[1] === 5 ? [0, 1, 2, 3, 4, 5] : undefined);
@@ -20,7 +20,7 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
     <ResponsiveContainer width="100%" height={300}>
       <BarChart
         data={data}
-        margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+        margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
         barCategoryGap="30%"
       >
         {/* Horizontal gridlines only */}
@@ -35,8 +35,9 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
           dataKey="month"
           axisLine={false}
           tickLine={false}
-          tick={{ fill: '#6b7280', fontSize: 13 }}
+          tick={{ fill: '#6b7280', fontSize: 12, angle: xAxisAngle, textAnchor }}
           interval={0}
+          height={xAxisAngle !== 0 ? 50 : 30}
         />
 
         {/* Y-axis: dynamic scale */}
