@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { growthLabel } from '../../utils/growthLabel';
-import { growthColor } from '../../utils/attributeColors';
+import { growthColor, ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 import { formatDate, formatMonth } from '../../utils/formatDate';
 import logoImg from '../../assets/logo.png';
 
@@ -164,7 +164,7 @@ export default function DownloadPDF() {
                       <tr key={k} style={{ background: i % 2 === 0 ? '#fff' : 'var(--gray-50)' }}>
                         <td style={{ padding:'.6rem .85rem', fontWeight:600 }}>{label}</td>
                         <td style={{ padding:'.6rem .85rem' }}>{'★'.repeat(val)}{'☆'.repeat(5 - val)}</td>
-                        <td style={{ padding:'.6rem .85rem', fontWeight:700, color:growthColor(pct) }}>{pct}%</td>
+                        <td style={{ padding:'.6rem .85rem', fontWeight:700, color:ATTRIBUTE_COLORS[k] }}>{pct}%</td>
                         <td style={{ padding:'.6rem .85rem', color:'var(--gray-600)' }}>{lvl}</td>
                       </tr>
                     );
