@@ -7,11 +7,11 @@ import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 
 export default function AttributeBarChart({ evaluation = {} }) {
   const data = [
-    { attribute: 'Communication',       key: 'communication',  score: evaluation.communication || 0 },
-    { attribute: 'Discipline',          key: 'discipline',     score: evaluation.discipline || 0 },
     { attribute: 'Leadership',          key: 'leadership',     score: evaluation.leadership || 0 },
-    { attribute: 'Class Participation', key: 'participation',  score: evaluation.participation || 0 },
+    { attribute: 'Discipline',          key: 'discipline',     score: evaluation.discipline || 0 },
     { attribute: 'Responsibility',      key: 'responsibility', score: evaluation.responsibility || 0 },
+    { attribute: 'Class Participation', key: 'participation',  score: evaluation.participation || 0 },
+    { attribute: 'Communication',       key: 'communication',  score: evaluation.communication || 0 },
     { attribute: 'Teamwork',            key: 'teamwork',       score: evaluation.teamwork || 0 },
   ];
 

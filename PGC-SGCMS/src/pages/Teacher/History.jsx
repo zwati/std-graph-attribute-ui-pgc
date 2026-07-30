@@ -14,12 +14,12 @@ import { apiCache } from '../../utils/apiCache';
 import SearchableStudentSelector from '../../components/SearchableStudentSelector';
 
 const ATTR_LABELS = {
-  communication:'Communication',
-  participation:'Participation',
-  discipline:'Discipline',
-  teamwork:'Teamwork',
-  responsibility:'Responsibility',
   leadership:'Leadership',
+  discipline:'Discipline',
+  responsibility:'Responsibility',
+  participation:'Participation',
+  communication:'Communication',
+  teamwork:'Teamwork',
 };
 
 export default function History() {

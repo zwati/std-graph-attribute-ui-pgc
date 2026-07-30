@@ -15,14 +15,9 @@ export default function AdmissionTemplate() {
 
   const ATTR_DETAILS = [
     {
-      name: 'Communication',
-      desc: 'Polite language, clear expression, and active listening skills.',
-      color: '#0D1B4B'
-    },
-    {
-      name: 'Class Participation',
-      desc: 'Inquisitive, actively engages in discussions and asks relevant questions.',
-      color: '#ea580c'
+      name: 'Leadership',
+      desc: 'Takes initiatives, assists peers, and demonstrates positive influence.',
+      color: '#d4af37'
     },
     {
       name: 'Discipline',
@@ -30,19 +25,24 @@ export default function AdmissionTemplate() {
       color: '#0284c7'
     },
     {
-      name: 'Teamwork',
-      desc: 'Cooperates with peers, helps classmates, and works well in groups.',
-      color: '#db2777'
-    },
-    {
       name: 'Responsibility',
       desc: 'Completes tasks on time, takes care of belongings, and is accountable.',
       color: '#7c3aed'
     },
     {
-      name: 'Leadership',
-      desc: 'Takes initiatives, assists peers, and demonstrates positive influence.',
-      color: '#d4af37'
+      name: 'Class Participation',
+      desc: 'Inquisitive, actively engages in discussions and asks relevant questions.',
+      color: '#ea580c'
+    },
+    {
+      name: 'Communication',
+      desc: 'Polite language, clear expression, and active listening skills.',
+      color: '#0D1B4B'
+    },
+    {
+      name: 'Teamwork',
+      desc: 'Cooperates with peers, helps classmates, and works well in groups.',
+      color: '#db2777'
     }
   ];
 
@@ -67,7 +67,7 @@ export default function AdmissionTemplate() {
       }}>
         
         {/* PGC Header */}
-        <div style={{
+        <div className="admission-header" style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -86,7 +86,7 @@ export default function AdmissionTemplate() {
               </div>
             </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
+          <div className="admission-header-right" style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '.65rem', color: 'var(--gray-400)', textTransform: 'uppercase', letterSpacing: '.05em', fontWeight: 700 }}>
               Ref Number
             </div>
@@ -107,7 +107,7 @@ export default function AdmissionTemplate() {
         </div>
 
         {/* Blank Student Information Grid */}
-        <div style={{
+        <div className="admission-grid" style={{
           border: '1px solid var(--gray-200)',
           borderRadius: 8,
           padding: '0.85rem 1rem',
@@ -144,7 +144,7 @@ export default function AdmissionTemplate() {
         </div>
 
         {/* Attributes Rating Table */}
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="admission-table-wrap" style={{ marginBottom: '1rem' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--gray-200)' }}>
             <thead>
               <tr style={{ background: 'var(--pgc-navy)' }}>
@@ -222,7 +222,7 @@ export default function AdmissionTemplate() {
           <h4 style={{ color: 'var(--pgc-navy)', marginTop: 0, marginBottom: '.5rem', fontSize: '.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.05em' }}>
             For Office Use Only (Admission Office Assessment)
           </h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '0.85rem', alignItems: 'flex-end' }}>
+          <div className="admission-office-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '0.85rem', alignItems: 'flex-end' }}>
             <div>
               <span style={{ fontSize: '.68rem', color: 'var(--gray-500)', fontWeight: 600 }}>Baseline Growth Index</span>
               <div style={{ borderBottom: '1px solid var(--gray-300)', height: 20, fontSize: '.83rem', fontWeight: 700, display: 'flex', alignItems: 'center' }}>
@@ -257,8 +257,40 @@ export default function AdmissionTemplate() {
 
       </div>
 
-      {/* Print Overrides CSS */}
+      {/* Print & Mobile Overrides CSS */}
       <style>{`
+        /* Mobile overrides (screen only) */
+        @media screen and (max-width: 600px) {
+          .pdf-container {
+            padding: 1rem !important;
+          }
+          .admission-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+          .admission-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.75rem !important;
+          }
+          .admission-header-right {
+            text-align: left !important;
+          }
+          .admission-office-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+          .admission-table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+          }
+          .admission-table-wrap table {
+            min-width: 580px;
+          }
+        }
+
         @media print {
           .no-print, .sidebar, .topbar { display: none !important; }
           .main-content { margin-left: 0 !important; }

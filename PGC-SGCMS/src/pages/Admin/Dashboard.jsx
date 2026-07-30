@@ -45,13 +45,13 @@ export default function AdminDashboard() {
 
   const top = analytics?.topStudents ?? [];
   const attrs = analytics?.attributeAverages ?? {};
-  const attrList = ['communication', 'discipline', 'leadership', 'participation', 'responsibility', 'teamwork'];
+  const attrList = ['leadership', 'discipline', 'responsibility', 'participation', 'communication', 'teamwork'];
   const attrLabels = {
-    communication: 'Comm',
-    discipline: 'Disc',
     leadership: 'Lead',
-    participation: 'Part',
+    discipline: 'Disc',
     responsibility: 'Resp',
+    participation: 'Part',
+    communication: 'Comm',
     teamwork: 'Team',
   };
 

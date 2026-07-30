@@ -2,21 +2,21 @@
 // PGC brand + attribute-specific palette used across all chart types
 
 export const ATTRIBUTE_COLORS = {
-  communication:  '#0D1B4B',   // PGC Navy
-  participation:  '#ea580c',   // Orange
-  discipline:     '#0284c7',   // Ocean Blue
-  teamwork:       '#db2777',   // Rose
-  responsibility: '#7c3aed',   // Violet
   leadership:     '#d4af37',   // Gold/Yellow
+  discipline:     '#0284c7',   // Ocean Blue
+  responsibility: '#7c3aed',   // Violet
+  participation:  '#ea580c',   // Orange
+  communication:  '#0D1B4B',   // PGC Navy
+  teamwork:       '#db2777',   // Rose
 };
 
 export const ATTRIBUTE_LABELS = {
-  communication:  'Communication',
-  participation:  'Class Participation',
-  discipline:     'Discipline',
-  teamwork:       'Teamwork',
-  responsibility: 'Responsibility',
   leadership:     'Leadership',
+  discipline:     'Discipline',
+  responsibility: 'Responsibility',
+  participation:  'Class Participation',
+  communication:  'Communication',
+  teamwork:       'Teamwork',
 };
 
 

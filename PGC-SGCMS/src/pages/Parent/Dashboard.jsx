@@ -10,12 +10,12 @@ import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 import { apiCache } from '../../utils/apiCache';
 
 const ATTR_LABELS = {
-  communication: 'Communication',
-  participation: 'Class Participation',
-  discipline:    'Discipline',
-  teamwork:      'Teamwork',
-  responsibility:'Responsibility',
   leadership:    'Leadership',
+  discipline:    'Discipline',
+  responsibility:'Responsibility',
+  participation: 'Class Participation',
+  communication: 'Communication',
+  teamwork:      'Teamwork',
 };
 
 export default function ParentDashboard() {

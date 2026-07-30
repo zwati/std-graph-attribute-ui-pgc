@@ -7,9 +7,12 @@ import { formatDate, formatMonth } from '../../utils/formatDate';
 import logoImg from '../../assets/logo.png';
 
 const ATTR_LABELS = {
-  communication: 'Communication', participation: 'Class Participation',
-  discipline: 'Discipline', teamwork: 'Teamwork', responsibility: 'Responsibility',
   leadership: 'Leadership',
+  discipline: 'Discipline',
+  responsibility: 'Responsibility',
+  participation: 'Class Participation',
+  communication: 'Communication',
+  teamwork: 'Teamwork',
 };
 
 // Rule-based insight generator — no external AI needed

@@ -6,11 +6,11 @@ import GrowthGauge from '../../components/Charts/GrowthGauge';
 import { apiCache } from '../../utils/apiCache';
 
 const attrLabels = {
-  communication: 'Comm',
-  discipline: 'Disc',
   leadership: 'Lead',
-  participation: 'Part',
+  discipline: 'Disc',
   responsibility: 'Resp',
+  participation: 'Part',
+  communication: 'Comm',
   teamwork: 'Team',
 };
 

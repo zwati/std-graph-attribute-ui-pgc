@@ -7,7 +7,7 @@ import { growthLabel } from '../../utils/growthLabel';
 import { growthColor, ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 import { formatDate } from '../../utils/formatDate';
 
-const ATTRS = ['communication', 'participation', 'discipline', 'teamwork', 'responsibility', 'leadership'];
+const ATTRS = ['leadership', 'discipline', 'responsibility', 'participation', 'communication', 'teamwork'];
 
 const ATTR_ICONS = {
   communication:  () => (
