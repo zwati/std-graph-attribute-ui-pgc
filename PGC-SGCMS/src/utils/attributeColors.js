@@ -3,7 +3,7 @@
 
 export const ATTRIBUTE_COLORS = {
   communication:  '#0D1B4B',   // PGC Navy
-  participation:  '#0891b2',   // Teal/Cyan
+  participation:  '#ea580c',   // Orange
   discipline:     '#0284c7',   // Ocean Blue
   teamwork:       '#db2777',   // Rose
   responsibility: '#7c3aed',   // Violet

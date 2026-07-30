@@ -129,7 +129,25 @@ export default function StudentEvaluation() {
   function setRating(attr, val) { setRatings(r => ({ ...r, [attr]: val })); }
 
   const allRated = ATTRS.every(a => ratings[a] > 0);
-  const preview  = allRated ? parseFloat((ATTRS.reduce((s, a) => s + ratings[a], 0) / ATTRS.length / 5 * 100).toFixed(1)) : 0;
+  
+  let preview = 0;
+  if (allRated) {
+    const discipline = ratings.discipline || 0;
+    const leadership = ratings.leadership || 0;
+    const responsibility = ratings.responsibility || 0;
+    const participation = ratings.participation || 0;
+    const communication = ratings.communication || 0;
+    const teamwork = ratings.teamwork || 0;
+
+    const weightedScore = (0.20 * discipline) +
+                          (0.20 * leadership) +
+                          (0.17 * responsibility) +
+                          (0.17 * participation) +
+                          (0.13 * communication) +
+                          (0.13 * teamwork);
+
+    preview = parseFloat((weightedScore * 20).toFixed(1));
+  }
 
   const [evalResult, setEvalResult] = useState(null);
 
@@ -203,13 +221,13 @@ export default function StudentEvaluation() {
                 <span><strong style={{ color: 'var(--red-600)' }}>Red Stars</strong> = Loss / Decline (Fewer stars)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.3rem' }}>
-                <span style={{ color: '#eab308', fontSize: '1.2rem' }}>★</span>
-                <span><strong>Yellow Stars</strong> = Same / Unchanged</span>
+                <span style={{ color: 'var(--gray-400)', fontSize: '1.2rem' }}>★</span>
+                <span><strong>Attribute Colors</strong> = Same / Unchanged</span>
               </div>
             </div>
           ) : (
             <div style={{ fontSize: '.82rem', color: 'var(--gray-500)', marginBottom: '1.25rem', background: 'var(--gray-50)', padding: '.5rem .85rem', borderRadius: 6 }}>
-              ⭐ Initial Evaluation: Stars display in standard <strong>Yellow</strong>.
+              ⭐ Initial Evaluation: Stars display in their unique <strong>Attribute Colors</strong>.
             </div>
           )}
 

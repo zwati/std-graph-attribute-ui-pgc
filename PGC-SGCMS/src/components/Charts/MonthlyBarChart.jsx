@@ -2,8 +2,9 @@
 // Bar chart — PGC Navy (#0D1B4B) bars, 1–5 Y-axis scale, monthly/attribute X-axis
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer,
+  Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
+import { ATTRIBUTE_COLORS } from '../../utils/attributeColors';
 
 /**
  * @param {Object[]} data  - [{ month: 'Comm', score: 4.2 }, ...]
@@ -69,8 +70,22 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
           }}
         />
 
-        {/* Navy bars */}
-        <Bar dataKey="score" fill={color} radius={[0, 0, 0, 0]} />
+        {/* Dynamic color bars */}
+        <Bar dataKey="score" radius={[4, 4, 0, 0]}>
+          {data.map((entry, index) => {
+            const shortLabelToKey = {
+              'Comm': 'communication',
+              'Disc': 'discipline',
+              'Lead': 'leadership',
+              'Part': 'participation',
+              'Resp': 'responsibility',
+              'Team': 'teamwork'
+            };
+            const attrKey = shortLabelToKey[entry.month];
+            const barColor = attrKey ? ATTRIBUTE_COLORS[attrKey] : color;
+            return <Cell key={`cell-${index}`} fill={barColor} />;
+          })}
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );
