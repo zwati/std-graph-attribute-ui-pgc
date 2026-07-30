@@ -2,6 +2,7 @@
 // Spider / radar chart — PGC red fill, white bg card
 // Reference design: red stroke + red translucent fill, concentric polygon grid, 1–5 scale
 
+import { useState, useEffect } from 'react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis,
   PolarRadiusAxis, ResponsiveContainer, Tooltip,
@@ -14,6 +15,18 @@ import { ATTRIBUTE_LABELS } from '../../utils/attributeColors';
  * @param {Object}  evaluation - { communication, participation, discipline, teamwork, responsibility }
  */
 export default function CharacterRadar({ data, evaluation }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 480);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const chartData = data || (evaluation ? [
     { attribute: ATTRIBUTE_LABELS.leadership,     value: evaluation.leadership     ?? 0 },
     { attribute: ATTRIBUTE_LABELS.discipline,     value: evaluation.discipline     ?? 0 },
@@ -23,17 +36,30 @@ export default function CharacterRadar({ data, evaluation }) {
     { attribute: ATTRIBUTE_LABELS.teamwork,       value: evaluation.teamwork       ?? 0 },
   ] : []);
 
+  function formatTick(value) {
+    if (!isMobile) return value;
+    const shortNames = {
+      'Communication':       'Comm.',
+      'Class Participation': 'Class Part.',
+      'Discipline':          'Disc.',
+      'Teamwork':            'Team.',
+      'Responsibility':      'Resp.',
+      'Leadership':          'Lead.',
+    };
+    return shortNames[value] || value;
+  }
 
   return (
     <ResponsiveContainer width="100%" height={320}>
-      <RadarChart data={chartData} margin={{ top: 20, right: 40, bottom: 20, left: 40 }}>
+      <RadarChart data={chartData} margin={{ top: 20, right: isMobile ? 10 : 40, bottom: 20, left: isMobile ? 10 : 40 }}>
         {/* Concentric polygon grid lines — light grey */}
         <PolarGrid stroke="#e5e7eb" gridType="polygon" />
 
         {/* Axis labels — dark grey, 12px, outside each vertex */}
         <PolarAngleAxis
           dataKey="attribute"
-          tick={{ fill: '#374151', fontSize: 12, fontWeight: 500 }}
+          tick={{ fill: '#374151', fontSize: isMobile ? 10 : 12, fontWeight: 500 }}
+          tickFormatter={formatTick}
         />
 
         {/* Radial tick numbers: 1 2 3 4 (domain 0–5, 5 ticks = 0,1,2,3,4 shown) */}
