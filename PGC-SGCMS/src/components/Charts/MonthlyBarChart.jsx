@@ -35,6 +35,7 @@ export default function MonthlyBarChart({ data = [], color = '#0D1B4B', domain =
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#6b7280', fontSize: 13 }}
+          interval={0}
         />
 
         {/* Y-axis: dynamic scale */}

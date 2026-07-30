@@ -10,7 +10,7 @@ export default function MonthlyProgressChart({ data = [] }) {
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data} margin={{ top: 15, right: 15, left: 0, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-        <XAxis dataKey="monthName" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} />
+        <XAxis dataKey="monthName" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} interval={0} />
         <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} />
         <Tooltip
           formatter={(val, name, props) => [

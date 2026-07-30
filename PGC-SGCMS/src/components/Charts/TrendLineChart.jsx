@@ -37,6 +37,7 @@ export default function TrendLineChart({
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#6b7280', fontSize: 13 }}
+          interval={0}
         />
 
         <YAxis
