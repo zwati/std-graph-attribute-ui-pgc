@@ -68,8 +68,8 @@ echo.
 
 :: Read and display the live tunnel URL from live_tunnel.json
 echo   LIVE TUNNEL URL (from live_tunnel.json):
-for /f "tokens=2 delims=:/ " %%A in ('findstr /i "url" "%~dp0live_tunnel.json" 2^>nul') do (
-    echo   >> https://%%A.trycloudflare.com
+for /f "usebackq delims=" %%A in (`node -e "try { console.log(require(process.argv[1]).url); } catch(e) {}" "%~dp0live_tunnel.json" 2^>nul`) do (
+    echo     ^> %%A
 )
 echo.
 echo   Permanent Redirect: https://pgcswl-sgcms.vercel.app

@@ -47,17 +47,40 @@ function checkText(data) {
     const payload = { url: liveUrl, updatedAt: new Date().toISOString() };
     fs.writeFileSync(LIVE_JSON, JSON.stringify(payload, null, 2));
 
-    // Pre-warm local frontend and Cloudflare tunnel routes so first browser load is sub-second
-    fetch(liveUrl).catch(() => {});
-    fetch('http://localhost:5173').catch(() => {});
+    // Wait until the Cloudflare dynamic DNS is resolved and reachable before opening the browser
+    (async () => {
+      console.log('⏳ Waiting for Cloudflare dynamic DNS to propagate and resolve...');
+      let connected = false;
+      for (let i = 0; i < 20; i++) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2000);
+          await fetch(liveUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          connected = true;
+          break;
+        } catch (e) {
+          await new Promise(r => setTimeout(r, 1500));
+        }
+      }
+      if (connected) {
+        console.log('📡 Cloudflare Tunnel DNS resolved successfully!');
+      } else {
+        console.log('⚠️ DNS propagation is taking longer than usual, opening anyway...');
+      }
 
-    // Publish to instant zero-cache sync endpoint
-    publishLiveUrl(liveUrl);
+      // Pre-warm local frontend and Cloudflare tunnel routes so first browser load is sub-second
+      fetch(liveUrl).catch(() => {});
+      fetch('http://localhost:5173').catch(() => {});
 
-    // Auto-open default browser exactly when tunnel is warmed up and ready
-    setTimeout(() => {
-      require('child_process').exec('start "" "https://pgcswl-sgcms.vercel.app"');
-    }, 1500);
+      // Publish to instant zero-cache sync endpoint
+      publishLiveUrl(liveUrl);
+
+      // Auto-open default browser exactly when tunnel is warmed up and ready
+      setTimeout(() => {
+        require('child_process').exec('start "" "https://pgcswl-sgcms.vercel.app"');
+      }, 500);
+    })();
   }
 }
 
